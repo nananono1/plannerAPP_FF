@@ -1,0 +1,94 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "plannerVariableList",
+      "queryScope": "COLLECTION_GROUP",
+      "fields": [
+        {
+          "fieldPath": "plannerSubmitted",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "adminChecked",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "users",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "seatRequest",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "spot",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "created_time",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "plannerVariableList",
+      "queryScope": "COLLECTION_GROUP",
+      "fields": [
+        {
+          "fieldPath": "plannerSubmitted",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "submittedDate",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "basicInfo.userSpot",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "adminChecked",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "users",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "spot",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "seatNo",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "plannerVariableList",
+      "queryScope": "COLLECTION_GROUP",
+      "fields": [
+        {
+          "fieldPath": "submittedDate",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "basicInfo.userSpot",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "plannerSubmitted",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "basicInfo.userSeatNo",
+          "order": "ASCENDING"
+        }
+      ]
+    }
+  ]
+}
