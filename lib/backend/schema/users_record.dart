@@ -193,6 +193,16 @@ class UsersRecord extends FirestoreRecord {
   DateTime? get scheduleRequestTime => _scheduleRequestTime;
   bool hasScheduleRequestTime() => _scheduleRequestTime != null;
 
+  // "idAllowed" field.
+  bool? _idAllowed;
+  bool get idAllowed => _idAllowed ?? false;
+  bool hasIdAllowed() => _idAllowed != null;
+
+  // "grade" field.
+  String? _grade;
+  String get grade => _grade ?? '';
+  bool hasGrade() => _grade != null;
+
   void _initializeFields() {
     _email = snapshotData['email'] as String?;
     _displayName = snapshotData['display_name'] as String?;
@@ -245,6 +255,8 @@ class UsersRecord extends FirestoreRecord {
         : StudyDetailsStruct.maybeFromMap(snapshotData['studyDetails']);
     _signedUser = snapshotData['signedUser'] as bool?;
     _scheduleRequestTime = snapshotData['scheduleRequestTime'] as DateTime?;
+    _idAllowed = snapshotData['idAllowed'] as bool?;
+    _grade = snapshotData['grade'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -313,6 +325,8 @@ Map<String, dynamic> createUsersRecordData({
   StudyDetailsStruct? studyDetails,
   bool? signedUser,
   DateTime? scheduleRequestTime,
+  bool? idAllowed,
+  String? grade,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -348,6 +362,8 @@ Map<String, dynamic> createUsersRecordData({
       'studyDetails': StudyDetailsStruct().toMap(),
       'signedUser': signedUser,
       'scheduleRequestTime': scheduleRequestTime,
+      'idAllowed': idAllowed,
+      'grade': grade,
     }.withoutNulls,
   );
 
@@ -404,7 +420,9 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e1?.parentsPhone2 == e2?.parentsPhone2 &&
         e1?.studyDetails == e2?.studyDetails &&
         e1?.signedUser == e2?.signedUser &&
-        e1?.scheduleRequestTime == e2?.scheduleRequestTime;
+        e1?.scheduleRequestTime == e2?.scheduleRequestTime &&
+        e1?.idAllowed == e2?.idAllowed &&
+        e1?.grade == e2?.grade;
   }
 
   @override
@@ -443,7 +461,9 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e?.parentsPhone2,
         e?.studyDetails,
         e?.signedUser,
-        e?.scheduleRequestTime
+        e?.scheduleRequestTime,
+        e?.idAllowed,
+        e?.grade
       ]);
 
   @override

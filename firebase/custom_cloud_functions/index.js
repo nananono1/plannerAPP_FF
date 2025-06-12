@@ -13,3 +13,6 @@ exports.unlockUsers = unlockUsers.unlockUsers;
 const getActiveUsersAndDetailsByDateRange = require("./get_active_users_and_details_by_date_range.js");
 exports.getActiveUsersAndDetailsByDateRange =
   getActiveUsersAndDetailsByDateRange.getActiveUsersAndDetailsByDateRange;
+const generateFeedbackOnCreate = require("./generate_feedback_on_create.js");
+exports.generateFeedbackOnCreate =
+  generateFeedbackOnCreate.generateFeedbackOnCreate;

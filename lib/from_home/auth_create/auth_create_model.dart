@@ -1,3 +1,4 @@
+import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
 import '/index.dart';
@@ -8,6 +9,8 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 class AuthCreateModel extends FlutterFlowModel<AuthCreateWidget> {
   ///  State fields for stateful widgets in this page.
 
+  // Stores action output result for [Firestore Query - Query a collection] action in auth_Create widget.
+  NotificationRecord? aaaaa;
   // State field(s) for emailAddress widget.
   FocusNode? emailAddressFocusNode1;
   TextEditingController? emailAddressTextController1;
@@ -38,19 +41,21 @@ class AuthCreateModel extends FlutterFlowModel<AuthCreateWidget> {
   FocusNode? emailAddressFocusNode2;
   TextEditingController? emailAddressTextController2;
   String? Function(BuildContext, String?)? emailAddressTextController2Validator;
-  // State field(s) for DropDown2 widget.
-  String? dropDown2Value;
-  FormFieldController<String>? dropDown2ValueController;
+  // State field(s) for DropDownSpot widget.
+  String? dropDownSpotValue;
+  FormFieldController<String>? dropDownSpotValueController;
   // State field(s) for displayName widget.
   FocusNode? displayNameFocusNode2;
   TextEditingController? displayNameTextController2;
-  final displayNameMask2 = MaskTextInputFormatter(mask: '###-####-####');
+  late MaskTextInputFormatter displayNameMask2;
   String? Function(BuildContext, String?)? displayNameTextController2Validator;
   // State field(s) for displayName widget.
   FocusNode? displayNameFocusNode3;
   TextEditingController? displayNameTextController3;
-  final displayNameMask3 = MaskTextInputFormatter(mask: '####/##/##');
+  late MaskTextInputFormatter displayNameMask3;
   String? Function(BuildContext, String?)? displayNameTextController3Validator;
+  // Stores action output result for [Alert Dialog - Custom Dialog] action in Button widget.
+  bool? aa;
 
   @override
   void initState(BuildContext context) {

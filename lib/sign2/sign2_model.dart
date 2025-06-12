@@ -9,6 +9,7 @@ import 'package:signature/signature.dart';
 class Sign2Model extends FlutterFlowModel<Sign2Widget> {
   ///  State fields for stateful widgets in this page.
 
+  final formKey = GlobalKey<FormState>();
   String uploadedSignatureUrl1 = '';
   String uploadedSignatureUrl2 = '';
   // State field(s) for displayname widget.
@@ -20,10 +21,9 @@ class Sign2Model extends FlutterFlowModel<Sign2Widget> {
   TextEditingController? textFieldschoolTextController;
   String? Function(BuildContext, String?)?
       textFieldschoolTextControllerValidator;
-  // State field(s) for TextFieldage widget.
-  FocusNode? textFieldageFocusNode;
-  TextEditingController? textFieldageTextController;
-  String? Function(BuildContext, String?)? textFieldageTextControllerValidator;
+  // State field(s) for DropDownGrade widget.
+  String? dropDownGradeValue;
+  FormFieldController<String>? dropDownGradeValueController;
   // State field(s) for address widget.
   FocusNode? addressFocusNode;
   TextEditingController? addressTextController;
@@ -31,12 +31,12 @@ class Sign2Model extends FlutterFlowModel<Sign2Widget> {
   // State field(s) for TextFielddad widget.
   FocusNode? textFielddadFocusNode;
   TextEditingController? textFielddadTextController;
-  final textFielddadMask = MaskTextInputFormatter(mask: '###-####-####');
+  late MaskTextInputFormatter textFielddadMask;
   String? Function(BuildContext, String?)? textFielddadTextControllerValidator;
   // State field(s) for TextFieldmom widget.
   FocusNode? textFieldmomFocusNode;
   TextEditingController? textFieldmomTextController;
-  final textFieldmomMask = MaskTextInputFormatter(mask: '###-####-####');
+  late MaskTextInputFormatter textFieldmomMask;
   String? Function(BuildContext, String?)? textFieldmomTextControllerValidator;
   // State field(s) for CheckboxCSAT widget.
   bool? checkboxCSATValue;
@@ -112,21 +112,48 @@ class Sign2Model extends FlutterFlowModel<Sign2Widget> {
   bool? checkboxConsultingValue;
   // State field(s) for CheckboxPlannerCoaching widget.
   bool? checkboxPlannerCoachingValue;
-  // State field(s) for TextFields1 widget.
-  FocusNode? textFields1FocusNode1;
-  TextEditingController? textFields1TextController1;
-  String? Function(BuildContext, String?)? textFields1TextController1Validator;
+  // State field(s) for userName widget.
+  FocusNode? userNameFocusNode;
+  TextEditingController? userNameTextController;
+  String? Function(BuildContext, String?)? userNameTextControllerValidator;
+  String? _userNameTextControllerValidator(BuildContext context, String? val) {
+    if (val == null || val.isEmpty) {
+      return FFLocalizations.of(context).getText(
+        'hhvhoswd' /* 성함을 입력해주세요 */,
+      );
+    }
+
+    if (!RegExp(kTextValidatorUsernameRegex).hasMatch(val)) {
+      return 'Must start with a letter and can only contain letters, digits and - or _.';
+    }
+    return null;
+  }
+
   // State field(s) for Signature widget.
   SignatureController? signatureController1;
-  // State field(s) for TextFields1 widget.
-  FocusNode? textFields1FocusNode2;
-  TextEditingController? textFields1TextController2;
-  String? Function(BuildContext, String?)? textFields1TextController2Validator;
+  // State field(s) for parentsName widget.
+  FocusNode? parentsNameFocusNode;
+  TextEditingController? parentsNameTextController;
+  String? Function(BuildContext, String?)? parentsNameTextControllerValidator;
+  String? _parentsNameTextControllerValidator(
+      BuildContext context, String? val) {
+    if (val == null || val.isEmpty) {
+      return FFLocalizations.of(context).getText(
+        'gx282sgi' /* 성함을 입력해주세요 */,
+      );
+    }
+
+    return null;
+  }
+
   // State field(s) for Signature widget.
   SignatureController? signatureController2;
 
   @override
-  void initState(BuildContext context) {}
+  void initState(BuildContext context) {
+    userNameTextControllerValidator = _userNameTextControllerValidator;
+    parentsNameTextControllerValidator = _parentsNameTextControllerValidator;
+  }
 
   @override
   void dispose() {
@@ -135,9 +162,6 @@ class Sign2Model extends FlutterFlowModel<Sign2Widget> {
 
     textFieldschoolFocusNode?.dispose();
     textFieldschoolTextController?.dispose();
-
-    textFieldageFocusNode?.dispose();
-    textFieldageTextController?.dispose();
 
     addressFocusNode?.dispose();
     addressTextController?.dispose();
@@ -172,12 +196,12 @@ class Sign2Model extends FlutterFlowModel<Sign2Widget> {
     grade222FocusNode?.dispose();
     grade222TextController?.dispose();
 
-    textFields1FocusNode1?.dispose();
-    textFields1TextController1?.dispose();
+    userNameFocusNode?.dispose();
+    userNameTextController?.dispose();
 
     signatureController1?.dispose();
-    textFields1FocusNode2?.dispose();
-    textFields1TextController2?.dispose();
+    parentsNameFocusNode?.dispose();
+    parentsNameTextController?.dispose();
 
     signatureController2?.dispose();
   }

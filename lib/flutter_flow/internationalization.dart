@@ -2349,8 +2349,44 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'ko': '/',
       'en': '',
     },
-    'jdzom8jl': {
+    '6924e3jt': {
       'ko': '학년',
+      'en': '',
+    },
+    '31phcswk': {
+      'ko': 'Search...',
+      'en': '',
+    },
+    'z6u1404p': {
+      'ko': '성인',
+      'en': '',
+    },
+    'wgwuwv65': {
+      'ko': '고3',
+      'en': '',
+    },
+    'lc6n18wj': {
+      'ko': '고2',
+      'en': '',
+    },
+    'lqc81q2z': {
+      'ko': '고1',
+      'en': '',
+    },
+    'g68hj2bf': {
+      'ko': '중3',
+      'en': '',
+    },
+    'hywccz5u': {
+      'ko': '중2',
+      'en': '',
+    },
+    'j8c9cpoz': {
+      'ko': '중1',
+      'en': '',
+    },
+    'kw3r5jgl': {
+      'ko': '기타',
       'en': '',
     },
     'li5lcey3': {
@@ -2709,6 +2745,126 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     },
     'w7cegmt7': {
       'ko': '(서명)',
+      'en': '',
+    },
+    'ods3b2vu': {
+      'ko': 'Field is required',
+      'en': '',
+    },
+    '76zv9gyy': {
+      'ko': 'Please choose an option from the dropdown',
+      'en': '',
+    },
+    'dtw9zbgc': {
+      'ko': 'school is required',
+      'en': '',
+    },
+    '7c84271c': {
+      'ko': 'Please choose an option from the dropdown',
+      'en': '',
+    },
+    'nyrx585l': {
+      'ko': 'Field is required',
+      'en': '',
+    },
+    'j1dlam3w': {
+      'ko': 'Please choose an option from the dropdown',
+      'en': '',
+    },
+    'hpe4xkee': {
+      'ko': 'Field is required',
+      'en': '',
+    },
+    '0zea2doz': {
+      'ko': 'Please choose an option from the dropdown',
+      'en': '',
+    },
+    '4bwzlkqq': {
+      'ko': 'Field is required',
+      'en': '',
+    },
+    'dae2xwo8': {
+      'ko': 'Please choose an option from the dropdown',
+      'en': '',
+    },
+    'jj3irjj0': {
+      'ko': '준비 중인 시험 혹은 목표를 입력해주세요. is required',
+      'en': '',
+    },
+    'hylkpg4b': {
+      'ko': 'Please choose an option from the dropdown',
+      'en': '',
+    },
+    'vsdor35z': {
+      'ko': '준비 중인 시험 혹은 목표를 입력해주세요. is required',
+      'en': '',
+    },
+    'asjqj427': {
+      'ko': 'Please choose an option from the dropdown',
+      'en': '',
+    },
+    'm1ur80d4': {
+      'ko': '( ) is required',
+      'en': '',
+    },
+    'ndtdhzvk': {
+      'ko': 'Please choose an option from the dropdown',
+      'en': '',
+    },
+    'fgkpdfck': {
+      'ko': '( ) is required',
+      'en': '',
+    },
+    '625ty4uk': {
+      'ko': 'Please choose an option from the dropdown',
+      'en': '',
+    },
+    'yjrmgz31': {
+      'ko': '( ) is required',
+      'en': '',
+    },
+    'vu7789xb': {
+      'ko': 'Please choose an option from the dropdown',
+      'en': '',
+    },
+    'i08b6tf7': {
+      'ko': '( ) is required',
+      'en': '',
+    },
+    'lhfstkg5': {
+      'ko': 'Please choose an option from the dropdown',
+      'en': '',
+    },
+    'pfhz5khj': {
+      'ko': '( ) is required',
+      'en': '',
+    },
+    'm8drt66c': {
+      'ko': 'Please choose an option from the dropdown',
+      'en': '',
+    },
+    'o6905717': {
+      'ko': '( ) is required',
+      'en': '',
+    },
+    '02absq8l': {
+      'ko': 'Please choose an option from the dropdown',
+      'en': '',
+    },
+    'hhvhoswd': {
+      'ko': '성함을 입력해주세요',
+      'en': '',
+    },
+    'd2jiy6pr': {
+      'ko': 'Please choose an option from the dropdown',
+      'en': '',
+    },
+    'gx282sgi': {
+      'ko': '성함을 입력해주세요',
+      'en': '',
+    },
+    '4xup3be8': {
+      'ko': 'Please choose an option from the dropdown',
       'en': '',
     },
     'c8eh2tyw': {
@@ -4697,6 +4853,29 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     '4gz3z84e': {
       'ko': '주식회사  내공관리형스터디카페  귀하',
       'en': '',
+    },
+  },
+  // passwordComponent
+  {
+    'd5h6e7r0': {
+      'ko': '허가비밀번호 입력',
+      'en': '',
+    },
+    'fdxan7ie': {
+      'ko': '관리자 비밀번호',
+      'en': 'Subject name',
+    },
+    'gxg7318d': {
+      'ko': '선생님께 문의해주세요',
+      'en': 'Subject name',
+    },
+    'gtas441g': {
+      'ko': '저장',
+      'en': 'save',
+    },
+    'e9cav9n3': {
+      'ko': '취소',
+      'en': 'cancellation',
     },
   },
   // Miscellaneous

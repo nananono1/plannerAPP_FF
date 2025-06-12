@@ -33,24 +33,24 @@ class TimetablestartUserSetModel
   // State field(s) for starthour widget.
   FocusNode? starthourFocusNode;
   TextEditingController? starthourTextController;
-  final starthourMask = MaskTextInputFormatter(mask: '##');
+  late MaskTextInputFormatter starthourMask;
   String? Function(BuildContext, String?)? starthourTextControllerValidator;
   // State field(s) for startminute widget.
   FocusNode? startminuteFocusNode;
   TextEditingController? startminuteTextController;
-  final startminuteMask = MaskTextInputFormatter(mask: '##');
+  late MaskTextInputFormatter startminuteMask;
   String? Function(BuildContext, String?)? startminuteTextControllerValidator;
   // Stores action output result for [Custom Action - cupertinoTimePicker2] action in RichText widget.
   DateTime? cuer2;
   // State field(s) for endhour widget.
   FocusNode? endhourFocusNode;
   TextEditingController? endhourTextController;
-  final endhourMask = MaskTextInputFormatter(mask: '##');
+  late MaskTextInputFormatter endhourMask;
   String? Function(BuildContext, String?)? endhourTextControllerValidator;
   // State field(s) for endminute widget.
   FocusNode? endminuteFocusNode;
   TextEditingController? endminuteTextController;
-  final endminuteMask = MaskTextInputFormatter(mask: '##');
+  late MaskTextInputFormatter endminuteMask;
   String? Function(BuildContext, String?)? endminuteTextControllerValidator;
 
   @override

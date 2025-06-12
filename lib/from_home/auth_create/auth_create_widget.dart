@@ -6,11 +6,14 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
+import '/functional/password_component/password_component_widget.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'auth_create_model.dart';
 export 'auth_create_model.dart';
 
@@ -28,22 +31,18 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget> {
   late AuthCreateModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  late StreamSubscription<bool> _keyboardVisibilitySubscription;
-  bool _isKeyboardVisible = false;
 
   @override
   void initState() {
     super.initState();
     _model = createModel(context, () => AuthCreateModel());
 
-    if (!isWeb) {
-      _keyboardVisibilitySubscription =
-          KeyboardVisibilityController().onChange.listen((bool visible) {
-        safeSetState(() {
-          _isKeyboardVisible = visible;
-        });
-      });
-    }
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      _model.aaaaa = await queryNotificationRecordOnce(
+        singleRecord: true,
+      ).then((s) => s.firstOrNull);
+    });
 
     _model.emailAddressTextController1 ??= TextEditingController();
     _model.emailAddressFocusNode1 ??= FocusNode();
@@ -66,9 +65,11 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget> {
     _model.displayNameTextController2 ??= TextEditingController();
     _model.displayNameFocusNode2 ??= FocusNode();
 
+    _model.displayNameMask2 = MaskTextInputFormatter(mask: '###-####-####');
     _model.displayNameTextController3 ??= TextEditingController();
     _model.displayNameFocusNode3 ??= FocusNode();
 
+    _model.displayNameMask3 = MaskTextInputFormatter(mask: '####/##/##');
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
@@ -76,9 +77,6 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget> {
   void dispose() {
     _model.dispose();
 
-    if (!isWeb) {
-      _keyboardVisibilitySubscription.cancel();
-    }
     super.dispose();
   }
 
@@ -953,88 +951,49 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget> {
                             Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
                                   13.0, 15.0, 13.0, 0.0),
-                              child: FutureBuilder<List<NotificationRecord>>(
-                                future: queryNotificationRecordOnce(
-                                  singleRecord: true,
+                              child: FlutterFlowDropDown<String>(
+                                controller:
+                                    _model.dropDownSpotValueController ??=
+                                        FormFieldController<String>(null),
+                                options: _model.aaaaa!.spotdatas
+                                    .map((e) => e.spot)
+                                    .toList(),
+                                onChanged: (val) => safeSetState(
+                                    () => _model.dropDownSpotValue = val),
+                                width: double.infinity,
+                                height: 56.0,
+                                textStyle: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .override(
+                                      fontFamily: FlutterFlowTheme.of(context)
+                                          .bodyMediumFamily,
+                                      letterSpacing: 0.0,
+                                      useGoogleFonts:
+                                          !FlutterFlowTheme.of(context)
+                                              .bodyMediumIsCustom,
+                                    ),
+                                hintText: FFLocalizations.of(context).getText(
+                                  'qsuxqay6' /* 센터명 */,
                                 ),
-                                builder: (context, snapshot) {
-                                  // Customize what your widget looks like when it's loading.
-                                  if (!snapshot.hasData) {
-                                    return Center(
-                                      child: SizedBox(
-                                        width: 50.0,
-                                        height: 50.0,
-                                        child: CircularProgressIndicator(
-                                          valueColor:
-                                              AlwaysStoppedAnimation<Color>(
-                                            FlutterFlowTheme.of(context)
-                                                .primary,
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  }
-                                  List<NotificationRecord>
-                                      dropDown2NotificationRecordList =
-                                      snapshot.data!;
-                                  // Return an empty Container when the item does not exist.
-                                  if (snapshot.data!.isEmpty) {
-                                    return Container();
-                                  }
-                                  final dropDown2NotificationRecord =
-                                      dropDown2NotificationRecordList.isNotEmpty
-                                          ? dropDown2NotificationRecordList
-                                              .first
-                                          : null;
-
-                                  return FlutterFlowDropDown<String>(
-                                    controller:
-                                        _model.dropDown2ValueController ??=
-                                            FormFieldController<String>(null),
-                                    options: dropDown2NotificationRecord!
-                                        .spotdatas
-                                        .map((e) => e.spot)
-                                        .toList(),
-                                    onChanged: (val) => safeSetState(
-                                        () => _model.dropDown2Value = val),
-                                    width: double.infinity,
-                                    height: 56.0,
-                                    textStyle: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .override(
-                                          fontFamily:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMediumFamily,
-                                          letterSpacing: 0.0,
-                                          useGoogleFonts:
-                                              !FlutterFlowTheme.of(context)
-                                                  .bodyMediumIsCustom,
-                                        ),
-                                    hintText:
-                                        FFLocalizations.of(context).getText(
-                                      'qsuxqay6' /* 센터명 */,
-                                    ),
-                                    icon: Icon(
-                                      Icons.keyboard_arrow_down_rounded,
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryText,
-                                      size: 24.0,
-                                    ),
-                                    fillColor: FlutterFlowTheme.of(context)
-                                        .secondaryBackground,
-                                    elevation: 2.0,
-                                    borderColor:
-                                        FlutterFlowTheme.of(context).alternate,
-                                    borderWidth: 2.0,
-                                    borderRadius: 8.0,
-                                    margin: EdgeInsetsDirectional.fromSTEB(
-                                        16.0, 4.0, 16.0, 4.0),
-                                    hidesUnderline: true,
-                                    isOverButton: true,
-                                    isSearchable: false,
-                                    isMultiSelect: false,
-                                  );
-                                },
+                                icon: Icon(
+                                  Icons.keyboard_arrow_down_rounded,
+                                  color: FlutterFlowTheme.of(context)
+                                      .secondaryText,
+                                  size: 24.0,
+                                ),
+                                fillColor: FlutterFlowTheme.of(context)
+                                    .secondaryBackground,
+                                elevation: 2.0,
+                                borderColor:
+                                    FlutterFlowTheme.of(context).alternate,
+                                borderWidth: 2.0,
+                                borderRadius: 8.0,
+                                margin: EdgeInsetsDirectional.fromSTEB(
+                                    16.0, 4.0, 16.0, 4.0),
+                                hidesUnderline: true,
+                                isOverButton: true,
+                                isSearchable: false,
+                                isMultiSelect: false,
                               ),
                             ),
                             Padding(
@@ -1254,16 +1213,15 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget> {
                       ),
                     ),
                   ),
-                  if (!(isWeb
-                      ? MediaQuery.viewInsetsOf(context).bottom > 0
-                      : _isKeyboardVisible))
-                    Padding(
+                  Builder(
+                    builder: (context) => Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(
                           16.0, 12.0, 16.0, 24.0),
                       child: FFButtonWidget(
                         onPressed: () async {
-                          if ((_model.dropDown2Value == null ||
-                                  _model.dropDown2Value == '') ||
+                          var _shouldSetState = false;
+                          if ((_model.dropDownSpotValue == null ||
+                                  _model.dropDownSpotValue == '') ||
                               ((_model.emailAddressTextController2.text ==
                                           '') &&
                                   (_model.dropDown1Value == '학생')) ||
@@ -1291,11 +1249,57 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget> {
                                 );
                               },
                             );
+                            if (_shouldSetState) safeSetState(() {});
                             return;
                           } else {
                             if (functions.getStringLength(
-                                    _model.password2TextController.text) !=
+                                    _model.password2TextController.text) ==
                                 6) {
+                              await showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (dialogContext) {
+                                  return Dialog(
+                                    elevation: 0,
+                                    insetPadding: EdgeInsets.zero,
+                                    backgroundColor: Colors.transparent,
+                                    alignment: AlignmentDirectional(0.0, 0.0)
+                                        .resolve(Directionality.of(context)),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        FocusScope.of(dialogContext).unfocus();
+                                        FocusManager.instance.primaryFocus
+                                            ?.unfocus();
+                                      },
+                                      child: PasswordComponentWidget(),
+                                    ),
+                                  );
+                                },
+                              ).then((value) =>
+                                  safeSetState(() => _model.aa = value));
+
+                              _shouldSetState = true;
+                              if (_model.aa != false) {
+                                await showDialog(
+                                  context: context,
+                                  builder: (alertDialogContext) {
+                                    return AlertDialog(
+                                      title: Text('접근 거부'),
+                                      content: Text('관리자 비밀번호를 확인 후 다시 시도해주세요'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(alertDialogContext),
+                                          child: Text('Ok'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                                if (_shouldSetState) safeSetState(() {});
+                                return;
+                              }
+                            } else {
                               await showDialog(
                                 context: context,
                                 builder: (alertDialogContext) {
@@ -1311,8 +1315,10 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget> {
                                   );
                                 },
                               );
+                              if (_shouldSetState) safeSetState(() {});
                               return;
                             }
+
                             GoRouter.of(context).prepareAuthEvent();
                             if (_model.passwordTextController.text !=
                                 _model.password3TextController.text) {
@@ -1349,7 +1355,7 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget> {
                                 isAdmin: false,
                                 seatNo: 0,
                                 totalPoint: 0,
-                                spot: _model.dropDown2Value,
+                                spot: _model.dropDownSpotValue,
                                 rankOpen: true,
                                 secondPin: int.tryParse(
                                     _model.password2TextController.text),
@@ -1359,6 +1365,7 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget> {
                                     _model.displayNameTextController3.text),
                                 phoneNumber:
                                     _model.displayNameTextController2.text,
+                                idAllowed: false,
                               ),
                               ...mapToFirestore(
                                 {
@@ -1381,6 +1388,8 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget> {
                             context.pushNamedAuth(
                                 Sign2Widget.routeName, context.mounted);
                           }
+
+                          if (_shouldSetState) safeSetState(() {});
                         },
                         text: FFLocalizations.of(context).getText(
                           't8krrw6p' /* Create Account */,
@@ -1414,6 +1423,7 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget> {
                         ),
                       ),
                     ),
+                  ),
                 ],
               ),
             ),

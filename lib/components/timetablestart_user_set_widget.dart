@@ -8,6 +8,7 @@ import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'timetablestart_user_set_model.dart';
 export 'timetablestart_user_set_model.dart';
 
@@ -85,6 +86,7 @@ class _TimetablestartUserSetWidgetState
             : '');
     _model.starthourFocusNode ??= FocusNode();
 
+    _model.starthourMask = MaskTextInputFormatter(mask: '##');
     _model.startminuteTextController ??= TextEditingController(
         text: widget.fixStartTime?.microsecondsSinceEpoch != null
             ? dateTimeFormat(
@@ -95,6 +97,7 @@ class _TimetablestartUserSetWidgetState
             : '');
     _model.startminuteFocusNode ??= FocusNode();
 
+    _model.startminuteMask = MaskTextInputFormatter(mask: '##');
     _model.endhourTextController ??= TextEditingController(
         text: widget.fixEndTime != null
             ? dateTimeFormat(
@@ -105,6 +108,7 @@ class _TimetablestartUserSetWidgetState
             : '');
     _model.endhourFocusNode ??= FocusNode();
 
+    _model.endhourMask = MaskTextInputFormatter(mask: '##');
     _model.endminuteTextController ??= TextEditingController(
         text: widget.fixEndTime != null
             ? dateTimeFormat(
@@ -115,6 +119,7 @@ class _TimetablestartUserSetWidgetState
             : '');
     _model.endminuteFocusNode ??= FocusNode();
 
+    _model.endminuteMask = MaskTextInputFormatter(mask: '##');
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 

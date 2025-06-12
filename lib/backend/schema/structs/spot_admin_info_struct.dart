@@ -13,11 +13,13 @@ class SpotAdminInfoStruct extends FFFirebaseStruct {
     String? sheetRoot,
     DocumentReference? references,
     List<SpotDailyDataStruct>? spotStudyEach,
+    String? spotPassword,
     FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
   })  : _spot = spot,
         _sheetRoot = sheetRoot,
         _references = references,
         _spotStudyEach = spotStudyEach,
+        _spotPassword = spotPassword,
         super(firestoreUtilData);
 
   // "spot" field.
@@ -52,6 +54,13 @@ class SpotAdminInfoStruct extends FFFirebaseStruct {
 
   bool hasSpotStudyEach() => _spotStudyEach != null;
 
+  // "spotPassword" field.
+  String? _spotPassword;
+  String get spotPassword => _spotPassword ?? '';
+  set spotPassword(String? val) => _spotPassword = val;
+
+  bool hasSpotPassword() => _spotPassword != null;
+
   static SpotAdminInfoStruct fromMap(Map<String, dynamic> data) =>
       SpotAdminInfoStruct(
         spot: data['spot'] as String?,
@@ -61,6 +70,7 @@ class SpotAdminInfoStruct extends FFFirebaseStruct {
           data['spotStudyEach'],
           SpotDailyDataStruct.fromMap,
         ),
+        spotPassword: data['spotPassword'] as String?,
       );
 
   static SpotAdminInfoStruct? maybeFromMap(dynamic data) => data is Map
@@ -72,6 +82,7 @@ class SpotAdminInfoStruct extends FFFirebaseStruct {
         'sheetRoot': _sheetRoot,
         'references': _references,
         'spotStudyEach': _spotStudyEach?.map((e) => e.toMap()).toList(),
+        'spotPassword': _spotPassword,
       }.withoutNulls;
 
   @override
@@ -92,6 +103,10 @@ class SpotAdminInfoStruct extends FFFirebaseStruct {
           _spotStudyEach,
           ParamType.DataStruct,
           isList: true,
+        ),
+        'spotPassword': serializeParam(
+          _spotPassword,
+          ParamType.String,
         ),
       }.withoutNulls;
 
@@ -119,6 +134,11 @@ class SpotAdminInfoStruct extends FFFirebaseStruct {
           true,
           structBuilder: SpotDailyDataStruct.fromSerializableMap,
         ),
+        spotPassword: deserializeParam(
+          data['spotPassword'],
+          ParamType.String,
+          false,
+        ),
       );
 
   @override
@@ -131,18 +151,20 @@ class SpotAdminInfoStruct extends FFFirebaseStruct {
         spot == other.spot &&
         sheetRoot == other.sheetRoot &&
         references == other.references &&
-        listEquality.equals(spotStudyEach, other.spotStudyEach);
+        listEquality.equals(spotStudyEach, other.spotStudyEach) &&
+        spotPassword == other.spotPassword;
   }
 
   @override
-  int get hashCode =>
-      const ListEquality().hash([spot, sheetRoot, references, spotStudyEach]);
+  int get hashCode => const ListEquality()
+      .hash([spot, sheetRoot, references, spotStudyEach, spotPassword]);
 }
 
 SpotAdminInfoStruct createSpotAdminInfoStruct({
   String? spot,
   String? sheetRoot,
   DocumentReference? references,
+  String? spotPassword,
   Map<String, dynamic> fieldValues = const {},
   bool clearUnsetFields = true,
   bool create = false,
@@ -152,6 +174,7 @@ SpotAdminInfoStruct createSpotAdminInfoStruct({
       spot: spot,
       sheetRoot: sheetRoot,
       references: references,
+      spotPassword: spotPassword,
       firestoreUtilData: FirestoreUtilData(
         clearUnsetFields: clearUnsetFields,
         create: create,
