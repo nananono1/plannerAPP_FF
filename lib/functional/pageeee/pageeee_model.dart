@@ -20,12 +20,12 @@ class PageeeeModel extends FlutterFlowModel<PageeeeWidget> {
 
   // Stores action output result for [Firestore Query - Query a collection] action in pageeee widget.
   PlannerVariableListRecord? firstquery;
-  // Stores action output result for [Custom Action - getCurrentLocation] action in pageeee widget.
-  LatLng? location;
   // Stores action output result for [Firestore Query - Query a collection] action in pageeee widget.
   PlannerVariableListRecord? queryToday777;
   // Stores action output result for [Firestore Query - Query a collection] action in pageeee widget.
   PlannerVariableListRecord? loadedInfo66;
+  // Stores action output result for [Firestore Query - Query a collection] action in contentView_1 widget.
+  StudyDBbackupAggRecord? aa1;
   // Stores action output result for [Firestore Query - Query a collection] action in Container widget.
   PlannerVariableListRecord? queryToday1;
   // Stores action output result for [Firestore Query - Query a collection] action in Container widget.
@@ -45,6 +45,8 @@ class PageeeeModel extends FlutterFlowModel<PageeeeWidget> {
   String? Function(BuildContext, String?)? textControllerValidator;
   // Stores action output result for [Firestore Query - Query a collection] action in Container widget.
   PlannerVariableListRecord? quuerytoupdate;
+  // Stores action output result for [Alert Dialog - Custom Dialog] action in Container widget.
+  bool? asss;
 
   @override
   void initState(BuildContext context) {}

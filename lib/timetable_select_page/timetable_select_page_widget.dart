@@ -9,6 +9,7 @@ import '/flutter_flow/form_field_controller.dart';
 import '/custom_code/actions/index.dart' as actions;
 import '/custom_code/widgets/index.dart' as custom_widgets;
 import '/index.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'timetable_select_page_model.dart';
@@ -54,6 +55,10 @@ class _TimetableSelectPageWidgetState extends State<TimetableSelectPageWidget> {
         safeSetState(() {
           _model.checkboxValue =
               _model.weeklyTimeTableSemi!.mon.nonExistingDate;
+        });
+      } else {
+        safeSetState(() {
+          _model.radioButtonValueController?.value = '월';
         });
       }
     });
@@ -220,12 +225,18 @@ class _TimetableSelectPageWidgetState extends State<TimetableSelectPageWidget> {
                                               EdgeInsetsDirectional.fromSTEB(
                                                   0.0, 0.0, 0.0, 10.0),
                                           child: Container(
-                                            width: 200.0,
+                                            width: 300.0,
                                             child: TextFormField(
                                               controller: _model.textController,
                                               focusNode:
                                                   _model.textFieldFocusNode,
-                                              autofocus: false,
+                                              onChanged: (_) =>
+                                                  EasyDebounce.debounce(
+                                                '_model.textController',
+                                                Duration(milliseconds: 2000),
+                                                () => safeSetState(() {}),
+                                              ),
+                                              autofocus: true,
                                               obscureText: false,
                                               decoration: InputDecoration(
                                                 isDense: true,
@@ -315,6 +326,22 @@ class _TimetableSelectPageWidgetState extends State<TimetableSelectPageWidget> {
                                                 fillColor:
                                                     FlutterFlowTheme.of(context)
                                                         .secondaryBackground,
+                                                suffixIcon: _model
+                                                        .textController!
+                                                        .text
+                                                        .isNotEmpty
+                                                    ? InkWell(
+                                                        onTap: () async {
+                                                          _model.textController
+                                                              ?.clear();
+                                                          safeSetState(() {});
+                                                        },
+                                                        child: Icon(
+                                                          Icons.clear,
+                                                          size: 22,
+                                                        ),
+                                                      )
+                                                    : null,
                                               ),
                                               style:
                                                   FlutterFlowTheme.of(context)
@@ -574,7 +601,7 @@ class _TimetableSelectPageWidgetState extends State<TimetableSelectPageWidget> {
                                             Text(
                                               FFLocalizations.of(context)
                                                   .getText(
-                                                '6uzpsd9z' /* 미등원요일 선택 */,
+                                                '6uzpsd9z' /* 자율등원요일 선택 */,
                                               ),
                                               style:
                                                   FlutterFlowTheme.of(context)
@@ -584,6 +611,7 @@ class _TimetableSelectPageWidgetState extends State<TimetableSelectPageWidget> {
                                                             FlutterFlowTheme.of(
                                                                     context)
                                                                 .bodyMediumFamily,
+                                                        fontSize: 18.0,
                                                         letterSpacing: 0.0,
                                                         useGoogleFonts:
                                                             !FlutterFlowTheme
@@ -917,7 +945,7 @@ class _TimetableSelectPageWidgetState extends State<TimetableSelectPageWidget> {
                                                         .info,
                                               ),
                                             ),
-                                          ],
+                                          ].divide(SizedBox(width: 15.0)),
                                         ),
                                         if (_model.checkboxValue == false)
                                           Row(
@@ -936,6 +964,7 @@ class _TimetableSelectPageWidgetState extends State<TimetableSelectPageWidget> {
                                                               FlutterFlowTheme.of(
                                                                       context)
                                                                   .bodyMediumFamily,
+                                                          fontSize: 18.0,
                                                           letterSpacing: 0.0,
                                                           useGoogleFonts:
                                                               !FlutterFlowTheme
@@ -1168,6 +1197,7 @@ class _TimetableSelectPageWidgetState extends State<TimetableSelectPageWidget> {
                                                                 FlutterFlowTheme.of(
                                                                         context)
                                                                     .bodyMediumFamily,
+                                                            fontSize: 18.0,
                                                             letterSpacing: 0.0,
                                                             useGoogleFonts:
                                                                 !FlutterFlowTheme.of(
@@ -1195,6 +1225,7 @@ class _TimetableSelectPageWidgetState extends State<TimetableSelectPageWidget> {
                                                               FlutterFlowTheme.of(
                                                                       context)
                                                                   .bodyMediumFamily,
+                                                          fontSize: 18.0,
                                                           letterSpacing: 0.0,
                                                           useGoogleFonts:
                                                               !FlutterFlowTheme
@@ -1427,6 +1458,7 @@ class _TimetableSelectPageWidgetState extends State<TimetableSelectPageWidget> {
                                                                 FlutterFlowTheme.of(
                                                                         context)
                                                                     .bodyMediumFamily,
+                                                            fontSize: 18.0,
                                                             letterSpacing: 0.0,
                                                             useGoogleFonts:
                                                                 !FlutterFlowTheme.of(
@@ -1462,7 +1494,7 @@ class _TimetableSelectPageWidgetState extends State<TimetableSelectPageWidget> {
                                                               FlutterFlowTheme.of(
                                                                       context)
                                                                   .bodyMediumFamily,
-                                                          fontSize: 20.0,
+                                                          fontSize: 24.0,
                                                           letterSpacing: 0.0,
                                                           useGoogleFonts:
                                                               !FlutterFlowTheme
@@ -1668,7 +1700,7 @@ class _TimetableSelectPageWidgetState extends State<TimetableSelectPageWidget> {
                                                                             .bodyMedium
                                                                             .override(
                                                                               fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                              fontSize: 18.0,
+                                                                              fontSize: 20.0,
                                                                               letterSpacing: 0.0,
                                                                               useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
                                                                             ),
@@ -1706,6 +1738,7 @@ class _TimetableSelectPageWidgetState extends State<TimetableSelectPageWidget> {
                                                                               .bodyMedium
                                                                               .override(
                                                                                 fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
+                                                                                fontSize: 16.0,
                                                                                 letterSpacing: 0.0,
                                                                                 useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
                                                                               ),
@@ -2253,11 +2286,88 @@ class _TimetableSelectPageWidgetState extends State<TimetableSelectPageWidget> {
                                               children: [
                                                 FFButtonWidget(
                                                   onPressed: () async {
+                                                    if (_model.textController
+                                                                .text ==
+                                                            '') {
+                                                      await showDialog(
+                                                        context: context,
+                                                        builder:
+                                                            (alertDialogContext) {
+                                                          return AlertDialog(
+                                                            title: Text('입력오류'),
+                                                            content: Text(
+                                                                '시간표 이름을 입력해주세요.'),
+                                                            actions: [
+                                                              TextButton(
+                                                                onPressed: () =>
+                                                                    Navigator.pop(
+                                                                        alertDialogContext),
+                                                                child:
+                                                                    Text('Ok'),
+                                                              ),
+                                                            ],
+                                                          );
+                                                        },
+                                                      );
+                                                      safeSetState(() {
+                                                        _model.textController
+                                                            ?.text = ' ';
+                                                        _model
+                                                            .textFieldFocusNode
+                                                            ?.requestFocus();
+                                                        WidgetsBinding.instance
+                                                            .addPostFrameCallback(
+                                                                (_) {
+                                                          _model.textController
+                                                                  ?.selection =
+                                                              const TextSelection
+                                                                  .collapsed(
+                                                                  offset: 0);
+                                                        });
+                                                      });
+                                                      return;
+                                                    }
+                                                    var confirmDialogResponse =
+                                                        await showDialog<bool>(
+                                                              context: context,
+                                                              builder:
+                                                                  (alertDialogContext) {
+                                                                return AlertDialog(
+                                                                  title: Text(
+                                                                      '시간표 제출'),
+                                                                  content: Text(
+                                                                      '작성한 시간표를 제출하시겠습니끼?'),
+                                                                  actions: [
+                                                                    TextButton(
+                                                                      onPressed: () => Navigator.pop(
+                                                                          alertDialogContext,
+                                                                          false),
+                                                                      child: Text(
+                                                                          '아니오'),
+                                                                    ),
+                                                                    TextButton(
+                                                                      onPressed: () => Navigator.pop(
+                                                                          alertDialogContext,
+                                                                          true),
+                                                                      child: Text(
+                                                                          '예'),
+                                                                    ),
+                                                                  ],
+                                                                );
+                                                              },
+                                                            ) ??
+                                                            false;
+                                                    if (!confirmDialogResponse) {
+                                                      return;
+                                                    }
                                                     _model
                                                         .updateWeeklyTimeTableSemiStruct(
                                                       (e) => e
                                                         ..updatedDate =
-                                                            getCurrentTimestamp,
+                                                            getCurrentTimestamp
+                                                        ..tablename = _model
+                                                            .textController
+                                                            .text,
                                                     );
                                                     safeSetState(() {});
 
@@ -2270,9 +2380,10 @@ class _TimetableSelectPageWidgetState extends State<TimetableSelectPageWidget> {
                                                             .weeklyTimeTableSemi,
                                                         clearUnsetFields: true,
                                                       ),
-                                                      updateChecker: true,
                                                       scheduleRequestTime:
                                                           getCurrentTimestamp,
+                                                      scheduleChangeRequest:
+                                                          true,
                                                     ));
                                                     await showDialog(
                                                       context: context,
@@ -2280,13 +2391,13 @@ class _TimetableSelectPageWidgetState extends State<TimetableSelectPageWidget> {
                                                           (alertDialogContext) {
                                                         return AlertDialog(
                                                           content: Text(
-                                                              '저장 및 수정요청이 완료되었습니다. 관리자 선생님께 승인 받아 주세요'),
+                                                              '저장 및 수정요청이 완료되었습니다. 관리자 선생님께 방문하여 승인 받아 주세요'),
                                                           actions: [
                                                             TextButton(
                                                               onPressed: () =>
                                                                   Navigator.pop(
                                                                       alertDialogContext),
-                                                              child: Text('Ok'),
+                                                              child: Text('확인'),
                                                             ),
                                                           ],
                                                         );
@@ -2300,74 +2411,10 @@ class _TimetableSelectPageWidgetState extends State<TimetableSelectPageWidget> {
                                                   text: FFLocalizations.of(
                                                           context)
                                                       .getText(
-                                                    'ozstzayn' /*  저장 */,
+                                                    'ozstzayn' /*  저장 및 제출 */,
                                                   ),
                                                   options: FFButtonOptions(
-                                                    height: 45.0,
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(16.0, 0.0,
-                                                                16.0, 0.0),
-                                                    iconPadding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(0.0, 0.0,
-                                                                0.0, 0.0),
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primary,
-                                                    textStyle: FlutterFlowTheme
-                                                            .of(context)
-                                                        .titleSmall
-                                                        .override(
-                                                          fontFamily:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .titleSmallFamily,
-                                                          color: Colors.white,
-                                                          fontSize: 20.0,
-                                                          letterSpacing: 0.0,
-                                                          useGoogleFonts:
-                                                              !FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .titleSmallIsCustom,
-                                                        ),
-                                                    elevation: 0.0,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            16.0),
-                                                  ),
-                                                ),
-                                                FFButtonWidget(
-                                                  onPressed: () async {
-                                                    _model
-                                                        .updateWeeklyTimeTableSemiStruct(
-                                                      (e) => e
-                                                        ..updatedDate =
-                                                            getCurrentTimestamp,
-                                                    );
-                                                    safeSetState(() {});
-
-                                                    await currentUserReference!
-                                                        .update(
-                                                            createUsersRecordData(
-                                                      scheduleToChange:
-                                                          updateWeeklyTimeTableStruct(
-                                                        _model
-                                                            .weeklyTimeTableSemi,
-                                                        clearUnsetFields: true,
-                                                      ),
-                                                    ));
-
-                                                    context.goNamed(
-                                                        TimetablePageWidget
-                                                            .routeName);
-                                                  },
-                                                  text: FFLocalizations.of(
-                                                          context)
-                                                      .getText(
-                                                    'a2kg5pes' /* 임시저장 */,
-                                                  ),
-                                                  options: FFButtonOptions(
+                                                    width: 120.0,
                                                     height: 45.0,
                                                     padding:
                                                         EdgeInsetsDirectional
@@ -2448,6 +2495,7 @@ class _TimetableSelectPageWidgetState extends State<TimetableSelectPageWidget> {
                                                     'jcxnh2op' /* 취소 */,
                                                   ),
                                                   options: FFButtonOptions(
+                                                    width: 120.0,
                                                     height: 45.0,
                                                     padding:
                                                         EdgeInsetsDirectional

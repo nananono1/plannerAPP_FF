@@ -1,5 +1,4 @@
 // Export pages
-export '/from_home/home_page/home_page_widget.dart' show HomePageWidget;
 export '/from_home/auth_welcome_screen/auth_welcome_screen_widget.dart'
     show AuthWelcomeScreenWidget;
 export '/from_home/auth_create/auth_create_widget.dart' show AuthCreateWidget;
@@ -7,11 +6,7 @@ export '/from_home/auth_login/auth_login_widget.dart' show AuthLoginWidget;
 export '/from_home/auth_forgot_password/auth_forgot_password_widget.dart'
     show AuthForgotPasswordWidget;
 export '/functional/timer_page/timer_page_widget.dart' show TimerPageWidget;
-export '/backup/backup_widget.dart' show BackupWidget;
 export '/functional/user_page/user_page_widget.dart' show UserPageWidget;
-export '/functional/userdeep/settings1_notifications/settings1_notifications_widget.dart'
-    show Settings1NotificationsWidget;
-export '/analytics_page/analytics_page_widget.dart' show AnalyticsPageWidget;
 export '/admin_page/admin_seat_configure/admin_seat_configure_widget.dart'
     show AdminSeatConfigureWidget;
 export '/admin_page/adminplanner_page/adminplanner_page_widget.dart'
@@ -22,8 +17,6 @@ export '/admin_page/admin_point_configure_page/admin_point_configure_page_widget
     show AdminPointConfigurePageWidget;
 export '/functional/student_analytics/student_analytics_widget.dart'
     show StudentAnalyticsWidget;
-export '/set_best_color_page/set_best_color_page_widget.dart'
-    show SetBestColorPageWidget;
 export '/functional/pageeee/pageeee_widget.dart' show PageeeeWidget;
 export '/alert_admin/alert_admin_widget.dart' show AlertAdminWidget;
 export '/timetable_page/timetable_page_widget.dart' show TimetablePageWidget;
@@ -41,8 +34,6 @@ export '/admin_page/adminpm_study_check/adminpm_study_check_widget.dart'
     show AdminpmStudyCheckWidget;
 export '/admin_time_table_page/admin_time_table_page_widget.dart'
     show AdminTimeTablePageWidget;
-export '/admin_page/master_spot_check_page/master_spot_check_page_widget.dart'
-    show MasterSpotCheckPageWidget;
 export '/admin_page/admin_cost_check/admin_cost_check_widget.dart'
     show AdminCostCheckWidget;
 export '/sign2/sign2_widget.dart' show Sign2Widget;
@@ -50,3 +41,5 @@ export '/secure_sign_page/secure_sign_page_widget.dart'
     show SecureSignPageWidget;
 export '/admin_page/admin_sign_check/admin_sign_check_widget.dart'
     show AdminSignCheckWidget;
+export '/admin_page/admin_pw_check/admin_pw_check_widget.dart'
+    show AdminPwCheckWidget;

@@ -13,6 +13,8 @@ class WeeklyToCaptureModel extends FlutterFlowModel<WeeklyToCaptureWidget> {
 
   DateTime? datePicked1;
   DateTime? datePicked2;
+  // State field(s) for Switch widget.
+  bool? switchValue;
   // State field(s) for TextField widget.
   FocusNode? textFieldFocusNode1;
   TextEditingController? textController1;

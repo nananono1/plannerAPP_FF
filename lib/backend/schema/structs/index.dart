@@ -15,6 +15,8 @@ export 'fix_subject_color_struct.dart';
 export 'grade_info_struct.dart';
 export 'inside_d_b_struct_struct.dart';
 export 'page_state_schema_struct.dart';
+export 'penalty_input_struct.dart';
+export 'penalty_input_each_struct.dart';
 export 'personal_subject_each_struct.dart';
 export 'planner_input_struct.dart';
 export 'planner_paused_time_struct.dart';

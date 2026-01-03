@@ -5,10 +5,6 @@ import 'package:flutter/material.dart';
 class Sign2captureModel extends FlutterFlowModel<Sign2captureWidget> {
   ///  State fields for stateful widgets in this component.
 
-  // State field(s) for TextFieldage widget.
-  FocusNode? textFieldageFocusNode;
-  TextEditingController? textFieldageTextController;
-  String? Function(BuildContext, String?)? textFieldageTextControllerValidator;
   // State field(s) for CheckboxCSAT widget.
   bool? checkboxCSATValue;
   // State field(s) for Checkboxsusi widget.
@@ -28,8 +24,5 @@ class Sign2captureModel extends FlutterFlowModel<Sign2captureWidget> {
   void initState(BuildContext context) {}
 
   @override
-  void dispose() {
-    textFieldageFocusNode?.dispose();
-    textFieldageTextController?.dispose();
-  }
+  void dispose() {}
 }

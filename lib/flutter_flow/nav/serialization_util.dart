@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '/backend/backend.dart';
 import '/backend/schema/enums/enums.dart';
+import '/backend/supabase/supabase.dart';
 
 import '../../flutter_flow/place.dart';
 import '../../flutter_flow/uploaded_file.dart';
@@ -94,6 +95,9 @@ String? serializeParam(
 
       case ParamType.Enum:
         data = (param is Enum) ? param.serialize() : null;
+
+      case ParamType.SupabaseRow:
+        return json.encode((param as SupabaseDataRow).data);
 
       default:
         data = null;
@@ -187,6 +191,7 @@ enum ParamType {
   DocumentReference,
   DataStruct,
   Enum,
+  SupabaseRow,
 }
 
 dynamic deserializeParam<T>(
@@ -247,6 +252,41 @@ dynamic deserializeParam<T>(
         return json.decode(param);
       case ParamType.DocumentReference:
         return _deserializeDocumentReference(param, collectionNamePath ?? []);
+
+      case ParamType.SupabaseRow:
+        final data = json.decode(param) as Map<String, dynamic>;
+        switch (T) {
+          case VStudyWeeklyBySchoolRow:
+            return VStudyWeeklyBySchoolRow(data);
+          case VStudyMonthlyOverallRow:
+            return VStudyMonthlyOverallRow(data);
+          case VStudyTimeDailyBySpotRow:
+            return VStudyTimeDailyBySpotRow(data);
+          case VStudyEnrichedRow:
+            return VStudyEnrichedRow(data);
+          case VStudyMonthlyBySchoolRow:
+            return VStudyMonthlyBySchoolRow(data);
+          case VStudyMonthlyByGradeRow:
+            return VStudyMonthlyByGradeRow(data);
+          case StudyTimeOverallRow:
+            return StudyTimeOverallRow(data);
+          case VStudyMonthlyByForwhatRow:
+            return VStudyMonthlyByForwhatRow(data);
+          case VStudyWeeklyByForwhatRow:
+            return VStudyWeeklyByForwhatRow(data);
+          case VStudyWeeklyOverallRow:
+            return VStudyWeeklyOverallRow(data);
+          case VStudyWeeklyByGradeRow:
+            return VStudyWeeklyByGradeRow(data);
+          case VStudyMonthlyBySpotRow:
+            return VStudyMonthlyBySpotRow(data);
+          case StudentProfileRow:
+            return StudentProfileRow(data);
+          case VStudyWeeklyBySpotRow:
+            return VStudyWeeklyBySpotRow(data);
+          default:
+            return null;
+        }
 
       case ParamType.DataStruct:
         final data = json.decode(param) as Map<String, dynamic>? ?? {};

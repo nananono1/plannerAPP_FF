@@ -8,6 +8,10 @@ import 'package:flutter/material.dart';
 
 class AdminPointConfigurePageModel
     extends FlutterFlowModel<AdminPointConfigurePageWidget> {
+  ///  Local state fields for this page.
+
+  bool loading = false;
+
   ///  State fields for stateful widgets in this page.
 
   // Stores action output result for [Custom Action - checkUserClaims] action in adminPointConfigurePage widget.

@@ -2,6 +2,7 @@
 import '/backend/backend.dart';
 import '/backend/schema/structs/index.dart';
 import '/backend/schema/enums/enums.dart';
+import '/backend/supabase/supabase.dart';
 import '/actions/actions.dart' as action_blocks;
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -180,7 +181,7 @@ class _DailyTotalStudyTimeSFState extends State<DailyTotalStudyTimeSF> {
               maximum: maxValue * 1.2,
             ),
             tooltipBehavior: TooltipBehavior(enable: true),
-            series: <ChartSeries>[
+            series: <CartesianSeries>[
               LineSeries<Map<String, dynamic>, String>(
                 name: '일별 학습 시간',
                 dataSource: chartData,

@@ -144,105 +144,6 @@ bool _isSupportedLocale(Locale locale) {
 }
 
 final kTranslationsMap = <Map<String, Map<String, String>>>[
-  // HomePage
-  {
-    '1a7lrdwb': {
-      'ko': ' 학생 - ',
-      'en': 'student -',
-    },
-    'a51pmt39': {
-      'ko': ' 번 좌석(',
-      'en': 'Seat number(',
-    },
-    '0kqws3hh': {
-      'ko': ')',
-      'en': ')',
-    },
-    'oozt6r9f': {
-      'ko': 'Delete',
-      'en': 'Delete',
-    },
-    'mthvr63p': {
-      'ko': '주간랭킹',
-      'en': '',
-    },
-    'jolze01o': {
-      'ko': '-',
-      'en': '-',
-    },
-    'lqsd42zw': {
-      'ko': '\n',
-      'en': '',
-    },
-    'jw6d5xt7': {
-      'ko': ' 포인트 ',
-      'en': 'point',
-    },
-    'fa89fjml': {
-      'ko': '월간랭킹',
-      'en': '',
-    },
-    'e712ryoz': {
-      'ko': '-',
-      'en': '-',
-    },
-    '9edy8gqd': {
-      'ko': '\n',
-      'en': '',
-    },
-    'xqwrun0s': {
-      'ko': ' 포인트 ',
-      'en': 'point',
-    },
-    'j3js0rwz': {
-      'ko': 'Hello World',
-      'en': '',
-    },
-    's252ggsd': {
-      'ko': 'Platform Navigation',
-      'en': 'Platform Navigation',
-    },
-    'tduf5mac': {
-      'ko': '메인메뉴',
-      'en': 'Main Menu',
-    },
-    '7nkumn1c': {
-      'ko': '플래너확인',
-      'en': 'Check planner',
-    },
-    'wvirljok': {
-      'ko': '시간표 관리',
-      'en': 'Schedule Management',
-    },
-    '9je02ug5': {
-      'ko': '공부시간분석',
-      'en': 'Study time analysis',
-    },
-    '84jqczir': {
-      'ko': 'Settings',
-      'en': 'Settings',
-    },
-    'dzlqrywj': {
-      'ko': '개인설정',
-      'en': 'Personal Settings',
-    },
-    'n15fbvjn': {
-      'ko': '보유 포인트 : ',
-      'en': '',
-    },
-    'xmke1tsf': {
-      'ko': ' 점 ',
-      'en': '',
-    },
-    'e93obq9l': {
-      'ko': '',
-      'en': '',
-    },
-    'hye9vdir': {
-      'ko': 'Home',
-      'en': 'Home',
-    },
-  },
   // auth_WelcomeScreen
   {
     '5ybgx24o': {
@@ -251,22 +152,6 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     },
     'hg1kent9': {
       'ko': '회원가입',
-      'en': '',
-    },
-    '1qbkc7pz': {
-      'ko': 'V ',
-      'en': '',
-    },
-    'pqdbx76u': {
-      'ko': 'Hello World',
-      'en': '',
-    },
-    '2uduzov3': {
-      'ko': 'depolyed date : ',
-      'en': '',
-    },
-    'ya236f0l': {
-      'ko': 'Hello World',
       'en': '',
     },
     'wjl334q3': {
@@ -313,7 +198,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'student',
     },
     'bc0rgaqo': {
-      'ko': '재수',
+      'ko': 'N수',
       'en': 'Good luck',
     },
     'yolq9242': {
@@ -325,7 +210,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'common',
     },
     'nhut6xey': {
-      'ko': '학교명(00고등학교)',
+      'ko': '학교명(ex. 한국고등학교)',
       'en': 'School name (00 High School)',
     },
     'qsuxqay6': {
@@ -353,11 +238,11 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'common',
     },
     'nno0kj8l': {
-      'ko': '전화번호 (ex.010-1234-5678)',
+      'ko': '전화번호 (ex. 01012345678)',
       'en': 'Student name',
     },
     'i8y86u1n': {
-      'ko': '생년월일 (ex.2006/01/05)',
+      'ko': '생년월일 (ex. 20060105)',
       'en': 'Student name',
     },
     'umvn0771': {
@@ -470,17 +355,6 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Home',
     },
   },
-  // backup
-  {
-    'yucs135q': {
-      'ko': 'Page Title',
-      'en': 'Page Title',
-    },
-    'cjz5nhl0': {
-      'ko': 'Home',
-      'en': 'Home',
-    },
-  },
   // userPage
   {
     'v6h92yl4': {
@@ -495,13 +369,13 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'ko': '포인트 확인',
       'en': 'Point Management',
     },
+    '57os1gab': {
+      'ko': '벌점 확인',
+      'en': 'Help Center',
+    },
     '87hijuag': {
       'ko': '대표 과목 설정',
       'en': 'Setting representative subjects',
-    },
-    '57os1gab': {
-      'ko': 'Help Center',
-      'en': 'Help Center',
     },
     'y0svwee2': {
       'ko': 'Settings',
@@ -584,64 +458,6 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Home',
     },
   },
-  // Settings1Notifications
-  {
-    '6s11dqjv': {
-      'ko': 'Settings Page',
-      'en': 'Settings Page',
-    },
-    '8zzszftr': {
-      'ko':
-          'Choose what notifcations you want to recieve below and we will update the settings.',
-      'en':
-          'Choose what notifications you want to recieve below and we will update the settings.',
-    },
-    'o3p16zui': {
-      'ko': 'Push Notifications',
-      'en': 'Push Notifications',
-    },
-    'g67aklao': {
-      'ko':
-          'Receive Push notifications from our application on a semi regular basis.',
-      'en':
-          'Receive Push notifications from our application on a semi regular basis.',
-    },
-    'lo96ey9k': {
-      'ko': 'Email Notifications',
-      'en': 'Email Notifications',
-    },
-    'xnvktf2s': {
-      'ko':
-          'Receive email notifications from our marketing team about new features.',
-      'en':
-          'Receive email notifications from our marketing team about new features.',
-    },
-    'vgcm1uoc': {
-      'ko': 'Location Services',
-      'en': 'Location Services',
-    },
-    'wswdulbv': {
-      'ko':
-          'Allow us to track your location, this helps keep track of spending and keeps you safe.',
-      'en':
-          'Allow us to track your location, this helps keep track of spending and keeps you safe.',
-    },
-    'wltnhq1t': {
-      'ko': 'Change Changes',
-      'en': 'Change Changes',
-    },
-    'sf7fr1gp': {
-      'ko': 'Home',
-      'en': 'Home',
-    },
-  },
-  // analyticsPage
-  {
-    'pk4vbqp0': {
-      'ko': 'Home',
-      'en': '',
-    },
-  },
   // adminSeatConfigure
   {
     'ag9ll4hs': {
@@ -656,7 +472,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'ko': '플래너확인',
       'en': '',
     },
-    'zxv0talx': {
+    'obzevtao': {
       'ko': '시간표 관리',
       'en': '',
     },
@@ -681,7 +497,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
     },
     '3i4ft0rt': {
-      'ko': '포인트 관리',
+      'ko': '포인트 및 벌점 관리',
       'en': '',
     },
     '6d1gf0l7': {
@@ -690,6 +506,10 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     },
     '3b5a1690': {
       'ko': '입학원서/서약서확인',
+      'en': '',
+    },
+    'o7kxndhl': {
+      'ko': '아이디 / 비밀번호 관리',
       'en': '',
     },
     'hnykkumr': {
@@ -919,6 +739,14 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'ko': '4',
       'en': '',
     },
+    'w4pb0eue': {
+      'ko': '데이터를 처리중입니다.',
+      'en': '',
+    },
+    'fti5hdhm': {
+      'ko': '잠시만 기다려주세요.',
+      'en': '',
+    },
     'dy6uhopr': {
       'ko': '내공관리자',
       'en': '',
@@ -931,7 +759,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'ko': '플래너확인',
       'en': '',
     },
-    'fqlg0f9q': {
+    'la7n8ihl': {
       'ko': '시간표 관리',
       'en': '',
     },
@@ -956,7 +784,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
     },
     'md5v39ew': {
-      'ko': '포인트 관리',
+      'ko': '포인트 및 벌점 관리',
       'en': '',
     },
     '84izfiwc': {
@@ -965,6 +793,10 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     },
     '9jh2fiw9': {
       'ko': '입학원서/서약서확인',
+      'en': '',
+    },
+    'yq7kr1tj': {
+      'ko': '아이디 / 비밀번호 관리',
       'en': '',
     },
     '19y03ooa': {
@@ -986,7 +818,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'ko': '플래너확인',
       'en': '',
     },
-    'uu8tvgio': {
+    'wzx16gc7': {
       'ko': '시간표 관리',
       'en': '',
     },
@@ -1011,7 +843,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
     },
     'nuanz0qd': {
-      'ko': '포인트 관리',
+      'ko': '포인트 및 벌점 관리',
       'en': '',
     },
     'm6if1aju': {
@@ -1020,6 +852,10 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     },
     'jjphw9sf': {
       'ko': '입학원서/서약서확인',
+      'en': '',
+    },
+    'x6928noz': {
+      'ko': '아이디 / 비밀번호 관리',
       'en': '',
     },
     'nc4hnwd2': {
@@ -1066,6 +902,14 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'ko': '좌석수정 / 삭제',
       'en': '',
     },
+    'vbqdigtg': {
+      'ko': '데이터를 처리중입니다.',
+      'en': '',
+    },
+    'mr072i82': {
+      'ko': '잠시만 기다려주세요.',
+      'en': '',
+    },
     'yx070d1u': {
       'ko': 'Home',
       'en': '',
@@ -1085,7 +929,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'ko': '플래너확인',
       'en': '',
     },
-    'u6nvgb5v': {
+    'cj2b4nla': {
       'ko': '시간표 관리',
       'en': '',
     },
@@ -1110,7 +954,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
     },
     'rrbdik3g': {
-      'ko': '포인트 관리',
+      'ko': '포인트 및 벌점 관리',
       'en': '',
     },
     'ukmppdj3': {
@@ -1119,6 +963,10 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     },
     'av0xyp5j': {
       'ko': '입학원서/서약서확인',
+      'en': '',
+    },
+    'rtzb27pl': {
+      'ko': '아이디 / 비밀번호 관리',
       'en': '',
     },
     'tl0vm0y8': {
@@ -1166,15 +1014,43 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
     },
     '8so0jhca': {
-      'ko': '현재 점수',
+      'ko': '포인트',
       'en': '',
     },
     'fi1brrzh': {
-      'ko': '포인트 부여/차감',
+      'ko': '벌점',
       'en': '',
     },
-    '5nwa05uf': {
-      'ko': '기록조회',
+    'c5b6ftqr': {
+      'ko': '포인트',
+      'en': '',
+    },
+    '93tiocgt': {
+      'ko': '조회',
+      'en': '',
+    },
+    'atfz8udy': {
+      'ko': '수정',
+      'en': '',
+    },
+    'zvf3rkmo': {
+      'ko': '점',
+      'en': '',
+    },
+    'x1ak9fsj': {
+      'ko': '조회',
+      'en': '',
+    },
+    'n6lopj51': {
+      'ko': '수정',
+      'en': '',
+    },
+    'jwauphla': {
+      'ko': '데이터를 처리중입니다.',
+      'en': '',
+    },
+    'okw6n63d': {
+      'ko': '잠시만 기다려주세요.',
       'en': '',
     },
     '28rf7q7f': {
@@ -1184,6 +1060,30 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
   },
   // studentAnalytics
   {
+    'ca6f8ooz': {
+      'ko': '홈화면',
+      'en': '',
+    },
+    'jb791euh': {
+      'ko': '플래너 작성',
+      'en': '',
+    },
+    '7bdfwdz1': {
+      'ko': '공부데이터확인',
+      'en': '',
+    },
+    'thlxy366': {
+      'ko': '시간표 설정',
+      'en': '',
+    },
+    '3ovgikvq': {
+      'ko': '개인설정',
+      'en': '',
+    },
+    'vs0u31es': {
+      'ko': '잠금화면',
+      'en': '',
+    },
     '13yjsbxt': {
       'ko': '누적공부시간',
       'en': '',
@@ -1198,6 +1098,14 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     },
     'i8bkbhec': {
       'ko': 'Hello World',
+      'en': '',
+    },
+    'tm5pdopl': {
+      'ko': '전체 과목 조회',
+      'en': '',
+    },
+    '0tpy2i9d': {
+      'ko': '대표 과목 조회',
       'en': '',
     },
     '6yefnez7': {
@@ -1232,10 +1140,6 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'ko': '\n\n',
       'en': '',
     },
-    'bb5fuw8s': {
-      'ko': '데이터 수집중...',
-      'en': '',
-    },
     'sdxtp42a': {
       'ko': '평균공부시간',
       'en': '',
@@ -1249,29 +1153,6 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
     },
     '4anifbmv': {
-      'ko': 'Home',
-      'en': '',
-    },
-  },
-  // setBestColorPage
-  {
-    'q96uyd25': {
-      'ko': 'TextField',
-      'en': '',
-    },
-    'p546677a': {
-      'ko': 'colorpicker',
-      'en': '',
-    },
-    '32rx88xv': {
-      'ko': 'save',
-      'en': '',
-    },
-    'u8zbcxg0': {
-      'ko': 'Page Title',
-      'en': '',
-    },
-    'ioxwd1ek': {
       'ko': 'Home',
       'en': '',
     },
@@ -1335,7 +1216,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
     },
     'lpr2o7f4': {
-      'ko': '※ 날짜 텍스트를 스와이프하거나 time table 좌측 캘린더 버튼을 클릭하여 날짜 변경',
+      'ko': '※ 날짜 텍스트를 스와이프하거나 캘린더 버튼을 클릭하여 날짜 변경',
       'en': '',
     },
     'rnhw2tjz': {
@@ -1476,24 +1357,45 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
   },
   // timetablePage
   {
-    'duobsg94': {
-      'ko': '현재시간표',
+    '43b4qlfn': {
+      'ko': '홈화면',
       'en': '',
     },
-    'dtiio5ez': {
-      'ko': '현재시간표',
+    'rum7q189': {
+      'ko': '플래너 작성',
       'en': '',
     },
-    'timdqg2t': {
-      'ko': '예비시간표',
+    '03ivh7x7': {
+      'ko': '공부데이터확인',
       'en': '',
     },
-    'kdqi8ahr': {
-      'ko': '최종수정요청 : ',
+    'fdw6atrk': {
+      'ko': '시간표 작성',
       'en': '',
     },
-    'un7fo5cv': {
-      'ko': '수정하기',
+    '584ew112': {
+      'ko': '개인설정',
+      'en': '',
+    },
+    'c17bb159': {
+      'ko': '잠금화면',
+      'en': '',
+    },
+    'qcrwwibh': {
+      'ko': '시간표 새로 만들기',
+      'en': '',
+    },
+    'is4et5p9': {
+      'ko': '시간표 수정',
+      'en': '',
+    },
+    'uszdfwv7': {
+      'ko': '요청된 시간표 조회',
+      'en': '',
+    },
+    '3jtrdy7a': {
+      'ko':
+          '※ tip\n\n시간표 새로만들기\n아무런 데이터 없이 새로운 시간표를 \n생성합니다\n\n시간표 수정\n현재 데이터에서 시간표를 수정합니다\n\n요청된 시간표 조회\n가장 최근에 변경요청한 시간표를 \n표시합니다.\n',
       'en': '',
     },
     'atjmaz3i': {
@@ -1574,7 +1476,31 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
     },
     'geg13jzi': {
-      'ko': '잠금 모드',
+      'ko': '긴급호출',
+      'en': '',
+    },
+    'siu0v0c2': {
+      'ko': '홈화면',
+      'en': '',
+    },
+    '3p37kjrg': {
+      'ko': '플래너작성',
+      'en': '',
+    },
+    '1ig5q2p6': {
+      'ko': '공부데이터확인',
+      'en': '',
+    },
+    'h2y6qp20': {
+      'ko': '시간표 설정',
+      'en': '',
+    },
+    '9bsytvgo': {
+      'ko': '개인설정',
+      'en': '',
+    },
+    's4lcwovg': {
+      'ko': '긴급호출',
       'en': '',
     },
     'o00m6sd1': {
@@ -1593,9 +1519,17 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'ko': '현재 포인트 : ',
       'en': '',
     },
+    'y17pt3cp': {
+      'ko': '현재 벌점 : ',
+      'en': '',
+    },
     'u608628s': {
       'ko': 'Delete',
       'en': 'Delete',
+    },
+    'ufmoiulu': {
+      'ko': 'D-Day 추가하기',
+      'en': '',
     },
     'pqfruw6e': {
       'ko': '오늘의 일정',
@@ -1637,8 +1571,8 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'ko': ' 포인트 ',
       'en': 'point',
     },
-    '7zn7orh7': {
-      'ko': '대표과목관리',
+    'nm1nq09y': {
+      'ko': '더보기',
       'en': '',
     },
     '9fr38uxp': {
@@ -1700,7 +1634,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
     },
     '6uzpsd9z': {
-      'ko': '미등원요일 선택',
+      'ko': '자율등원요일 선택',
       'en': '',
     },
     '7rp9v06c': {
@@ -1720,11 +1654,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
     },
     'ozstzayn': {
-      'ko': ' 저장',
-      'en': '',
-    },
-    'a2kg5pes': {
-      'ko': '임시저장',
+      'ko': ' 저장 및 제출',
       'en': '',
     },
     'jcxnh2op': {
@@ -1750,7 +1680,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'ko': '플래너확인',
       'en': '',
     },
-    'akgor6nq': {
+    'gupjxiat': {
       'ko': '시간표 관리',
       'en': '',
     },
@@ -1775,7 +1705,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
     },
     '71twlbpj': {
-      'ko': '포인트 관리',
+      'ko': '포인트 및 벌점 관리',
       'en': '',
     },
     '3dgnof1h': {
@@ -1784,6 +1714,10 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     },
     'v9cbxylk': {
       'ko': '입학원서/서약서확인',
+      'en': '',
+    },
+    'canmqhe6': {
+      'ko': '아이디 / 비밀번호 관리',
       'en': '',
     },
     'xcmleteh': {
@@ -1832,6 +1766,14 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     },
     'd101rnaz': {
       'ko': '사유',
+      'en': '',
+    },
+    'lp5x082q': {
+      'ko': '데이터를 처리중입니다.',
+      'en': '',
+    },
+    '4l1afw36': {
+      'ko': '잠시만 기다려주세요.',
       'en': '',
     },
     'ujkum5nm': {
@@ -1885,6 +1827,14 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'ko': '지점',
       'en': '',
     },
+    'qnpg3mff': {
+      'ko': '데이터를 처리중입니다.',
+      'en': '',
+    },
+    'plw6za6y': {
+      'ko': '잠시만 기다려주세요.',
+      'en': '',
+    },
     'nzo66gup': {
       'ko': '내공관리자',
       'en': '',
@@ -1897,7 +1847,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'ko': '플래너확인',
       'en': '',
     },
-    'otdwqp7m': {
+    'bce51cm0': {
       'ko': '시간표 관리',
       'en': '',
     },
@@ -1922,7 +1872,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
     },
     '0dekp940': {
-      'ko': '포인트 관리',
+      'ko': '포인트 및 벌점 관리',
       'en': '',
     },
     'regnv68k': {
@@ -1931,6 +1881,10 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     },
     'ge581bcz': {
       'ko': '입학원서/서약서확인',
+      'en': '',
+    },
+    'hgz9bio1': {
+      'ko': '아이디 / 비밀번호 관리',
       'en': '',
     },
     'ox6nncxv': {
@@ -1952,7 +1906,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'ko': '플래너확인',
       'en': '',
     },
-    'y88r1ve4': {
+    'zdbpph9d': {
       'ko': '시간표 관리',
       'en': '',
     },
@@ -1977,11 +1931,15 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
     },
     'as8577xs': {
-      'ko': '포인트 관리',
+      'ko': '포인트 및 벌점 관리',
       'en': '',
     },
     'bwqhdbut': {
       'ko': '입학원서/서약서확인',
+      'en': '',
+    },
+    '3k5ekvve': {
+      'ko': '아이디 / 비밀번호 관리',
       'en': '',
     },
     'fv8fuza4': {
@@ -2056,6 +2014,14 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'ko': '시간표 수정',
       'en': '',
     },
+    'do7lvnqo': {
+      'ko': '시간표 이름',
+      'en': '',
+    },
+    '9936zd0v': {
+      'ko': '시간표 이름을 입력해주세요.',
+      'en': '',
+    },
     'pytjxmun': {
       'ko': '월',
       'en': '',
@@ -2089,7 +2055,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
     },
     '7eeffcoi': {
-      'ko': '미등원요일 선택',
+      'ko': '자율등원요일 선택',
       'en': '',
     },
     's91totye': {
@@ -2116,90 +2082,15 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'ko': '취소',
       'en': '',
     },
+    'zqkxgiyo': {
+      'ko': '데이터를 처리중입니다.',
+      'en': '',
+    },
+    'ccevk6ff': {
+      'ko': '잠시만 기다려주세요.',
+      'en': '',
+    },
     'qb4aob49': {
-      'ko': 'Home',
-      'en': '',
-    },
-  },
-  // masterSpotCheckPage
-  {
-    'v0diauai': {
-      'ko': '내공관리자',
-      'en': '',
-    },
-    'f1tgrjqd': {
-      'ko': 'Platform Navigation',
-      'en': '',
-    },
-    'y2g592fw': {
-      'ko': '플래너확인',
-      'en': '',
-    },
-    'qy0iw6o1': {
-      'ko': '시간표 관리',
-      'en': '',
-    },
-    '1lllw3ag': {
-      'ko': '벨 기록 조회',
-      'en': '',
-    },
-    '6ttlopjf': {
-      'ko': '공부 기록 조회',
-      'en': '',
-    },
-    '8un5jkb4': {
-      'ko': 'Settings',
-      'en': '',
-    },
-    'zn0czrl8': {
-      'ko': '좌석배정',
-      'en': '',
-    },
-    'jgte8mbm': {
-      'ko': '좌석변경',
-      'en': '',
-    },
-    '7jk5r5u6': {
-      'ko': '포인트 관리',
-      'en': '',
-    },
-    '5p9h8yf1': {
-      'ko': '벨관리',
-      'en': '',
-    },
-    '9xy9gnx0': {
-      'ko': '제출된 플래너를 승인 및 저장하세요',
-      'en': '',
-    },
-    'qj63v9o7': {
-      'ko': '지점선택',
-      'en': '',
-    },
-    'upe8wp1l': {
-      'ko': 'Search...',
-      'en': '',
-    },
-    '0djxe0w8': {
-      'ko': 'Option 1',
-      'en': '',
-    },
-    'zhcd0eyk': {
-      'ko': 'Option 2',
-      'en': '',
-    },
-    'oaxait5d': {
-      'ko': 'Option 3',
-      'en': '',
-    },
-    'q8i4xsh4': {
-      'ko': '좌석번호 :',
-      'en': '',
-    },
-    'kjzbiw5o': {
-      'ko': '',
-      'en': '',
-    },
-    'riutybcj': {
       'ko': 'Home',
       'en': '',
     },
@@ -2243,7 +2134,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
     },
     'b8e7kile': {
-      'ko': '포인트 관리',
+      'ko': '포인트 및 벌점 관리',
       'en': '',
     },
     'gxcs1hts': {
@@ -2252,6 +2143,10 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     },
     'gk5md4b7': {
       'ko': '입학원서/서약서확인',
+      'en': '',
+    },
+    'wqrem84i': {
+      'ko': '아이디 / 비밀번호 관리',
       'en': '',
     },
     'a95cnl9g': {
@@ -2385,8 +2280,8 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'ko': '중1',
       'en': '',
     },
-    'kw3r5jgl': {
-      'ko': '기타',
+    'lkquke0q': {
+      'ko': '(성인인 경우 \'성인\'선택)',
       'en': '',
     },
     'li5lcey3': {
@@ -2447,6 +2342,10 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     },
     'xsfz2dfs': {
       'ko': '교과',
+      'en': '',
+    },
+    'mhpz0uhg': {
+      'ko': '기타(미정)',
       'en': '',
     },
     'jaa91ku3': {
@@ -2887,7 +2786,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
     },
     'm6il66px': {
-      'ko': 'TextField',
+      'ko': 'ex)김내공',
       'en': '',
     },
     'v4p5zi46': {
@@ -2895,7 +2794,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
     },
     'rspjh83r': {
-      'ko': 'TextField',
+      'ko': 'ex) 010-1234-5678',
       'en': '',
     },
     'g2zei2lx': {
@@ -2903,7 +2802,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
     },
     '2y6b5xco': {
-      'ko': 'TextField',
+      'ko': 'ex) 20060512',
       'en': '',
     },
     '90rrue1u': {
@@ -2927,8 +2826,8 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'ko': '사용자 서명 :   ',
       'en': '',
     },
-    'fsjw9pzv': {
-      'ko': '(서명)',
+    '7e9i3eu7': {
+      'ko': 'tap!',
       'en': '',
     },
     'wsgbvzd0': {
@@ -2986,6 +2885,14 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'ko': '생성일',
       'en': '',
     },
+    'jitvxpah': {
+      'ko': '데이터를 처리중입니다.',
+      'en': '',
+    },
+    'jz0o6yl9': {
+      'ko': '잠시만 기다려주세요.',
+      'en': '',
+    },
     'q9rvx0u4': {
       'ko': '내공관리자',
       'en': '',
@@ -2998,7 +2905,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'ko': '플래너확인',
       'en': '',
     },
-    '5nkjcyyr': {
+    'uybi223d': {
       'ko': '시간표 관리',
       'en': '',
     },
@@ -3023,7 +2930,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
     },
     'uydjdxhb': {
-      'ko': '포인트 관리',
+      'ko': '포인트 및 벌점 관리',
       'en': '',
     },
     'dlywrle6': {
@@ -3034,7 +2941,126 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'ko': '입학원서/서약서확인',
       'en': '',
     },
+    'u87xip1l': {
+      'ko': '아이디 / 비밀번호 관리',
+      'en': '',
+    },
     'li1aatg4': {
+      'ko': 'Home',
+      'en': '',
+    },
+  },
+  // adminPwCheck
+  {
+    'xyfgx36x': {
+      'ko': '내공관리자',
+      'en': '',
+    },
+    '0sozfuwd': {
+      'ko': 'Platform Navigation',
+      'en': '',
+    },
+    '4f66zp2a': {
+      'ko': '플래너확인',
+      'en': '',
+    },
+    '61aezcig': {
+      'ko': '시간표 관리',
+      'en': '',
+    },
+    'hw7dkspp': {
+      'ko': '벨 기록 조회',
+      'en': '',
+    },
+    'bdkpnp8m': {
+      'ko': '공부 기록 조회',
+      'en': '',
+    },
+    'nokuip5a': {
+      'ko': 'Settings',
+      'en': '',
+    },
+    'slq82kh3': {
+      'ko': '좌석배정',
+      'en': '',
+    },
+    'gdv4saue': {
+      'ko': '좌석변경',
+      'en': '',
+    },
+    'x44bpnkf': {
+      'ko': '포인트 및 벌점 관리',
+      'en': '',
+    },
+    'fubch3jk': {
+      'ko': '인원추이확인',
+      'en': '',
+    },
+    '8e23r9z9': {
+      'ko': '입학원서/서약서확인',
+      'en': '',
+    },
+    'ia540ypw': {
+      'ko': '아이디 / 비밀번호 관리',
+      'en': '',
+    },
+    'xqexk05a': {
+      'ko': '아이디 / 비밀번호 관리',
+      'en': '',
+    },
+    'c4h7aref': {
+      'ko': '제출된 플래너를 승인 및 저장하세요',
+      'en': '',
+    },
+    '07rilsiv': {
+      'ko': '지점선택',
+      'en': '',
+    },
+    'y3nn7h2z': {
+      'ko': 'Search...',
+      'en': '',
+    },
+    'tm0nnw3n': {
+      'ko': 'Option 1',
+      'en': '',
+    },
+    'xl62nna5': {
+      'ko': 'Option 2',
+      'en': '',
+    },
+    'e1x9l3ri': {
+      'ko': 'Option 3',
+      'en': '',
+    },
+    'bh3cch7t': {
+      'ko': '좌석번호 :',
+      'en': '',
+    },
+    'r74d6cdr': {
+      'ko': '',
+      'en': '',
+    },
+    'i7id9pk0': {
+      'ko': '퇴원자 검색',
+      'en': '',
+    },
+    '7qd7qkec': {
+      'ko': '좌석번호',
+      'en': '',
+    },
+    '4lqew80z': {
+      'ko': 'ID',
+      'en': '',
+    },
+    'fmgd8qn3': {
+      'ko': 'Password reset',
+      'en': '',
+    },
+    'yz9i67sa': {
+      'ko': '비밀번호 재설정',
+      'en': '',
+    },
+    'kgde0x7l': {
       'ko': 'Home',
       'en': '',
     },
@@ -3132,6 +3158,30 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     'nunwdjyb': {
       'ko': '과목명',
       'en': 'Subject name',
+    },
+    'u87nxbxw': {
+      'ko': '과목을 선택해주세요',
+      'en': '',
+    },
+    'zecq4hcp': {
+      'ko': 'Search...',
+      'en': '',
+    },
+    'lhuov88b': {
+      'ko': 'Option 1',
+      'en': '',
+    },
+    'y9m66m3x': {
+      'ko': 'Option 2',
+      'en': '',
+    },
+    'th5uxtxn': {
+      'ko': 'Option 3',
+      'en': '',
+    },
+    'ylr0vgsq': {
+      'ko': '직접입력',
+      'en': '',
     },
     '25jkvgza': {
       'ko': '과목명을 입력해주세요. (ex. 영어, 물리)',
@@ -3245,6 +3295,14 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     },
     '1nsja3sc': {
       'ko': '취소',
+      'en': '',
+    },
+    'sfvrkrkp': {
+      'ko': '데이터를 처리중입니다.',
+      'en': '',
+    },
+    'rml2yf87': {
+      'ko': '잠시만 기다려주세요.',
       'en': '',
     },
   },
@@ -3425,6 +3483,14 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'ko': '취소',
       'en': '',
     },
+    'nhtp9g7o': {
+      'ko': '데이터를 처리중입니다.',
+      'en': '',
+    },
+    'xs4fkbri': {
+      'ko': '잠시만 기다려주세요.',
+      'en': '',
+    },
   },
   // privacyPolicy
   {
@@ -3453,25 +3519,6 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     },
     'r3heb4zg': {
       'ko': 'Hello World',
-      'en': '',
-    },
-  },
-  // Dashboard01RecentActivity
-  {
-    'bocnrsjg': {
-      'ko': 'Recent Activity',
-      'en': '',
-    },
-    '1ax3lusv': {
-      'ko': 'Below is an overview of tasks & activity completed.',
-      'en': '',
-    },
-    'uxqxoz8g': {
-      'ko': 'Tasks',
-      'en': '',
-    },
-    '4b9eukw5': {
-      'ko': 'Completed',
       'en': '',
     },
   },
@@ -3877,6 +3924,14 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'ko': '※ 텍스트와 원을 클릭하여 과목명 및 과목색상 설정',
       'en': '',
     },
+    '3wo54ayd': {
+      'ko': '※ 대표과목은 최대 9개까지 추가할 수 있습니다.',
+      'en': '',
+    },
+    'emwu1tpw': {
+      'ko': '대표과목 추가하기',
+      'en': '',
+    },
   },
   // subjectBottomSheet
   {
@@ -3928,6 +3983,14 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     },
     'mpquntg9': {
       'ko': 'Hello World',
+      'en': '',
+    },
+    'qey1petn': {
+      'ko': '전체',
+      'en': '',
+    },
+    'gkpakm4o': {
+      'ko': '대표 ',
       'en': '',
     },
     'j7iy14cq': {
@@ -4116,6 +4179,14 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
   {
     'r7hyalxj': {
       'ko': '색상 선택',
+      'en': '',
+    },
+    '8oxc627h': {
+      'ko': '마음에 드는 색상이 없나요?      ',
+      'en': '',
+    },
+    't7bv05eo': {
+      'ko': '직접 선택하기',
       'en': '',
     },
   },
@@ -4551,7 +4622,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
     },
     's5g4jrq9': {
-      'ko': '결제 전 본 내용에 대해 고지 및 설명을 받았으며, 이에 동의합니다',
+      'ko': '결제 전 환불규정 대해 고지 및 설명을 받았으며, 이에 동의합니다',
       'en': '',
     },
     'bvc1zgcr': {
@@ -4638,10 +4709,6 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     },
     '6znxjj22': {
       'ko': '  /  ',
-      'en': '',
-    },
-    'w1cz72st': {
-      'ko': '학년',
       'en': '',
     },
     'h82mflos': {
@@ -4850,6 +4917,10 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'ko': '사용자 서명 :   ',
       'en': '',
     },
+    'ege0ros4': {
+      'ko': 'tap!',
+      'en': '',
+    },
     '4gz3z84e': {
       'ko': '주식회사  내공관리형스터디카페  귀하',
       'en': '',
@@ -4876,6 +4947,570 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     'e9cav9n3': {
       'ko': '취소',
       'en': 'cancellation',
+    },
+  },
+  // signPadComponent
+  {
+    '9lvqd1w5': {
+      'ko': '서명을 입력해주세요',
+      'en': '',
+    },
+    'jovyweum': {
+      'ko': '저장',
+      'en': 'save',
+    },
+    '1loaw93d': {
+      'ko': '취소',
+      'en': 'cancellation',
+    },
+  },
+  // penaltyInputComponent
+  {
+    '4fuiq7jg': {
+      'ko': '포인트를 공제하여 벌점을 상쇄하는 경우 체크!',
+      'en': '',
+    },
+    '1lyf0lfy': {
+      'ko': '포인트 차감 벌점상쇄',
+      'en': '',
+    },
+    'ni6ryla9': {
+      'ko': '학생명 : ',
+      'en': '',
+    },
+    'tsp0wl4z': {
+      'ko': '좌석번호 : ',
+      'en': '',
+    },
+    'gsx5sgxy': {
+      'ko': '부여일자 : ',
+      'en': '',
+    },
+    's0q8dcdx': {
+      'ko': '상쇄사유 : ',
+      'en': '',
+    },
+    '1povj59e': {
+      'ko': 'Hello World',
+      'en': '',
+    },
+    'kfca3f5g': {
+      'ko': '사유를 입력해주세요',
+      'en': '',
+    },
+    'tbngbki5': {
+      'ko': '상쇄벌점 : ',
+      'en': '',
+    },
+    'uog5a14e': {
+      'ko': 'Hello World',
+      'en': '',
+    },
+    'o90iwej4': {
+      'ko': '숫자를 입력해주세요',
+      'en': '',
+    },
+    '3xhcqnnk': {
+      'ko': '총 벌점 : ',
+      'en': '',
+    },
+    '2zazp34p': {
+      'ko': '현재포인트 : ',
+      'en': '',
+    },
+    'r4q2zhzw': {
+      'ko': '학생명 : ',
+      'en': '',
+    },
+    'wgij28s0': {
+      'ko': '좌석번호 : ',
+      'en': '',
+    },
+    'lxt04dbh': {
+      'ko': '부여일자 : ',
+      'en': '',
+    },
+    'i4fqobvm': {
+      'ko': '벌점사유 : ',
+      'en': '',
+    },
+    '9oazwys6': {
+      'ko': '1 교시',
+      'en': '',
+    },
+    '1ccgzi47': {
+      'ko': '교시를 선택해주세요.',
+      'en': '',
+    },
+    'bhcwayxo': {
+      'ko': 'Search...',
+      'en': '',
+    },
+    '48js3kse': {
+      'ko': '1교시 (09:00~10:00)',
+      'en': '',
+    },
+    'ooful3cq': {
+      'ko': '2교시 (10:20~12:10)',
+      'en': '',
+    },
+    'h0e6nwqg': {
+      'ko': '점심시간  이후',
+      'en': '',
+    },
+    'rb858y4g': {
+      'ko': '3교시 (13:10~14:20)',
+      'en': '',
+    },
+    '2rve4wl5': {
+      'ko': '4교시 (14:30~16:00)',
+      'en': '',
+    },
+    'ibyu8sli': {
+      'ko': '5교시 (16:20~17:50)',
+      'en': '',
+    },
+    'js8qg6n4': {
+      'ko': '저녁시간 이후',
+      'en': '',
+    },
+    'jqbd8ip3': {
+      'ko': '6교시 (18:50~19:50)',
+      'en': '',
+    },
+    'v55fuvgf': {
+      'ko': '7교시 (20:00~21:00)',
+      'en': '',
+    },
+    '84j4gbhp': {
+      'ko': '8교시 (21:10~22:10)',
+      'en': '',
+    },
+    'sf7jj2nw': {
+      'ko': '9교시 (22:20~23:30)',
+      'en': '',
+    },
+    'z4jukzaq': {
+      'ko': '정규 등원시각 이후 추가',
+      'en': '',
+    },
+    'r1x35s6d': {
+      'ko': '정규 등원 시각',
+      'en': '',
+    },
+    '1nod2ad5': {
+      'ko': '시간입력',
+      'en': '',
+    },
+    'ybzr67he': {
+      'ko': '시간/교시 입력 (선택사항)',
+      'en': '',
+    },
+    '81ep3jeq': {
+      'ko': '',
+      'en': '',
+    },
+    'elaftwiw': {
+      'ko': '사유를 선택해주세요',
+      'en': '',
+    },
+    '8q4c8cjh': {
+      'ko': '검색가능',
+      'en': '',
+    },
+    'j68db5ym': {
+      'ko': 'Option 1',
+      'en': '',
+    },
+    'tex8yoon': {
+      'ko': 'Option 2',
+      'en': '',
+    },
+    'j2w4heho': {
+      'ko': 'Option 3',
+      'en': '',
+    },
+    'ysasm8c3': {
+      'ko': '사유입력 : ',
+      'en': '',
+    },
+    'gzci9r4l': {
+      'ko': '',
+      'en': '',
+    },
+    'ca2ih1m5': {
+      'ko': '사유 직접입력',
+      'en': '',
+    },
+    '7qokhrza': {
+      'ko': '부여벌점 : ',
+      'en': '',
+    },
+    'g6v5l7xx': {
+      'ko': '입력',
+      'en': '',
+    },
+    'wzju5id0': {
+      'ko': '점',
+      'en': '',
+    },
+    'wcx6y25r': {
+      'ko': '기존 벌점 : ',
+      'en': '',
+    },
+    'yyv1bb9w': {
+      'ko': '점',
+      'en': '',
+    },
+    'hxne0kx4': {
+      'ko': '총 벌점 : ',
+      'en': '',
+    },
+    'r42gsrme': {
+      'ko': '점',
+      'en': '',
+    },
+    'lz3necea': {
+      'ko': '현재포인트 : ',
+      'en': '',
+    },
+    'qrnmz7mq': {
+      'ko': '전송예시',
+      'en': '',
+    },
+    '3j1dstd8': {
+      'ko': '시트 입력문구',
+      'en': '',
+    },
+    'm7zsr60o': {
+      'ko':
+          '※ 상/벌점사유 및 숫자 정확히 기입했는지 확인해주세요\n※ 반영버튼을 누르면 전송예시는 자동으로 복사됩니다.\n※ 반영버튼을 누르기 전에는 텍스트를 드래그하여 \n     복사 가능합니다',
+      'en': '',
+    },
+    'kw9gfs8v': {
+      'ko': '데이터를 처리중입니다.',
+      'en': '',
+    },
+    '2n8i3drq': {
+      'ko': '잠시만 기다려주세요.',
+      'en': '',
+    },
+  },
+  // penaltyInputComponentCopy
+  {
+    'vuu06pdf': {
+      'ko': '포인트 차감 상점부여',
+      'en': '',
+    },
+    '0jnlzmgx': {
+      'ko': '학생명 : ',
+      'en': '',
+    },
+    'pra3682h': {
+      'ko': '좌석번호 : ',
+      'en': '',
+    },
+    'ow6sad7x': {
+      'ko': '부여일자 : ',
+      'en': '',
+    },
+    '2aeqbmn8': {
+      'ko': '상점사유',
+      'en': '',
+    },
+    'wtz4c7dk': {
+      'ko': 'Hello World',
+      'en': '',
+    },
+    'd7x96w9r': {
+      'ko': '사유를 입력해주세요',
+      'en': '',
+    },
+    'qpd1s7gy': {
+      'ko': '부여상점 : ',
+      'en': '',
+    },
+    'zxofxs1g': {
+      'ko': 'Hello World',
+      'en': '',
+    },
+    'gvfe9kbi': {
+      'ko': '숫자를 입력해주세요',
+      'en': '',
+    },
+    'prjpxjqw': {
+      'ko': '총 벌점 : ',
+      'en': '',
+    },
+    '33uvnzyh': {
+      'ko': 'Hello World',
+      'en': '',
+    },
+    'l7acgrt3': {
+      'ko': '현재포인트 : ',
+      'en': '',
+    },
+    'q4yp3omw': {
+      'ko': '학생명 : ',
+      'en': '',
+    },
+    'q31netz5': {
+      'ko': '좌석번호 : ',
+      'en': '',
+    },
+    'i60ssp8g': {
+      'ko': '부여일자 : ',
+      'en': '',
+    },
+    '0off1528': {
+      'ko': '벌점사유 : ',
+      'en': '',
+    },
+    '0a0u3hb7': {
+      'ko': '직접입력',
+      'en': '',
+    },
+    'hz89fxgz': {
+      'ko': 'Select...',
+      'en': '',
+    },
+    'sxzmrulu': {
+      'ko': '검색가능',
+      'en': '',
+    },
+    'mc8ghys0': {
+      'ko': 'Option 1',
+      'en': '',
+    },
+    'jqyvhm5z': {
+      'ko': 'Option 2',
+      'en': '',
+    },
+    'ket77bo4': {
+      'ko': 'Option 3',
+      'en': '',
+    },
+    'mdj0arvc': {
+      'ko': '사유입력 : ',
+      'en': '',
+    },
+    'web173vn': {
+      'ko': '',
+      'en': '',
+    },
+    '2vwxbvqw': {
+      'ko': '사유 직접입력',
+      'en': '',
+    },
+    'wwyips3j': {
+      'ko': '부여벌점 : ',
+      'en': '',
+    },
+    'gx3gdout': {
+      'ko': 'Hello World',
+      'en': '',
+    },
+    'sm90t85k': {
+      'ko': '',
+      'en': '',
+    },
+    '0ah7xzar': {
+      'ko': '부여 벌점 직접입력',
+      'en': '',
+    },
+    'uqfxp1h4': {
+      'ko': '기존 벌점 : ',
+      'en': '',
+    },
+    'wlew8k9w': {
+      'ko': '총 벌점 : ',
+      'en': '',
+    },
+    'wa56s7vm': {
+      'ko': '현재포인트 : ',
+      'en': '',
+    },
+    'fi4cqjwz': {
+      'ko': '전송예시',
+      'en': '',
+    },
+    'keoanb6j': {
+      'ko': '상/벌점 반영',
+      'en': '',
+    },
+  },
+  // penaltyCheckComponent
+  {
+    '9jf6jkce': {
+      'ko': '벌점확인',
+      'en': '',
+    },
+    '9dtfomx3': {
+      'ko': '구분',
+      'en': '',
+    },
+    'zu3rs0do': {
+      'ko': '일자',
+      'en': '',
+    },
+    '8c98u2kj': {
+      'ko': '사유',
+      'en': '',
+    },
+    '09zdifl7': {
+      'ko': '벌점',
+      'en': '',
+    },
+    'qg36vo0u': {
+      'ko': '총점',
+      'en': '',
+    },
+  },
+  // penaltyCancelReason
+  {
+    '38vzo693': {
+      'ko': '취소사유 입력',
+      'en': '',
+    },
+    'h34of5nf': {
+      'ko': 'ex) 사유 인정으로 인한 벌점 취소',
+      'en': '',
+    },
+    'f0512n5s': {
+      'ko': '사유입력',
+      'en': '',
+    },
+    'bw7bnetm': {
+      'ko': '전송예시',
+      'en': '',
+    },
+  },
+  // managerSign
+  {
+    'fnsfn4bw': {
+      'ko': '담당 관리자  : ',
+      'en': '',
+    },
+    'qgtqvn4b': {
+      'ko': '관리자명을 입력해주세요.',
+      'en': '',
+    },
+    'gkylk20s': {
+      'ko': '입력',
+      'en': '',
+    },
+    'w9vszxmr': {
+      'ko': '취소',
+      'en': '',
+    },
+  },
+  // pwreset
+  {
+    'rh0ppmgt': {
+      'ko': '비밀번호 변경',
+      'en': '',
+    },
+    '391925hs': {
+      'ko': '변경할 비밀번호를 입력해주세요.(6자 이상)',
+      'en': '',
+    },
+    '8366wa6l': {
+      'ko': '변경하기',
+      'en': '',
+    },
+    'i2p06r6z': {
+      'ko': '취소',
+      'en': '',
+    },
+  },
+  // pwchangeNotificationAndSign
+  {
+    'bho793qw': {
+      'ko':
+          '비밀번호 변경 안내\n\n◆ 이 기능은 학생의 요청에 따라 불가피한 경우에만 사용해야 하는 관리자용 기능입니다.\n\n◆ 비밀번호를 변경하면 학생이 사용하던 기존 비밀번호는 더 이상 알 수 없습니다.\n\n◆ 비밀번호를 임의로 변경하여 학생 계정에 로그인하거나, 학생의 사생활·학습 정보를 열람하는 행위는 엄격히 금지됩니다.\n\n◆ 모든 비밀번호 변경 내역(실행 관리자, 대상 계정, 변경 시각, 사유)은 로그로 기록되며, 필요 시 감사 및 징계 사유가 될 수 있습니다.\n\n◆ 학생 본인의 동의 및 본인 확인 없이 비밀번호를 변경하는 것은 개인정보 보호 및 내부 규정을 중대하게 위반하는 행위입니다.\n\n◆ 정당한 사유 없이 위 규정을 위반하여 비밀번호를 변경하거나 학생 계정에 임의로 로그인하는 경우, 회사는 관련 로그를 근거로 인사상 징계 및 필요 시 민·형사상 법적 조치를 진행할 수 있습니다.\n',
+      'en': '',
+    },
+    'kypevnmj': {
+      'ko': '위 안내 및 책임 범위를 이해했으며, 규정을 준수하여 비밀번호 변경을 진행하겠습니다.',
+      'en': '',
+    },
+    'yktus037': {
+      'ko': '다음',
+      'en': '',
+    },
+    '20wnusd6': {
+      'ko': '취소',
+      'en': '',
+    },
+  },
+  // SignReason
+  {
+    'q4hrdwnu': {
+      'ko': '사유  : ',
+      'en': '',
+    },
+    'd1e44ody': {
+      'ko': '사유를 입력해주세요.',
+      'en': '',
+    },
+    'dohvqjp4': {
+      'ko': '입력',
+      'en': '',
+    },
+    'xhzcegu7': {
+      'ko': '취소',
+      'en': '',
+    },
+  },
+  // non-specificatedPWcheck
+  {
+    'pci0dztp': {
+      'ko': '학생명  : ',
+      'en': '',
+    },
+    'r2zywj7j': {
+      'ko': '학생명을 입력해주세요.',
+      'en': '',
+    },
+    'hgaijxrv': {
+      'ko': '이름',
+      'en': '',
+    },
+    'pym4ip6z': {
+      'ko': 'ID',
+      'en': '',
+    },
+    'o78tg0z8': {
+      'ko': '재설정',
+      'en': '',
+    },
+    '1ha3wtdx': {
+      'ko': '비밀번호 재설정',
+      'en': '',
+    },
+    'oasd4dix': {
+      'ko': '취소',
+      'en': '',
+    },
+  },
+  // non-specificatedUserCheckSign
+  {
+    '4t9iq2bi': {
+      'ko':
+          '미등록 학생 조회 안내\n\n◆ 이 기능은 학생의 요청에 따라 불가피한 경우에만 사용해야 하는 관리자용 기능입니다.\n\n◆ 조회한 데이터를 사용하여 학생 계정에 로그인을 시도하거나, 학생의 사생활·학습 정보를 열람하는 행위는 엄격히 금지됩니다.\n\n◆ 모든 학생정보 조회(실행 관리자, 대상 계정, 변경 시각, 사유)는 로그로 기록되며, 필요 시 감사 및 징계 사유가 될 수 있습니다.\n\n◆ 학생 본인의 동의 및 본인 확인 없이 개인정보를 확인하는 것은 개인정보 보호 및 내부 규정을 중대하게 위반하는 행위입니다.\n\n◆ 정당한 사유 없이 위 규정을 위반하여 아이디를 조회하거나 학생 계정에 임의로 로그인하는 경우, 회사는 관련 로그를 근거로 인사상 징계 및 필요 시 민·형사상 법적 조치를 진행할 수 있습니다.\n',
+      'en': '',
+    },
+    'cwijku8w': {
+      'ko': '위 안내 및 책임 범위를 이해했으며, 규정을 준수하여 학생정보조회를 진행하겠습니다.',
+      'en': '',
+    },
+    'kxq3rov0': {
+      'ko': '다음',
+      'en': '',
+    },
+    'z5okftez': {
+      'ko': '취소',
+      'en': '',
     },
   },
   // Miscellaneous

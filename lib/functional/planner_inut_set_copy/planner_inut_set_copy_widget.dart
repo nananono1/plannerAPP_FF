@@ -1,12 +1,14 @@
 import '/backend/backend.dart';
 import '/backend/schema/structs/index.dart';
+import '/components/simple_color_picker_widget.dart';
+import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/form_field_controller.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterflow_colorpicker/flutterflow_colorpicker.dart';
 import 'package:provider/provider.dart';
 import 'planner_inut_set_copy_model.dart';
 export 'planner_inut_set_copy_model.dart';
@@ -108,216 +110,16 @@ class _PlannerInutSetCopyWidgetState extends State<PlannerInutSetCopyWidget> {
                       decoration: BoxDecoration(
                         color: FlutterFlowTheme.of(context).secondaryBackground,
                       ),
-                      child: Row(
+                      child: Column(
                         mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
-                            FFLocalizations.of(context).getText(
-                              'nunwdjyb' /* 과목명 */,
-                            ),
-                            style: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  fontFamily: FlutterFlowTheme.of(context)
-                                      .bodyMediumFamily,
-                                  letterSpacing: 0.0,
-                                  useGoogleFonts: !FlutterFlowTheme.of(context)
-                                      .bodyMediumIsCustom,
-                                ),
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  23.0, 0.0, 8.0, 0.0),
-                              child: TextFormField(
-                                controller: _model.textController1,
-                                focusNode: _model.textFieldFocusNode1,
-                                onChanged: (_) => EasyDebounce.debounce(
-                                  '_model.textController1',
-                                  Duration(milliseconds: 2000),
-                                  () async {
-                                    if (_model.textController1.text ==
-                                        FFAppState()
-                                            .personalSubjectInfo
-                                            .elementAtOrNull(0)
-                                            ?.subject) {
-                                      _model.colorToSet = valueOrDefault<Color>(
-                                        FFAppState()
-                                            .personalSubjectInfo
-                                            .elementAtOrNull(0)
-                                            ?.color,
-                                        FlutterFlowTheme.of(context).primary,
-                                      );
-                                      safeSetState(() {});
-                                    } else if (_model.textController1.text ==
-                                        FFAppState()
-                                            .personalSubjectInfo
-                                            .elementAtOrNull(1)
-                                            ?.subject) {
-                                      _model.colorToSet = valueOrDefault<Color>(
-                                        FFAppState()
-                                            .personalSubjectInfo
-                                            .elementAtOrNull(1)
-                                            ?.color,
-                                        FlutterFlowTheme.of(context).secondary,
-                                      );
-                                      safeSetState(() {});
-                                    } else if (_model.textController1.text ==
-                                        FFAppState()
-                                            .personalSubjectInfo
-                                            .elementAtOrNull(2)
-                                            ?.subject) {
-                                      _model.colorToSet = valueOrDefault<Color>(
-                                        FFAppState()
-                                            .personalSubjectInfo
-                                            .elementAtOrNull(2)
-                                            ?.color,
-                                        FlutterFlowTheme.of(context).tertiary,
-                                      );
-                                      safeSetState(() {});
-                                    } else if (_model.textController1.text ==
-                                        FFAppState()
-                                            .personalSubjectInfo
-                                            .elementAtOrNull(3)
-                                            ?.subject) {
-                                      _model.colorToSet = valueOrDefault<Color>(
-                                        FFAppState()
-                                            .personalSubjectInfo
-                                            .elementAtOrNull(3)
-                                            ?.color,
-                                        FlutterFlowTheme.of(context).alternate,
-                                      );
-                                      safeSetState(() {});
-                                    } else if (_model.textController1.text ==
-                                        FFAppState()
-                                            .personalSubjectInfo
-                                            .elementAtOrNull(4)
-                                            ?.subject) {
-                                      _model.colorToSet = valueOrDefault<Color>(
-                                        FFAppState()
-                                            .personalSubjectInfo
-                                            .elementAtOrNull(4)
-                                            ?.color,
-                                        FlutterFlowTheme.of(context).accent2,
-                                      );
-                                      safeSetState(() {});
-                                    } else {
-                                      return;
-                                    }
-                                  },
-                                ),
-                                onFieldSubmitted: (_) async {
-                                  if (_model.textController1.text ==
-                                      FFAppState()
-                                          .personalSubjectInfo
-                                          .elementAtOrNull(0)
-                                          ?.subject) {
-                                    _model.colorToSet = FFAppState()
-                                        .personalSubjectInfo
-                                        .elementAtOrNull(0)!
-                                        .color!;
-                                    safeSetState(() {});
-                                  } else if (_model.textController1.text ==
-                                      FFAppState()
-                                          .personalSubjectInfo
-                                          .elementAtOrNull(1)
-                                          ?.subject) {
-                                    _model.colorToSet = FFAppState()
-                                        .personalSubjectInfo
-                                        .elementAtOrNull(1)!
-                                        .color!;
-                                    safeSetState(() {});
-                                  } else if (_model.textController1.text ==
-                                      FFAppState()
-                                          .personalSubjectInfo
-                                          .elementAtOrNull(2)
-                                          ?.subject) {
-                                    _model.colorToSet = FFAppState()
-                                        .personalSubjectInfo
-                                        .elementAtOrNull(2)!
-                                        .color!;
-                                    safeSetState(() {});
-                                  } else if (_model.textController1.text ==
-                                      FFAppState()
-                                          .personalSubjectInfo
-                                          .elementAtOrNull(3)
-                                          ?.subject) {
-                                    _model.colorToSet = FFAppState()
-                                        .personalSubjectInfo
-                                        .elementAtOrNull(3)!
-                                        .color!;
-                                    safeSetState(() {});
-                                  } else if (_model.textController1.text ==
-                                      FFAppState()
-                                          .personalSubjectInfo
-                                          .elementAtOrNull(4)
-                                          ?.subject) {
-                                    _model.colorToSet = FFAppState()
-                                        .personalSubjectInfo
-                                        .elementAtOrNull(4)!
-                                        .color!;
-                                    safeSetState(() {});
-                                  } else {
-                                    return;
-                                  }
-                                },
-                                autofocus: true,
-                                obscureText: false,
-                                decoration: InputDecoration(
-                                  labelText:
-                                      FFLocalizations.of(context).getText(
-                                    '25jkvgza' /* 과목명을 입력해주세요. (ex. 영어, 물리) */,
-                                  ),
-                                  labelStyle: FlutterFlowTheme.of(context)
-                                      .labelMedium
-                                      .override(
-                                        fontFamily: FlutterFlowTheme.of(context)
-                                            .labelMediumFamily,
-                                        letterSpacing: 0.0,
-                                        useGoogleFonts:
-                                            !FlutterFlowTheme.of(context)
-                                                .labelMediumIsCustom,
-                                      ),
-                                  hintStyle: FlutterFlowTheme.of(context)
-                                      .labelMedium
-                                      .override(
-                                        fontFamily: FlutterFlowTheme.of(context)
-                                            .labelMediumFamily,
-                                        letterSpacing: 0.0,
-                                        useGoogleFonts:
-                                            !FlutterFlowTheme.of(context)
-                                                .labelMediumIsCustom,
-                                      ),
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: FlutterFlowTheme.of(context)
-                                          .alternate,
-                                      width: 2.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
-                                      width: 2.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                  errorBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: FlutterFlowTheme.of(context).error,
-                                      width: 2.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                  focusedErrorBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: FlutterFlowTheme.of(context).error,
-                                      width: 2.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Text(
+                                FFLocalizations.of(context).getText(
+                                  'nunwdjyb' /* 과목명 */,
                                 ),
                                 style: FlutterFlowTheme.of(context)
                                     .bodyMedium
@@ -329,10 +131,438 @@ class _PlannerInutSetCopyWidgetState extends State<PlannerInutSetCopyWidget> {
                                           !FlutterFlowTheme.of(context)
                                               .bodyMediumIsCustom,
                                     ),
-                                validator: _model.textController1Validator
-                                    .asValidator(context),
                               ),
-                            ),
+                              if (!valueOrDefault<bool>(
+                                _model.checkboxValue,
+                                false,
+                              ))
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      5.0, 0.0, 0.0, 0.0),
+                                  child: FlutterFlowDropDown<String>(
+                                    controller:
+                                        _model.dropDownValueController ??=
+                                            FormFieldController<String>(null),
+                                    options: FFAppState()
+                                        .personalSubjectInfo
+                                        .map((e) => e.subject)
+                                        .toList(),
+                                    onChanged: (val) async {
+                                      safeSetState(
+                                          () => _model.dropDownValue = val);
+                                      if (_model.dropDownValue ==
+                                          FFAppState()
+                                              .personalSubjectInfo
+                                              .elementAtOrNull(0)
+                                              ?.subject) {
+                                        _model.colorToSet =
+                                            valueOrDefault<Color>(
+                                          FFAppState()
+                                              .personalSubjectInfo
+                                              .elementAtOrNull(0)
+                                              ?.color,
+                                          FlutterFlowTheme.of(context).primary,
+                                        );
+                                        safeSetState(() {});
+                                      } else if (_model.dropDownValue ==
+                                          FFAppState()
+                                              .personalSubjectInfo
+                                              .elementAtOrNull(1)
+                                              ?.subject) {
+                                        _model.colorToSet =
+                                            valueOrDefault<Color>(
+                                          FFAppState()
+                                              .personalSubjectInfo
+                                              .elementAtOrNull(1)
+                                              ?.color,
+                                          FlutterFlowTheme.of(context)
+                                              .secondary,
+                                        );
+                                        safeSetState(() {});
+                                      } else if (_model.dropDownValue ==
+                                          FFAppState()
+                                              .personalSubjectInfo
+                                              .elementAtOrNull(2)
+                                              ?.subject) {
+                                        _model.colorToSet =
+                                            valueOrDefault<Color>(
+                                          FFAppState()
+                                              .personalSubjectInfo
+                                              .elementAtOrNull(2)
+                                              ?.color,
+                                          FlutterFlowTheme.of(context).tertiary,
+                                        );
+                                        safeSetState(() {});
+                                      } else if (_model.dropDownValue ==
+                                          FFAppState()
+                                              .personalSubjectInfo
+                                              .elementAtOrNull(3)
+                                              ?.subject) {
+                                        _model.colorToSet =
+                                            valueOrDefault<Color>(
+                                          FFAppState()
+                                              .personalSubjectInfo
+                                              .elementAtOrNull(3)
+                                              ?.color,
+                                          FlutterFlowTheme.of(context)
+                                              .alternate,
+                                        );
+                                        safeSetState(() {});
+                                      } else if (_model.dropDownValue ==
+                                          FFAppState()
+                                              .personalSubjectInfo
+                                              .elementAtOrNull(4)
+                                              ?.subject) {
+                                        _model.colorToSet =
+                                            valueOrDefault<Color>(
+                                          FFAppState()
+                                              .personalSubjectInfo
+                                              .elementAtOrNull(4)
+                                              ?.color,
+                                          FlutterFlowTheme.of(context).accent2,
+                                        );
+                                        safeSetState(() {});
+                                      } else {
+                                        return;
+                                      }
+                                    },
+                                    width: 200.0,
+                                    height: 40.0,
+                                    textStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .override(
+                                          fontFamily:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMediumFamily,
+                                          letterSpacing: 0.0,
+                                          useGoogleFonts:
+                                              !FlutterFlowTheme.of(context)
+                                                  .bodyMediumIsCustom,
+                                        ),
+                                    hintText:
+                                        FFLocalizations.of(context).getText(
+                                      'u87nxbxw' /* 과목을 선택해주세요 */,
+                                    ),
+                                    icon: Icon(
+                                      Icons.keyboard_arrow_down_rounded,
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryText,
+                                      size: 24.0,
+                                    ),
+                                    fillColor: FlutterFlowTheme.of(context)
+                                        .secondaryBackground,
+                                    elevation: 2.0,
+                                    borderColor: Colors.transparent,
+                                    borderWidth: 0.0,
+                                    borderRadius: 8.0,
+                                    margin: EdgeInsetsDirectional.fromSTEB(
+                                        12.0, 0.0, 12.0, 0.0),
+                                    hidesUnderline: true,
+                                    isOverButton: false,
+                                    isSearchable: false,
+                                    isMultiSelect: false,
+                                  ),
+                                ),
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Theme(
+                                    data: ThemeData(
+                                      checkboxTheme: CheckboxThemeData(
+                                        visualDensity: VisualDensity.compact,
+                                        materialTapTargetSize:
+                                            MaterialTapTargetSize.shrinkWrap,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(4.0),
+                                        ),
+                                      ),
+                                      unselectedWidgetColor:
+                                          FlutterFlowTheme.of(context)
+                                              .alternate,
+                                    ),
+                                    child: Checkbox(
+                                      value: _model.checkboxValue ??= false,
+                                      onChanged: (newValue) async {
+                                        safeSetState(() =>
+                                            _model.checkboxValue = newValue!);
+                                      },
+                                      side: (FlutterFlowTheme.of(context)
+                                                  .alternate !=
+                                              null)
+                                          ? BorderSide(
+                                              width: 2,
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .alternate,
+                                            )
+                                          : null,
+                                      activeColor: FlutterFlowTheme.of(context)
+                                          .primaryBackground,
+                                      checkColor: FlutterFlowTheme.of(context)
+                                          .alternate,
+                                    ),
+                                  ),
+                                  Text(
+                                    FFLocalizations.of(context).getText(
+                                      'ylr0vgsq' /* 직접입력 */,
+                                    ),
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .override(
+                                          fontFamily:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMediumFamily,
+                                          letterSpacing: 0.0,
+                                          useGoogleFonts:
+                                              !FlutterFlowTheme.of(context)
+                                                  .bodyMediumIsCustom,
+                                        ),
+                                  ),
+                                ],
+                              ),
+                              if (valueOrDefault<bool>(
+                                _model.checkboxValue,
+                                false,
+                              ))
+                                Expanded(
+                                  child: Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        23.0, 0.0, 8.0, 0.0),
+                                    child: TextFormField(
+                                      controller: _model.textController1,
+                                      focusNode: _model.textFieldFocusNode1,
+                                      onChanged: (_) => EasyDebounce.debounce(
+                                        '_model.textController1',
+                                        Duration(milliseconds: 2000),
+                                        () async {
+                                          if (_model.textController1.text ==
+                                              FFAppState()
+                                                  .personalSubjectInfo
+                                                  .elementAtOrNull(0)
+                                                  ?.subject) {
+                                            _model.colorToSet =
+                                                valueOrDefault<Color>(
+                                              FFAppState()
+                                                  .personalSubjectInfo
+                                                  .elementAtOrNull(0)
+                                                  ?.color,
+                                              FlutterFlowTheme.of(context)
+                                                  .primary,
+                                            );
+                                            safeSetState(() {});
+                                          } else if (_model
+                                                  .textController1.text ==
+                                              FFAppState()
+                                                  .personalSubjectInfo
+                                                  .elementAtOrNull(1)
+                                                  ?.subject) {
+                                            _model.colorToSet =
+                                                valueOrDefault<Color>(
+                                              FFAppState()
+                                                  .personalSubjectInfo
+                                                  .elementAtOrNull(1)
+                                                  ?.color,
+                                              FlutterFlowTheme.of(context)
+                                                  .secondary,
+                                            );
+                                            safeSetState(() {});
+                                          } else if (_model
+                                                  .textController1.text ==
+                                              FFAppState()
+                                                  .personalSubjectInfo
+                                                  .elementAtOrNull(2)
+                                                  ?.subject) {
+                                            _model.colorToSet =
+                                                valueOrDefault<Color>(
+                                              FFAppState()
+                                                  .personalSubjectInfo
+                                                  .elementAtOrNull(2)
+                                                  ?.color,
+                                              FlutterFlowTheme.of(context)
+                                                  .tertiary,
+                                            );
+                                            safeSetState(() {});
+                                          } else if (_model
+                                                  .textController1.text ==
+                                              FFAppState()
+                                                  .personalSubjectInfo
+                                                  .elementAtOrNull(3)
+                                                  ?.subject) {
+                                            _model.colorToSet =
+                                                valueOrDefault<Color>(
+                                              FFAppState()
+                                                  .personalSubjectInfo
+                                                  .elementAtOrNull(3)
+                                                  ?.color,
+                                              FlutterFlowTheme.of(context)
+                                                  .alternate,
+                                            );
+                                            safeSetState(() {});
+                                          } else if (_model
+                                                  .textController1.text ==
+                                              FFAppState()
+                                                  .personalSubjectInfo
+                                                  .elementAtOrNull(4)
+                                                  ?.subject) {
+                                            _model.colorToSet =
+                                                valueOrDefault<Color>(
+                                              FFAppState()
+                                                  .personalSubjectInfo
+                                                  .elementAtOrNull(4)
+                                                  ?.color,
+                                              FlutterFlowTheme.of(context)
+                                                  .accent2,
+                                            );
+                                            safeSetState(() {});
+                                          } else {
+                                            return;
+                                          }
+                                        },
+                                      ),
+                                      onFieldSubmitted: (_) async {
+                                        if (_model.textController1.text ==
+                                            FFAppState()
+                                                .personalSubjectInfo
+                                                .elementAtOrNull(0)
+                                                ?.subject) {
+                                          _model.colorToSet = FFAppState()
+                                              .personalSubjectInfo
+                                              .elementAtOrNull(0)!
+                                              .color!;
+                                          safeSetState(() {});
+                                        } else if (_model
+                                                .textController1.text ==
+                                            FFAppState()
+                                                .personalSubjectInfo
+                                                .elementAtOrNull(1)
+                                                ?.subject) {
+                                          _model.colorToSet = FFAppState()
+                                              .personalSubjectInfo
+                                              .elementAtOrNull(1)!
+                                              .color!;
+                                          safeSetState(() {});
+                                        } else if (_model
+                                                .textController1.text ==
+                                            FFAppState()
+                                                .personalSubjectInfo
+                                                .elementAtOrNull(2)
+                                                ?.subject) {
+                                          _model.colorToSet = FFAppState()
+                                              .personalSubjectInfo
+                                              .elementAtOrNull(2)!
+                                              .color!;
+                                          safeSetState(() {});
+                                        } else if (_model
+                                                .textController1.text ==
+                                            FFAppState()
+                                                .personalSubjectInfo
+                                                .elementAtOrNull(3)
+                                                ?.subject) {
+                                          _model.colorToSet = FFAppState()
+                                              .personalSubjectInfo
+                                              .elementAtOrNull(3)!
+                                              .color!;
+                                          safeSetState(() {});
+                                        } else if (_model
+                                                .textController1.text ==
+                                            FFAppState()
+                                                .personalSubjectInfo
+                                                .elementAtOrNull(4)
+                                                ?.subject) {
+                                          _model.colorToSet = FFAppState()
+                                              .personalSubjectInfo
+                                              .elementAtOrNull(4)!
+                                              .color!;
+                                          safeSetState(() {});
+                                        } else {
+                                          return;
+                                        }
+                                      },
+                                      autofocus: true,
+                                      obscureText: false,
+                                      decoration: InputDecoration(
+                                        labelText:
+                                            FFLocalizations.of(context).getText(
+                                          '25jkvgza' /* 과목명을 입력해주세요. (ex. 영어, 물리) */,
+                                        ),
+                                        labelStyle: FlutterFlowTheme.of(context)
+                                            .labelMedium
+                                            .override(
+                                              fontFamily:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMediumFamily,
+                                              letterSpacing: 0.0,
+                                              useGoogleFonts:
+                                                  !FlutterFlowTheme.of(context)
+                                                      .labelMediumIsCustom,
+                                            ),
+                                        hintStyle: FlutterFlowTheme.of(context)
+                                            .labelMedium
+                                            .override(
+                                              fontFamily:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMediumFamily,
+                                              letterSpacing: 0.0,
+                                              useGoogleFonts:
+                                                  !FlutterFlowTheme.of(context)
+                                                      .labelMediumIsCustom,
+                                            ),
+                                        enabledBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: FlutterFlowTheme.of(context)
+                                                .alternate,
+                                            width: 2.0,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                        ),
+                                        focusedBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: FlutterFlowTheme.of(context)
+                                                .primary,
+                                            width: 2.0,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                        ),
+                                        errorBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: FlutterFlowTheme.of(context)
+                                                .error,
+                                            width: 2.0,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                        ),
+                                        focusedErrorBorder:
+                                            UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: FlutterFlowTheme.of(context)
+                                                .error,
+                                            width: 2.0,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                        ),
+                                      ),
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMediumFamily,
+                                            letterSpacing: 0.0,
+                                            useGoogleFonts:
+                                                !FlutterFlowTheme.of(context)
+                                                    .bodyMediumIsCustom,
+                                          ),
+                                      validator: _model.textController1Validator
+                                          .asValidator(context),
+                                    ),
+                                  ),
+                                ),
+                            ],
                           ),
                         ],
                       ),
@@ -474,60 +704,60 @@ class _PlannerInutSetCopyWidgetState extends State<PlannerInutSetCopyWidget> {
                           Row(
                             mainAxisSize: MainAxisSize.max,
                             children: [
-                              Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    30.0, 0.0, 0.0, 0.0),
-                                child: FlutterFlowIconButton(
-                                  borderColor: Colors.transparent,
-                                  borderRadius: 8.0,
-                                  borderWidth: 1.0,
-                                  buttonSize: 40.0,
-                                  fillColor: valueOrDefault<Color>(
-                                    _model.colorToSet,
-                                    FlutterFlowTheme.of(context).success,
-                                  ),
-                                  icon: Icon(
-                                    Icons.palette_rounded,
-                                    color: Colors.white,
-                                    size: 24.0,
-                                  ),
-                                  onPressed: () async {
-                                    final _colorPickedColor =
-                                        await showFFColorPicker(
-                                      context,
-                                      currentColor: _model.colorPicked ??
-                                          FlutterFlowTheme.of(context).primary,
-                                      showRecentColors: true,
-                                      allowOpacity: true,
-                                      textColor: FlutterFlowTheme.of(context)
-                                          .primaryText,
-                                      secondaryTextColor:
-                                          FlutterFlowTheme.of(context)
-                                              .secondaryText,
-                                      backgroundColor:
-                                          FlutterFlowTheme.of(context)
-                                              .primaryBackground,
-                                      primaryButtonBackgroundColor:
-                                          FlutterFlowTheme.of(context).primary,
-                                      primaryButtonTextColor: Colors.white,
-                                      primaryButtonBorderColor:
-                                          Colors.transparent,
-                                      displayAsBottomSheet:
-                                          isMobileWidth(context),
-                                    );
+                              Builder(
+                                builder: (context) => Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      30.0, 0.0, 0.0, 0.0),
+                                  child: FlutterFlowIconButton(
+                                    borderColor: Colors.transparent,
+                                    borderRadius: 8.0,
+                                    borderWidth: 1.0,
+                                    buttonSize: 40.0,
+                                    fillColor: valueOrDefault<Color>(
+                                      _model.colorToSet,
+                                      FlutterFlowTheme.of(context).success,
+                                    ),
+                                    icon: Icon(
+                                      Icons.palette_rounded,
+                                      color: Colors.white,
+                                      size: 24.0,
+                                    ),
+                                    onPressed: () async {
+                                      var _shouldSetState = false;
+                                      await showDialog(
+                                        context: context,
+                                        builder: (dialogContext) {
+                                          return Dialog(
+                                            elevation: 0,
+                                            insetPadding: EdgeInsets.zero,
+                                            backgroundColor: Colors.transparent,
+                                            alignment: AlignmentDirectional(
+                                                    0.0, 0.0)
+                                                .resolve(
+                                                    Directionality.of(context)),
+                                            child: SimpleColorPickerWidget(),
+                                          );
+                                        },
+                                      ).then((value) => safeSetState(
+                                          () => _model.aa = value));
 
-                                    if (_colorPickedColor != null) {
-                                      safeSetState(() => _model.colorPicked =
-                                          _colorPickedColor);
-                                    }
+                                      _shouldSetState = true;
+                                      if (_model.aa != null) {
+                                        _model.colorToSet =
+                                            valueOrDefault<Color>(
+                                          _model.aa,
+                                          Color(0xFFF6B2B2),
+                                        );
+                                        _model.updatePage(() {});
+                                      } else {
+                                        if (_shouldSetState)
+                                          safeSetState(() {});
+                                        return;
+                                      }
 
-                                    if (_model.colorPicked != null) {
-                                      _model.colorToSet = _model.colorPicked!;
-                                      _model.updatePage(() {});
-                                    } else {
-                                      return;
-                                    }
-                                  },
+                                      if (_shouldSetState) safeSetState(() {});
+                                    },
+                                  ),
                                 ),
                               ),
                               Padding(
@@ -567,10 +797,53 @@ class _PlannerInutSetCopyWidgetState extends State<PlannerInutSetCopyWidget> {
                         children: [
                           FFButtonWidget(
                             onPressed: () async {
-                              if ((_model.textController1.text != '') &&
+                              if (((_model.textController1.text != '') &&
+                                      _model.checkboxValue!) ||
                                   (_model.textController2.text != '')) {
                                 await Future.delayed(
-                                    const Duration(milliseconds: 200));
+                                  Duration(
+                                    milliseconds: 200,
+                                  ),
+                                );
+                                if (_model.checkboxValue!) {
+                                  FFAppState()
+                                      .updatePageStateSchemaVariableStruct(
+                                    (e) => e
+                                      ..updateInputListState(
+                                        (e) => e.add(PlannerInputStruct(
+                                          subjectNamePlanner:
+                                              _model.textController1.text,
+                                          pickedColor: valueOrDefault<Color>(
+                                            _model.colorToSet,
+                                            FlutterFlowTheme.of(context)
+                                                .success,
+                                          ),
+                                          whatIDid: _model.textController2.text,
+                                          isdone: 'unclicked',
+                                        )),
+                                      ),
+                                  );
+                                  FFAppState().update(() {});
+                                } else {
+                                  FFAppState()
+                                      .updatePageStateSchemaVariableStruct(
+                                    (e) => e
+                                      ..updateInputListState(
+                                        (e) => e.add(PlannerInputStruct(
+                                          subjectNamePlanner:
+                                              _model.dropDownValue,
+                                          pickedColor: valueOrDefault<Color>(
+                                            _model.colorToSet,
+                                            FlutterFlowTheme.of(context)
+                                                .success,
+                                          ),
+                                          whatIDid: _model.textController2.text,
+                                          isdone: 'unclicked',
+                                        )),
+                                      ),
+                                  );
+                                  FFAppState().update(() {});
+                                }
                               } else {
                                 await showDialog(
                                   context: context,
@@ -591,22 +864,6 @@ class _PlannerInutSetCopyWidgetState extends State<PlannerInutSetCopyWidget> {
                                 return;
                               }
 
-                              FFAppState().updatePageStateSchemaVariableStruct(
-                                (e) => e
-                                  ..updateInputListState(
-                                    (e) => e.add(PlannerInputStruct(
-                                      subjectNamePlanner:
-                                          _model.textController1.text,
-                                      pickedColor: valueOrDefault<Color>(
-                                        _model.colorToSet,
-                                        FlutterFlowTheme.of(context).success,
-                                      ),
-                                      whatIDid: _model.textController2.text,
-                                      isdone: 'done',
-                                    )),
-                                  ),
-                              );
-                              FFAppState().update(() {});
                               Navigator.pop(context);
                             },
                             text: FFLocalizations.of(context).getText(

@@ -1,6 +1,7 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterflow_colorpicker/flutterflow_colorpicker.dart';
 import 'simple_color_picker_model.dart';
 export 'simple_color_picker_model.dart';
 
@@ -40,7 +41,7 @@ class _SimpleColorPickerWidgetState extends State<SimpleColorPickerWidget> {
   Widget build(BuildContext context) {
     return Container(
       width: 600.0,
-      height: 400.0,
+      height: 450.0,
       decoration: BoxDecoration(
         color: FlutterFlowTheme.of(context).secondaryBackground,
         borderRadius: BorderRadius.circular(20.0),
@@ -302,6 +303,85 @@ class _SimpleColorPickerWidgetState extends State<SimpleColorPickerWidget> {
                       ),
                     ),
                   ],
+                ),
+              ),
+            ),
+            Align(
+              alignment: AlignmentDirectional(0.0, 0.0),
+              child: Container(
+                width: 300.0,
+                height: 50.0,
+                decoration: BoxDecoration(
+                  color: FlutterFlowTheme.of(context).primaryBackground,
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: InkWell(
+                  splashColor: Colors.transparent,
+                  focusColor: Colors.transparent,
+                  hoverColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  onTap: () async {
+                    final _colorPickedColor = await showFFColorPicker(
+                      context,
+                      currentColor: _model.colorPicked ?? Color(0xFFBBF6AD),
+                      showRecentColors: true,
+                      allowOpacity: true,
+                      textColor: FlutterFlowTheme.of(context).primaryText,
+                      secondaryTextColor:
+                          FlutterFlowTheme.of(context).secondaryText,
+                      backgroundColor:
+                          FlutterFlowTheme.of(context).primaryBackground,
+                      primaryButtonBackgroundColor:
+                          FlutterFlowTheme.of(context).primary,
+                      primaryButtonTextColor: Colors.white,
+                      primaryButtonBorderColor: Colors.transparent,
+                      displayAsBottomSheet: isMobileWidth(context),
+                    );
+
+                    if (_colorPickedColor != null) {
+                      safeSetState(
+                          () => _model.colorPicked = _colorPickedColor);
+                    }
+
+                    Navigator.pop(context, _model.colorPicked);
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Align(
+                        alignment: AlignmentDirectional(0.0, 0.0),
+                        child: Text(
+                          FFLocalizations.of(context).getText(
+                            '8oxc627h' /* 마음에 드는 색상이 없나요?       */,
+                          ),
+                          style: FlutterFlowTheme.of(context)
+                              .bodyMedium
+                              .override(
+                                fontFamily: FlutterFlowTheme.of(context)
+                                    .bodyMediumFamily,
+                                letterSpacing: 0.0,
+                                useGoogleFonts: !FlutterFlowTheme.of(context)
+                                    .bodyMediumIsCustom,
+                              ),
+                        ),
+                      ),
+                      Text(
+                        FFLocalizations.of(context).getText(
+                          't7bv05eo' /* 직접 선택하기 */,
+                        ),
+                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                              fontFamily:
+                                  FlutterFlowTheme.of(context).bodyMediumFamily,
+                              letterSpacing: 0.0,
+                              fontStyle: FontStyle.italic,
+                              decoration: TextDecoration.underline,
+                              useGoogleFonts: !FlutterFlowTheme.of(context)
+                                  .bodyMediumIsCustom,
+                            ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

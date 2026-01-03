@@ -16,6 +16,8 @@ class AdminplannerPageModel extends FlutterFlowModel<AdminplannerPageWidget> {
   /// true is seatNo, false is time
   bool orderingField = false;
 
+  bool loading = false;
+
   ///  State fields for stateful widgets in this page.
 
   // Stores action output result for [Custom Action - checkUserClaims] action in adminplannerPage widget.

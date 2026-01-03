@@ -1,6 +1,7 @@
 import '/backend/backend.dart';
 import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/form_field_controller.dart';
 import 'planner_inut_set_copy_widget.dart' show PlannerInutSetCopyWidget;
 import 'package:flutter/material.dart';
 
@@ -17,6 +18,11 @@ class PlannerInutSetCopyModel
 
   ///  State fields for stateful widgets in this component.
 
+  // State field(s) for DropDown widget.
+  String? dropDownValue;
+  FormFieldController<String>? dropDownValueController;
+  // State field(s) for Checkbox widget.
+  bool? checkboxValue;
   // State field(s) for TextField widget.
   FocusNode? textFieldFocusNode1;
   TextEditingController? textController1;
@@ -25,7 +31,8 @@ class PlannerInutSetCopyModel
   FocusNode? textFieldFocusNode2;
   TextEditingController? textController2;
   String? Function(BuildContext, String?)? textController2Validator;
-  Color? colorPicked;
+  // Stores action output result for [Alert Dialog - Custom Dialog] action in IconButton widget.
+  Color? aa;
 
   @override
   void initState(BuildContext context) {}

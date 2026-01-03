@@ -14,6 +14,8 @@ class AdminSignCheckModel extends FlutterFlowModel<AdminSignCheckWidget> {
 
   DocumentReference? uid;
 
+  bool loading = false;
+
   ///  State fields for stateful widgets in this page.
 
   // Stores action output result for [Custom Action - checkUserClaims] action in adminSignCheck widget.

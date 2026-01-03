@@ -1,17 +1,17 @@
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
 import '/index.dart';
 import 'sign2_widget.dart' show Sign2Widget;
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:signature/signature.dart';
 
 class Sign2Model extends FlutterFlowModel<Sign2Widget> {
   ///  State fields for stateful widgets in this page.
 
   final formKey = GlobalKey<FormState>();
-  String uploadedSignatureUrl1 = '';
-  String uploadedSignatureUrl2 = '';
+  // Stores action output result for [Backend Call - API (Sheet contact)] action in Container widget.
+  ApiCallResponse? aaa;
   // State field(s) for displayname widget.
   FocusNode? displaynameFocusNode;
   TextEditingController? displaynameTextController;
@@ -129,8 +129,6 @@ class Sign2Model extends FlutterFlowModel<Sign2Widget> {
     return null;
   }
 
-  // State field(s) for Signature widget.
-  SignatureController? signatureController1;
   // State field(s) for parentsName widget.
   FocusNode? parentsNameFocusNode;
   TextEditingController? parentsNameTextController;
@@ -145,9 +143,6 @@ class Sign2Model extends FlutterFlowModel<Sign2Widget> {
 
     return null;
   }
-
-  // State field(s) for Signature widget.
-  SignatureController? signatureController2;
 
   @override
   void initState(BuildContext context) {
@@ -199,10 +194,7 @@ class Sign2Model extends FlutterFlowModel<Sign2Widget> {
     userNameFocusNode?.dispose();
     userNameTextController?.dispose();
 
-    signatureController1?.dispose();
     parentsNameFocusNode?.dispose();
     parentsNameTextController?.dispose();
-
-    signatureController2?.dispose();
   }
 }

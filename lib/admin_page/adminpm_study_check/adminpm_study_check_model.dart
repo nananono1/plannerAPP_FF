@@ -14,6 +14,8 @@ class AdminpmStudyCheckModel extends FlutterFlowModel<AdminpmStudyCheckWidget> {
 
   int? selectedIndex;
 
+  bool loading = false;
+
   ///  State fields for stateful widgets in this page.
 
   // Stores action output result for [Custom Action - checkUserClaims] action in adminpmStudyCheck widget.
@@ -27,6 +29,8 @@ class AdminpmStudyCheckModel extends FlutterFlowModel<AdminpmStudyCheckWidget> {
   String? Function(BuildContext, String?)? textControllerValidator;
   // Stores action output result for [Firestore Query - Query a collection] action in Icon widget.
   List<UsersRecord>? dddd;
+  // Stores action output result for [Firestore Query - Query a collection] action in Container widget.
+  StudyDBbackupAggRecord? item;
 
   @override
   void initState(BuildContext context) {}

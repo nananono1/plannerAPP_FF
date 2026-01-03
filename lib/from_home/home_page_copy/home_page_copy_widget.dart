@@ -2,10 +2,12 @@ import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/components/ddaycomponent_widget.dart';
 import '/components/reorderable_listview_widget.dart';
+import '/components/rules_p_d_f_view_widget.dart';
 import '/components/webviewer_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/functional/call_while_study/call_while_study_widget.dart';
 import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
@@ -46,6 +48,8 @@ class _HomePageCopyWidgetState extends State<HomePageCopyWidget>
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
+      FFAppState().insideDBStudent = [];
+      safeSetState(() {});
       if ((valueOrDefault<bool>(currentUserDocument?.signedUser, false) !=
               true) &&
           (currentUserDocument!.createdTime!.millisecondsSinceEpoch >
@@ -479,55 +483,80 @@ class _HomePageCopyWidgetState extends State<HomePageCopyWidget>
                               ],
                             ),
                           ),
-                          InkWell(
-                            splashColor: Colors.transparent,
-                            focusColor: Colors.transparent,
-                            hoverColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            onTap: () async {
-                              context
-                                  .goNamed(TemporaryLockPageWidget.routeName);
-                            },
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Align(
-                                  alignment: AlignmentDirectional(0.0, 0.0),
-                                  child: Icon(
-                                    Icons.lock_rounded,
-                                    color: Color(0xFF15161E),
-                                    size: 55.0,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      12.0, 0.0, 0.0, 0.0),
-                                  child: Text(
-                                    FFLocalizations.of(context).getText(
-                                      'geg13jzi' /* 잠금 모드 */,
+                          Builder(
+                            builder: (context) => InkWell(
+                              splashColor: Colors.transparent,
+                              focusColor: Colors.transparent,
+                              hoverColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onTap: () async {
+                                await showDialog(
+                                  context: context,
+                                  builder: (dialogContext) {
+                                    return Dialog(
+                                      elevation: 0,
+                                      insetPadding: EdgeInsets.zero,
+                                      backgroundColor: Colors.transparent,
+                                      alignment: AlignmentDirectional(0.0, 0.0)
+                                          .resolve(Directionality.of(context)),
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          FocusScope.of(dialogContext)
+                                              .unfocus();
+                                          FocusManager.instance.primaryFocus
+                                              ?.unfocus();
+                                        },
+                                        child: Container(
+                                          height: double.infinity,
+                                          width: double.infinity,
+                                          child: CallWhileStudyWidget(),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Align(
+                                    alignment: AlignmentDirectional(0.0, 0.0),
+                                    child: Icon(
+                                      Icons.sos,
+                                      color: Color(0xFF15161E),
+                                      size: 55.0,
                                     ),
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .override(
-                                          font: GoogleFonts.plusJakartaSans(
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        12.0, 0.0, 0.0, 0.0),
+                                    child: Text(
+                                      FFLocalizations.of(context).getText(
+                                        'geg13jzi' /* 긴급호출 */,
+                                      ),
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            font: GoogleFonts.plusJakartaSans(
+                                              fontWeight: FontWeight.w500,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
+                                            ),
+                                            color: Color(0xFF15161E),
+                                            fontSize: 30.0,
+                                            letterSpacing: 0.0,
                                             fontWeight: FontWeight.w500,
                                             fontStyle:
                                                 FlutterFlowTheme.of(context)
                                                     .bodyMedium
                                                     .fontStyle,
                                           ),
-                                          color: Color(0xFF15161E),
-                                          fontSize: 30.0,
-                                          letterSpacing: 0.0,
-                                          fontWeight: FontWeight.w500,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .fontStyle,
-                                        ),
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ],
@@ -582,112 +611,286 @@ class _HomePageCopyWidgetState extends State<HomePageCopyWidget>
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    Align(
-                                      alignment: AlignmentDirectional(0.0, 0.0),
-                                      child: InkWell(
-                                        splashColor: Colors.transparent,
-                                        focusColor: Colors.transparent,
-                                        hoverColor: Colors.transparent,
-                                        highlightColor: Colors.transparent,
-                                        onTap: () async {
-                                          context.pushNamed(
-                                              HomePageCopyWidget.routeName);
-                                        },
-                                        child: Icon(
-                                          Icons.home,
-                                          color: Color(0xFFFD7E3A),
-                                          size: 55.0,
+                                    Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        Align(
+                                          alignment:
+                                              AlignmentDirectional(0.0, 0.0),
+                                          child: InkWell(
+                                            splashColor: Colors.transparent,
+                                            focusColor: Colors.transparent,
+                                            hoverColor: Colors.transparent,
+                                            highlightColor: Colors.transparent,
+                                            onTap: () async {
+                                              context.pushNamed(
+                                                  HomePageCopyWidget.routeName);
+                                            },
+                                            child: Icon(
+                                              Icons.home,
+                                              color: Color(0xFFFD7E3A),
+                                              size: 55.0,
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    Align(
-                                      alignment: AlignmentDirectional(0.0, 0.0),
-                                      child: InkWell(
-                                        splashColor: Colors.transparent,
-                                        focusColor: Colors.transparent,
-                                        hoverColor: Colors.transparent,
-                                        highlightColor: Colors.transparent,
-                                        onTap: () async {
-                                          context.pushNamed(
-                                              PageeeeWidget.routeName);
-                                        },
-                                        child: Icon(
-                                          Icons.menu_book_sharp,
-                                          color: Color(0xFF15161E),
-                                          size: 55.0,
+                                        Text(
+                                          FFLocalizations.of(context).getText(
+                                            'siu0v0c2' /* 홈화면 */,
+                                          ),
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium
+                                              .override(
+                                                fontFamily:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMediumFamily,
+                                                color: Color(0xFFFD7E3A),
+                                                letterSpacing: 0.0,
+                                                useGoogleFonts:
+                                                    !FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMediumIsCustom,
+                                              ),
                                         ),
-                                      ),
+                                      ],
                                     ),
-                                    Align(
-                                      alignment: AlignmentDirectional(0.0, 0.0),
-                                      child: InkWell(
-                                        splashColor: Colors.transparent,
-                                        focusColor: Colors.transparent,
-                                        hoverColor: Colors.transparent,
-                                        highlightColor: Colors.transparent,
-                                        onTap: () async {
-                                          context.pushNamed(
-                                              StudentAnalyticsWidget.routeName);
-                                        },
-                                        child: Icon(
-                                          Icons.pie_chart_rounded,
-                                          color: Color(0xFF15161E),
-                                          size: 55.0,
+                                    Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        Align(
+                                          alignment:
+                                              AlignmentDirectional(0.0, 0.0),
+                                          child: InkWell(
+                                            splashColor: Colors.transparent,
+                                            focusColor: Colors.transparent,
+                                            hoverColor: Colors.transparent,
+                                            highlightColor: Colors.transparent,
+                                            onTap: () async {
+                                              context.pushNamed(
+                                                  PageeeeWidget.routeName);
+                                            },
+                                            child: Icon(
+                                              Icons.menu_book_sharp,
+                                              color: Color(0xFF15161E),
+                                              size: 55.0,
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    Align(
-                                      alignment: AlignmentDirectional(0.0, 0.0),
-                                      child: InkWell(
-                                        splashColor: Colors.transparent,
-                                        focusColor: Colors.transparent,
-                                        hoverColor: Colors.transparent,
-                                        highlightColor: Colors.transparent,
-                                        onTap: () async {
-                                          context.pushNamed(
-                                              TimetablePageWidget.routeName);
-                                        },
-                                        child: Icon(
-                                          Icons.space_dashboard_rounded,
-                                          color: Color(0xFF15161E),
-                                          size: 55.0,
+                                        Text(
+                                          FFLocalizations.of(context).getText(
+                                            '3p37kjrg' /* 플래너작성 */,
+                                          ),
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium
+                                              .override(
+                                                fontFamily:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMediumFamily,
+                                                letterSpacing: 0.0,
+                                                useGoogleFonts:
+                                                    !FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMediumIsCustom,
+                                              ),
                                         ),
-                                      ),
+                                      ],
                                     ),
-                                    Align(
-                                      alignment: AlignmentDirectional(0.0, 0.0),
-                                      child: InkWell(
-                                        splashColor: Colors.transparent,
-                                        focusColor: Colors.transparent,
-                                        hoverColor: Colors.transparent,
-                                        highlightColor: Colors.transparent,
-                                        onTap: () async {
-                                          context.pushNamed(
-                                              UserPageWidget.routeName);
-                                        },
-                                        child: Icon(
-                                          Icons.person,
-                                          color: Color(0xFF15161E),
-                                          size: 55.0,
+                                    Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        Align(
+                                          alignment:
+                                              AlignmentDirectional(0.0, 0.0),
+                                          child: InkWell(
+                                            splashColor: Colors.transparent,
+                                            focusColor: Colors.transparent,
+                                            hoverColor: Colors.transparent,
+                                            highlightColor: Colors.transparent,
+                                            onTap: () async {
+                                              context.pushNamed(
+                                                  StudentAnalyticsWidget
+                                                      .routeName);
+                                            },
+                                            child: Icon(
+                                              Icons.pie_chart_rounded,
+                                              color: Color(0xFF15161E),
+                                              size: 55.0,
+                                            ),
+                                          ),
                                         ),
-                                      ),
+                                        Text(
+                                          FFLocalizations.of(context).getText(
+                                            '1ig5q2p6' /* 공부데이터확인 */,
+                                          ),
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium
+                                              .override(
+                                                fontFamily:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMediumFamily,
+                                                fontSize: 12.0,
+                                                letterSpacing: 0.0,
+                                                useGoogleFonts:
+                                                    !FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMediumIsCustom,
+                                              ),
+                                        ),
+                                      ],
                                     ),
-                                    Align(
-                                      alignment: AlignmentDirectional(0.0, 0.0),
-                                      child: InkWell(
+                                    Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        Align(
+                                          alignment:
+                                              AlignmentDirectional(0.0, 0.0),
+                                          child: InkWell(
+                                            splashColor: Colors.transparent,
+                                            focusColor: Colors.transparent,
+                                            hoverColor: Colors.transparent,
+                                            highlightColor: Colors.transparent,
+                                            onTap: () async {
+                                              context.pushNamed(
+                                                  TimetablePageWidget
+                                                      .routeName);
+                                            },
+                                            child: Icon(
+                                              Icons.space_dashboard_rounded,
+                                              color: Color(0xFF15161E),
+                                              size: 55.0,
+                                            ),
+                                          ),
+                                        ),
+                                        Text(
+                                          FFLocalizations.of(context).getText(
+                                            'h2y6qp20' /* 시간표 설정 */,
+                                          ),
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium
+                                              .override(
+                                                fontFamily:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMediumFamily,
+                                                letterSpacing: 0.0,
+                                                useGoogleFonts:
+                                                    !FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMediumIsCustom,
+                                              ),
+                                        ),
+                                      ],
+                                    ),
+                                    Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        Align(
+                                          alignment:
+                                              AlignmentDirectional(0.0, 0.0),
+                                          child: InkWell(
+                                            splashColor: Colors.transparent,
+                                            focusColor: Colors.transparent,
+                                            hoverColor: Colors.transparent,
+                                            highlightColor: Colors.transparent,
+                                            onTap: () async {
+                                              context.pushNamed(
+                                                  UserPageWidget.routeName);
+                                            },
+                                            child: Icon(
+                                              Icons.person,
+                                              color: Color(0xFF15161E),
+                                              size: 55.0,
+                                            ),
+                                          ),
+                                        ),
+                                        Text(
+                                          FFLocalizations.of(context).getText(
+                                            '9bsytvgo' /* 개인설정 */,
+                                          ),
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium
+                                              .override(
+                                                fontFamily:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMediumFamily,
+                                                letterSpacing: 0.0,
+                                                useGoogleFonts:
+                                                    !FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMediumIsCustom,
+                                              ),
+                                        ),
+                                      ],
+                                    ),
+                                    Builder(
+                                      builder: (context) => InkWell(
                                         splashColor: Colors.transparent,
                                         focusColor: Colors.transparent,
                                         hoverColor: Colors.transparent,
                                         highlightColor: Colors.transparent,
                                         onTap: () async {
-                                          context.goNamed(
-                                              TemporaryLockPageWidget
-                                                  .routeName);
+                                          await showDialog(
+                                            context: context,
+                                            builder: (dialogContext) {
+                                              return Dialog(
+                                                elevation: 0,
+                                                insetPadding: EdgeInsets.zero,
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                                alignment: AlignmentDirectional(
+                                                        0.0, 0.0)
+                                                    .resolve(Directionality.of(
+                                                        context)),
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    FocusScope.of(dialogContext)
+                                                        .unfocus();
+                                                    FocusManager
+                                                        .instance.primaryFocus
+                                                        ?.unfocus();
+                                                  },
+                                                  child: Container(
+                                                    height: double.infinity,
+                                                    width: double.infinity,
+                                                    child:
+                                                        CallWhileStudyWidget(),
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          );
                                         },
-                                        child: Icon(
-                                          Icons.lock_rounded,
-                                          color: Color(0xFF15161E),
-                                          size: 55.0,
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            Align(
+                                              alignment: AlignmentDirectional(
+                                                  0.0, 0.0),
+                                              child: Icon(
+                                                Icons.sos_outlined,
+                                                color: Color(0xFF15161E),
+                                                size: 45.0,
+                                              ),
+                                            ),
+                                            Text(
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                's4lcwovg' /* 긴급호출 */,
+                                              ),
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        fontFamily:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMediumFamily,
+                                                        letterSpacing: 0.0,
+                                                        useGoogleFonts:
+                                                            !FlutterFlowTheme
+                                                                    .of(context)
+                                                                .bodyMediumIsCustom,
+                                                      ),
+                                            ),
+                                          ].divide(SizedBox(height: 5.0)),
                                         ),
                                       ),
                                     ),
@@ -952,6 +1155,44 @@ class _HomePageCopyWidgetState extends State<HomePageCopyWidget>
                                                                           ),
                                                                         ),
                                                                       ),
+                                                                      AuthUserStreamWidget(
+                                                                        builder:
+                                                                            (context) =>
+                                                                                RichText(
+                                                                          textScaler:
+                                                                              MediaQuery.of(context).textScaler,
+                                                                          text:
+                                                                              TextSpan(
+                                                                            children: [
+                                                                              TextSpan(
+                                                                                text: FFLocalizations.of(context).getText(
+                                                                                  'y17pt3cp' /* 현재 벌점 :  */,
+                                                                                ),
+                                                                                style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                      fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
+                                                                                      fontSize: 25.0,
+                                                                                      letterSpacing: 0.0,
+                                                                                      useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
+                                                                                    ),
+                                                                              ),
+                                                                              TextSpan(
+                                                                                text: valueOrDefault<String>(
+                                                                                  valueOrDefault(currentUserDocument?.penaltyPoint, 0.0).toString(),
+                                                                                  '업데이트 예정',
+                                                                                ),
+                                                                                style: TextStyle(
+                                                                                  fontSize: 25.0,
+                                                                                ),
+                                                                              )
+                                                                            ],
+                                                                            style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                  fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
+                                                                                  letterSpacing: 0.0,
+                                                                                  useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
+                                                                                ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
                                                                     ].divide(SizedBox(
                                                                         height:
                                                                             30.0)),
@@ -1104,54 +1345,72 @@ class _HomePageCopyWidgetState extends State<HomePageCopyWidget>
                                                                       ),
                                                                       Align(
                                                                         alignment: AlignmentDirectional(
-                                                                            1.0,
-                                                                            -1.0),
+                                                                            1.01,
+                                                                            0.0),
                                                                         child:
-                                                                            Builder(
-                                                                          builder: (context) =>
-                                                                              Padding(
-                                                                            padding: EdgeInsetsDirectional.fromSTEB(
-                                                                                0.0,
-                                                                                3.0,
-                                                                                10.0,
-                                                                                0.0),
-                                                                            child:
-                                                                                InkWell(
-                                                                              splashColor: Colors.transparent,
-                                                                              focusColor: Colors.transparent,
-                                                                              hoverColor: Colors.transparent,
-                                                                              highlightColor: Colors.transparent,
-                                                                              onTap: () async {
-                                                                                await showDialog(
-                                                                                  context: context,
-                                                                                  builder: (dialogContext) {
-                                                                                    return Dialog(
-                                                                                      elevation: 0,
-                                                                                      insetPadding: EdgeInsets.zero,
-                                                                                      backgroundColor: Colors.transparent,
-                                                                                      alignment: AlignmentDirectional(0.0, 0.0).resolve(Directionality.of(context)),
-                                                                                      child: GestureDetector(
-                                                                                        onTap: () {
-                                                                                          FocusScope.of(dialogContext).unfocus();
-                                                                                          FocusManager.instance.primaryFocus?.unfocus();
-                                                                                        },
-                                                                                        child: Container(
-                                                                                          height: 600.0,
-                                                                                          width: 800.0,
-                                                                                          child: DdaycomponentWidget(),
-                                                                                        ),
-                                                                                      ),
-                                                                                    );
-                                                                                  },
-                                                                                );
-                                                                              },
-                                                                              child: Icon(
-                                                                                Icons.add_circle,
-                                                                                color: FlutterFlowTheme.of(context).primaryText,
-                                                                                size: 24.0,
+                                                                            Row(
+                                                                          mainAxisSize:
+                                                                              MainAxisSize.min,
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            Align(
+                                                                              alignment: AlignmentDirectional(0.59, -0.97),
+                                                                              child: Text(
+                                                                                FFLocalizations.of(context).getText(
+                                                                                  'ufmoiulu' /* D-Day 추가하기 */,
+                                                                                ),
+                                                                                style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                      fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
+                                                                                      letterSpacing: 0.0,
+                                                                                      useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
+                                                                                    ),
                                                                               ),
                                                                             ),
-                                                                          ),
+                                                                            Align(
+                                                                              alignment: AlignmentDirectional(1.0, -1.0),
+                                                                              child: Builder(
+                                                                                builder: (context) => Padding(
+                                                                                  padding: EdgeInsetsDirectional.fromSTEB(5.0, 2.0, 0.0, 0.0),
+                                                                                  child: InkWell(
+                                                                                    splashColor: Colors.transparent,
+                                                                                    focusColor: Colors.transparent,
+                                                                                    hoverColor: Colors.transparent,
+                                                                                    highlightColor: Colors.transparent,
+                                                                                    onTap: () async {
+                                                                                      await showDialog(
+                                                                                        context: context,
+                                                                                        builder: (dialogContext) {
+                                                                                          return Dialog(
+                                                                                            elevation: 0,
+                                                                                            insetPadding: EdgeInsets.zero,
+                                                                                            backgroundColor: Colors.transparent,
+                                                                                            alignment: AlignmentDirectional(0.0, 0.0).resolve(Directionality.of(context)),
+                                                                                            child: GestureDetector(
+                                                                                              onTap: () {
+                                                                                                FocusScope.of(dialogContext).unfocus();
+                                                                                                FocusManager.instance.primaryFocus?.unfocus();
+                                                                                              },
+                                                                                              child: Container(
+                                                                                                height: 600.0,
+                                                                                                width: 800.0,
+                                                                                                child: DdaycomponentWidget(),
+                                                                                              ),
+                                                                                            ),
+                                                                                          );
+                                                                                        },
+                                                                                      );
+                                                                                    },
+                                                                                    child: Icon(
+                                                                                      Icons.add_circle,
+                                                                                      color: FlutterFlowTheme.of(context).primaryText,
+                                                                                      size: 24.0,
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ],
                                                                         ),
                                                                       ),
                                                                     ],
@@ -1168,7 +1427,7 @@ class _HomePageCopyWidgetState extends State<HomePageCopyWidget>
                                                 Padding(
                                                   padding: EdgeInsetsDirectional
                                                       .fromSTEB(
-                                                          0.0, 50.0, 0.0, 0.0),
+                                                          0.0, 40.0, 0.0, 0.0),
                                                   child: Container(
                                                     width: double.infinity,
                                                     height: 340.0,
@@ -1178,7 +1437,7 @@ class _HomePageCopyWidgetState extends State<HomePageCopyWidget>
                                                           EdgeInsetsDirectional
                                                               .fromSTEB(
                                                                   20.0,
-                                                                  20.0,
+                                                                  0.0,
                                                                   20.0,
                                                                   20.0),
                                                       child: InkWell(
@@ -2255,6 +2514,34 @@ class _HomePageCopyWidgetState extends State<HomePageCopyWidget>
                                   hoverColor: Colors.transparent,
                                   highlightColor: Colors.transparent,
                                   onTap: () async {
+                                    if (((currentUserDocument
+                                                    ?.personalSubjectInfo
+                                                    .toList() ??
+                                                [])
+                                            .isNotEmpty) ==
+                                        true) {
+                                      FFAppState().personalSubjectInfo =
+                                          (currentUserDocument
+                                                      ?.personalSubjectInfo
+                                                      .toList() ??
+                                                  [])
+                                              .toList()
+                                              .cast<
+                                                  PersonalSubjectEachStruct>();
+                                      safeSetState(() {});
+                                    } else {
+                                      await currentUserReference!.update({
+                                        ...mapToFirestore(
+                                          {
+                                            'personalSubjectInfo':
+                                                getPersonalSubjectEachListFirestoreData(
+                                              FFAppState().personalSubjectInfo,
+                                            ),
+                                          },
+                                        ),
+                                      });
+                                    }
+
                                     await showDialog(
                                       context: context,
                                       builder: (dialogContext) {
@@ -2275,7 +2562,7 @@ class _HomePageCopyWidgetState extends State<HomePageCopyWidget>
                                             },
                                             child: Container(
                                               height: 600.0,
-                                              width: 800.0,
+                                              width: 1100.0,
                                               child:
                                                   ReorderableListviewWidget(),
                                             ),
@@ -2318,7 +2605,7 @@ class _HomePageCopyWidgetState extends State<HomePageCopyWidget>
                                         ),
                                         Text(
                                           FFLocalizations.of(context).getText(
-                                            '7zn7orh7' /* 대표과목관리 */,
+                                            'nm1nq09y' /* 더보기 */,
                                           ),
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
@@ -2415,7 +2702,7 @@ class _HomePageCopyWidgetState extends State<HomePageCopyWidget>
                                         'assets/images/KakaoTalk_20250218_192607162.jpg',
                                         width: 200.0,
                                         height: 200.0,
-                                        fit: BoxFit.fill,
+                                        fit: BoxFit.contain,
                                       ),
                                     ),
                                   ),
@@ -2527,6 +2814,8 @@ class _HomePageCopyWidgetState extends State<HomePageCopyWidget>
                                                                               .transparent,
                                                                       onTap:
                                                                           () async {
+                                                                        await actions
+                                                                            .setPortraitMode();
                                                                         await showDialog(
                                                                           context:
                                                                               context,
@@ -2545,14 +2834,15 @@ class _HomePageCopyWidgetState extends State<HomePageCopyWidget>
                                                                                 child: Container(
                                                                                   height: double.infinity,
                                                                                   width: double.infinity,
-                                                                                  child: WebviewerWidget(
-                                                                                    passedLink: notificationInfoItem.contentUrl,
-                                                                                  ),
+                                                                                  child: RulesPDFViewWidget(),
                                                                                 ),
                                                                               ),
                                                                             );
                                                                           },
                                                                         );
+
+                                                                        await actions
+                                                                            .setLandscapeMode();
                                                                       },
                                                                       child:
                                                                           ClipRRect(
@@ -2570,7 +2860,7 @@ class _HomePageCopyWidgetState extends State<HomePageCopyWidget>
                                                                           height:
                                                                               double.infinity,
                                                                           fit: BoxFit
-                                                                              .scaleDown,
+                                                                              .contain,
                                                                           errorBuilder: (context, error, stackTrace) =>
                                                                               Image.asset(
                                                                             'assets/images/error_image.png',
@@ -2579,7 +2869,7 @@ class _HomePageCopyWidgetState extends State<HomePageCopyWidget>
                                                                             height:
                                                                                 double.infinity,
                                                                             fit:
-                                                                                BoxFit.scaleDown,
+                                                                                BoxFit.contain,
                                                                           ),
                                                                         ),
                                                                       ),

@@ -24,7 +24,7 @@ abstract class FFAppConstants {
     'https://postfiles.pstatic.net/MjAyNDEyMzBfNzMg/MDAxNzM1NTY5ODM0NDA0.JmptuhoffQw8EpIMdog6VRJynrPmQS5Kj2ISbiBKhNwg.kfoMD605TqAHDO-kWIwrQ2RGHqhDaj-HbEM7W9Obhacg.PNG/4%E3%85%87.png?type=w386',
     'https://postfiles.pstatic.net/MjAyNDEyMzBfOTYg/MDAxNzM1NTY5ODM0NDE0.ynNRqXbstPoi4HQXkN_i38LHiyuS3YVgJxQjzWmHKdsg.PQfHsGMXJ24hAiGQQK9hY04J6Ud9SGUi4Qs9eB7ya1gg.PNG/5%E3%85%87.png?type=w386'
   ];
-  static const String buildDate = '2025/02/23';
+  static const String buildDate = '2025/06/28';
   static const List<String> society = [
     '생활과 윤리',
     '윤리와 사상',

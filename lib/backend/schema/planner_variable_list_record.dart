@@ -76,6 +76,11 @@ class PlannerVariableListRecord extends FirestoreRecord {
   int get timetableEndIndex => _timetableEndIndex ?? 0;
   bool hasTimetableEndIndex() => _timetableEndIndex != null;
 
+  // "pointGiven" field.
+  int? _pointGiven;
+  int get pointGiven => _pointGiven ?? 0;
+  bool hasPointGiven() => _pointGiven != null;
+
   DocumentReference get parentReference => reference.parent.parent!;
 
   void _initializeFields() {
@@ -99,6 +104,7 @@ class PlannerVariableListRecord extends FirestoreRecord {
         : DailyStartingStruct.maybeFromMap(snapshotData['dailyStarting']);
     _timetableStartIndex = castToType<int>(snapshotData['timetableStartIndex']);
     _timetableEndIndex = castToType<int>(snapshotData['timetableEndIndex']);
+    _pointGiven = castToType<int>(snapshotData['pointGiven']);
   }
 
   static Query<Map<String, dynamic>> collection([DocumentReference? parent]) =>
@@ -153,6 +159,7 @@ Map<String, dynamic> createPlannerVariableListRecordData({
   DailyStartingStruct? dailyStarting,
   int? timetableStartIndex,
   int? timetableEndIndex,
+  int? pointGiven,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -167,6 +174,7 @@ Map<String, dynamic> createPlannerVariableListRecordData({
       'dailyStarting': DailyStartingStruct().toMap(),
       'timetableStartIndex': timetableStartIndex,
       'timetableEndIndex': timetableEndIndex,
+      'pointGiven': pointGiven,
     }.withoutNulls,
   );
 
@@ -197,7 +205,8 @@ class PlannerVariableListRecordDocumentEquality
         e1?.basicInfo == e2?.basicInfo &&
         e1?.dailyStarting == e2?.dailyStarting &&
         e1?.timetableStartIndex == e2?.timetableStartIndex &&
-        e1?.timetableEndIndex == e2?.timetableEndIndex;
+        e1?.timetableEndIndex == e2?.timetableEndIndex &&
+        e1?.pointGiven == e2?.pointGiven;
   }
 
   @override
@@ -213,7 +222,8 @@ class PlannerVariableListRecordDocumentEquality
         e?.basicInfo,
         e?.dailyStarting,
         e?.timetableStartIndex,
-        e?.timetableEndIndex
+        e?.timetableEndIndex,
+        e?.pointGiven
       ]);
 
   @override

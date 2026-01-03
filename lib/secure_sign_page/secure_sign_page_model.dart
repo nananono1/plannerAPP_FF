@@ -2,12 +2,10 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
 import 'secure_sign_page_widget.dart' show SecureSignPageWidget;
 import 'package:flutter/material.dart';
-import 'package:signature/signature.dart';
 
 class SecureSignPageModel extends FlutterFlowModel<SecureSignPageWidget> {
   ///  State fields for stateful widgets in this page.
 
-  String uploadedSignatureUrl = '';
   // State field(s) for TextField widget.
   FocusNode? textFieldFocusNode1;
   TextEditingController? textController1;
@@ -24,8 +22,6 @@ class SecureSignPageModel extends FlutterFlowModel<SecureSignPageWidget> {
   FocusNode? textFields1FocusNode;
   TextEditingController? textFields1TextController;
   String? Function(BuildContext, String?)? textFields1TextControllerValidator;
-  // State field(s) for Signature1 widget.
-  SignatureController? signature1Controller;
 
   @override
   void initState(BuildContext context) {}
@@ -43,7 +39,5 @@ class SecureSignPageModel extends FlutterFlowModel<SecureSignPageWidget> {
 
     textFields1FocusNode?.dispose();
     textFields1TextController?.dispose();
-
-    signature1Controller?.dispose();
   }
 }

@@ -6706,7 +6706,7 @@ class _WidgetToCaptureComponentWidgetState
                                                   color: valueOrDefault<Color>(
                                                     functions
                                                         .getCellColorFromInputListState(
-                                                            'cell001',
+                                                            'cell241',
                                                             FFAppState()
                                                                 .pageStateSchemaVariable
                                                                 .inputListState
@@ -6737,7 +6737,7 @@ class _WidgetToCaptureComponentWidgetState
                                                   color: valueOrDefault<Color>(
                                                     functions
                                                         .getCellColorFromInputListState(
-                                                            'cell002',
+                                                            'cell242',
                                                             FFAppState()
                                                                 .pageStateSchemaVariable
                                                                 .inputListState
@@ -6768,7 +6768,7 @@ class _WidgetToCaptureComponentWidgetState
                                                   color: valueOrDefault<Color>(
                                                     functions
                                                         .getCellColorFromInputListState(
-                                                            'cell003',
+                                                            'cell243',
                                                             FFAppState()
                                                                 .pageStateSchemaVariable
                                                                 .inputListState
@@ -6799,7 +6799,7 @@ class _WidgetToCaptureComponentWidgetState
                                                   color: valueOrDefault<Color>(
                                                     functions
                                                         .getCellColorFromInputListState(
-                                                            'cell004',
+                                                            'cell244',
                                                             FFAppState()
                                                                 .pageStateSchemaVariable
                                                                 .inputListState
@@ -6830,7 +6830,7 @@ class _WidgetToCaptureComponentWidgetState
                                                   color: valueOrDefault<Color>(
                                                     functions
                                                         .getCellColorFromInputListState(
-                                                            'cell005',
+                                                            'cell245',
                                                             FFAppState()
                                                                 .pageStateSchemaVariable
                                                                 .inputListState
@@ -6861,7 +6861,7 @@ class _WidgetToCaptureComponentWidgetState
                                                   color: valueOrDefault<Color>(
                                                     functions
                                                         .getCellColorFromInputListState(
-                                                            'cell006',
+                                                            'cell246',
                                                             FFAppState()
                                                                 .pageStateSchemaVariable
                                                                 .inputListState
@@ -6984,7 +6984,7 @@ class _WidgetToCaptureComponentWidgetState
                                                   color: valueOrDefault<Color>(
                                                     functions
                                                         .getCellColorFromInputListState(
-                                                            'cell011',
+                                                            'cell251',
                                                             FFAppState()
                                                                 .pageStateSchemaVariable
                                                                 .inputListState
@@ -7015,7 +7015,7 @@ class _WidgetToCaptureComponentWidgetState
                                                   color: valueOrDefault<Color>(
                                                     functions
                                                         .getCellColorFromInputListState(
-                                                            'cell012',
+                                                            'cell252',
                                                             FFAppState()
                                                                 .pageStateSchemaVariable
                                                                 .inputListState
@@ -7046,7 +7046,7 @@ class _WidgetToCaptureComponentWidgetState
                                                   color: valueOrDefault<Color>(
                                                     functions
                                                         .getCellColorFromInputListState(
-                                                            'cell013',
+                                                            'cell253',
                                                             FFAppState()
                                                                 .pageStateSchemaVariable
                                                                 .inputListState
@@ -7077,7 +7077,7 @@ class _WidgetToCaptureComponentWidgetState
                                                   color: valueOrDefault<Color>(
                                                     functions
                                                         .getCellColorFromInputListState(
-                                                            'cell014',
+                                                            'cell254',
                                                             FFAppState()
                                                                 .pageStateSchemaVariable
                                                                 .inputListState
@@ -7108,7 +7108,7 @@ class _WidgetToCaptureComponentWidgetState
                                                   color: valueOrDefault<Color>(
                                                     functions
                                                         .getCellColorFromInputListState(
-                                                            'cell015',
+                                                            'cell255',
                                                             FFAppState()
                                                                 .pageStateSchemaVariable
                                                                 .inputListState
@@ -7139,7 +7139,7 @@ class _WidgetToCaptureComponentWidgetState
                                                   color: valueOrDefault<Color>(
                                                     functions
                                                         .getCellColorFromInputListState(
-                                                            'cell016',
+                                                            'cell256',
                                                             FFAppState()
                                                                 .pageStateSchemaVariable
                                                                 .inputListState
@@ -7262,7 +7262,7 @@ class _WidgetToCaptureComponentWidgetState
                                                   color: valueOrDefault<Color>(
                                                     functions
                                                         .getCellColorFromInputListState(
-                                                            'cell021',
+                                                            'cell261',
                                                             FFAppState()
                                                                 .pageStateSchemaVariable
                                                                 .inputListState
@@ -7293,7 +7293,7 @@ class _WidgetToCaptureComponentWidgetState
                                                   color: valueOrDefault<Color>(
                                                     functions
                                                         .getCellColorFromInputListState(
-                                                            'cell022',
+                                                            'cell262',
                                                             FFAppState()
                                                                 .pageStateSchemaVariable
                                                                 .inputListState
@@ -7324,7 +7324,7 @@ class _WidgetToCaptureComponentWidgetState
                                                   color: valueOrDefault<Color>(
                                                     functions
                                                         .getCellColorFromInputListState(
-                                                            'cell023',
+                                                            'cell263',
                                                             FFAppState()
                                                                 .pageStateSchemaVariable
                                                                 .inputListState
@@ -7355,7 +7355,7 @@ class _WidgetToCaptureComponentWidgetState
                                                   color: valueOrDefault<Color>(
                                                     functions
                                                         .getCellColorFromInputListState(
-                                                            'cell024',
+                                                            'cell264',
                                                             FFAppState()
                                                                 .pageStateSchemaVariable
                                                                 .inputListState
@@ -7386,7 +7386,7 @@ class _WidgetToCaptureComponentWidgetState
                                                   color: valueOrDefault<Color>(
                                                     functions
                                                         .getCellColorFromInputListState(
-                                                            'cell025',
+                                                            'cell265',
                                                             FFAppState()
                                                                 .pageStateSchemaVariable
                                                                 .inputListState
@@ -7417,7 +7417,7 @@ class _WidgetToCaptureComponentWidgetState
                                                   color: valueOrDefault<Color>(
                                                     functions
                                                         .getCellColorFromInputListState(
-                                                            'cell026',
+                                                            'cell266',
                                                             FFAppState()
                                                                 .pageStateSchemaVariable
                                                                 .inputListState
@@ -8237,7 +8237,8 @@ class _WidgetToCaptureComponentWidgetState
                                                                     5.0,
                                                                     5.0,
                                                                     5.0),
-                                                        child: Text(
+                                                        child: SelectionArea(
+                                                            child: Text(
                                                           FFAppState()
                                                               .pageStateSchemaVariable
                                                               .teacherquoteState,
@@ -8255,7 +8256,7 @@ class _WidgetToCaptureComponentWidgetState
                                                                             context)
                                                                         .bodyMediumIsCustom,
                                                               ),
-                                                        ),
+                                                        )),
                                                       ),
                                                     );
                                                   } else {

@@ -1,9 +1,13 @@
+import '/auth/firebase_auth/auth_util.dart';
+import '/backend/backend.dart';
+import '/backend/supabase/supabase.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/custom_code/widgets/index.dart' as custom_widgets;
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -36,6 +40,13 @@ class _StudentAnalyticsWidgetState extends State<StudentAnalyticsWidget>
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
+      _model.aa = await queryStudyDBbackupAggRecordOnce(
+        parent: currentUserReference,
+        singleRecord: true,
+      ).then((s) => s.firstOrNull);
+      _model.listeach =
+          _model.aa!.studyDBbackup.toList().cast<PageStateSchemaStruct>();
+      safeSetState(() {});
       _model.startdate = functions.subtractminusweek(getCurrentTimestamp);
       _model.enddate = functions.getDateAtMidnight(getCurrentTimestamp);
       safeSetState(() {});
@@ -44,6 +55,7 @@ class _StudentAnalyticsWidgetState extends State<StudentAnalyticsWidget>
       safeSetState(() {});
     });
 
+    _model.switchValue = false;
     animationsMap.addAll({
       'containerOnActionTriggerAnimation': AnimationInfo(
         trigger: AnimationTrigger.onActionTrigger,
@@ -128,113 +140,242 @@ class _StudentAnalyticsWidgetState extends State<StudentAnalyticsWidget>
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Align(
-                                  alignment: AlignmentDirectional(0.0, 0.0),
-                                  child: InkWell(
-                                    splashColor: Colors.transparent,
-                                    focusColor: Colors.transparent,
-                                    hoverColor: Colors.transparent,
-                                    highlightColor: Colors.transparent,
-                                    onTap: () async {
-                                      context.pushNamed(
-                                          HomePageCopyWidget.routeName);
-                                    },
-                                    child: Icon(
-                                      Icons.home,
-                                      color: Color(0xFF15161E),
-                                      size: 55.0,
+                                Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Align(
+                                      alignment: AlignmentDirectional(0.0, 0.0),
+                                      child: InkWell(
+                                        splashColor: Colors.transparent,
+                                        focusColor: Colors.transparent,
+                                        hoverColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                        onTap: () async {
+                                          context.pushNamed(
+                                              HomePageCopyWidget.routeName);
+                                        },
+                                        child: Icon(
+                                          Icons.home,
+                                          color: Color(0xFF15161E),
+                                          size: 55.0,
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                    Text(
+                                      FFLocalizations.of(context).getText(
+                                        'ca6f8ooz' /* 홈화면 */,
+                                      ),
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMediumFamily,
+                                            letterSpacing: 0.0,
+                                            useGoogleFonts:
+                                                !FlutterFlowTheme.of(context)
+                                                    .bodyMediumIsCustom,
+                                          ),
+                                    ),
+                                  ],
                                 ),
-                                Align(
-                                  alignment: AlignmentDirectional(0.0, 0.0),
-                                  child: InkWell(
-                                    splashColor: Colors.transparent,
-                                    focusColor: Colors.transparent,
-                                    hoverColor: Colors.transparent,
-                                    highlightColor: Colors.transparent,
-                                    onTap: () async {
-                                      context
-                                          .pushNamed(PageeeeWidget.routeName);
-                                    },
-                                    child: Icon(
-                                      Icons.menu_book_sharp,
-                                      color: Color(0xFF15161E),
-                                      size: 55.0,
+                                Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Align(
+                                      alignment: AlignmentDirectional(0.0, 0.0),
+                                      child: InkWell(
+                                        splashColor: Colors.transparent,
+                                        focusColor: Colors.transparent,
+                                        hoverColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                        onTap: () async {
+                                          context.pushNamed(
+                                              PageeeeWidget.routeName);
+                                        },
+                                        child: Icon(
+                                          Icons.menu_book_sharp,
+                                          color: Color(0xFF15161E),
+                                          size: 55.0,
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                    Text(
+                                      FFLocalizations.of(context).getText(
+                                        'jb791euh' /* 플래너 작성 */,
+                                      ),
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMediumFamily,
+                                            letterSpacing: 0.0,
+                                            useGoogleFonts:
+                                                !FlutterFlowTheme.of(context)
+                                                    .bodyMediumIsCustom,
+                                          ),
+                                    ),
+                                  ],
                                 ),
-                                Align(
-                                  alignment: AlignmentDirectional(0.0, 0.0),
-                                  child: InkWell(
-                                    splashColor: Colors.transparent,
-                                    focusColor: Colors.transparent,
-                                    hoverColor: Colors.transparent,
-                                    highlightColor: Colors.transparent,
-                                    onTap: () async {
-                                      context.pushNamed(
-                                          StudentAnalyticsWidget.routeName);
-                                    },
-                                    child: Icon(
-                                      Icons.pie_chart_rounded,
-                                      color: Color(0xFFFD7E3A),
-                                      size: 55.0,
+                                Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Align(
+                                      alignment: AlignmentDirectional(0.0, 0.0),
+                                      child: InkWell(
+                                        splashColor: Colors.transparent,
+                                        focusColor: Colors.transparent,
+                                        hoverColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                        onTap: () async {
+                                          context.pushNamed(
+                                              StudentAnalyticsWidget.routeName);
+                                        },
+                                        child: Icon(
+                                          Icons.pie_chart_rounded,
+                                          color: Color(0xFFFD7E3A),
+                                          size: 55.0,
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                    Text(
+                                      FFLocalizations.of(context).getText(
+                                        '7bdfwdz1' /* 공부데이터확인 */,
+                                      ),
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMediumFamily,
+                                            color: Color(0xFFFD7E3A),
+                                            fontSize: 12.0,
+                                            letterSpacing: 0.0,
+                                            useGoogleFonts:
+                                                !FlutterFlowTheme.of(context)
+                                                    .bodyMediumIsCustom,
+                                          ),
+                                    ),
+                                  ],
                                 ),
-                                Align(
-                                  alignment: AlignmentDirectional(0.0, 0.0),
-                                  child: InkWell(
-                                    splashColor: Colors.transparent,
-                                    focusColor: Colors.transparent,
-                                    hoverColor: Colors.transparent,
-                                    highlightColor: Colors.transparent,
-                                    onTap: () async {
-                                      context.pushNamed(
-                                          TimetablePageWidget.routeName);
-                                    },
-                                    child: Icon(
-                                      Icons.space_dashboard_rounded,
-                                      color: Color(0xFF15161E),
-                                      size: 55.0,
+                                Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Align(
+                                      alignment: AlignmentDirectional(0.0, 0.0),
+                                      child: InkWell(
+                                        splashColor: Colors.transparent,
+                                        focusColor: Colors.transparent,
+                                        hoverColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                        onTap: () async {
+                                          context.pushNamed(
+                                              TimetablePageWidget.routeName);
+                                        },
+                                        child: Icon(
+                                          Icons.space_dashboard_rounded,
+                                          color: Color(0xFF15161E),
+                                          size: 55.0,
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                    Text(
+                                      FFLocalizations.of(context).getText(
+                                        'thlxy366' /* 시간표 설정 */,
+                                      ),
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMediumFamily,
+                                            letterSpacing: 0.0,
+                                            useGoogleFonts:
+                                                !FlutterFlowTheme.of(context)
+                                                    .bodyMediumIsCustom,
+                                          ),
+                                    ),
+                                  ],
                                 ),
-                                Align(
-                                  alignment: AlignmentDirectional(0.0, 0.0),
-                                  child: InkWell(
-                                    splashColor: Colors.transparent,
-                                    focusColor: Colors.transparent,
-                                    hoverColor: Colors.transparent,
-                                    highlightColor: Colors.transparent,
-                                    onTap: () async {
-                                      context
-                                          .pushNamed(UserPageWidget.routeName);
-                                    },
-                                    child: Icon(
-                                      Icons.person,
-                                      color: Color(0xFF15161E),
-                                      size: 55.0,
+                                Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Align(
+                                      alignment: AlignmentDirectional(0.0, 0.0),
+                                      child: InkWell(
+                                        splashColor: Colors.transparent,
+                                        focusColor: Colors.transparent,
+                                        hoverColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                        onTap: () async {
+                                          context.pushNamed(
+                                              UserPageWidget.routeName);
+                                        },
+                                        child: Icon(
+                                          Icons.person,
+                                          color: Color(0xFF15161E),
+                                          size: 55.0,
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                    Text(
+                                      FFLocalizations.of(context).getText(
+                                        '3ovgikvq' /* 개인설정 */,
+                                      ),
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMediumFamily,
+                                            letterSpacing: 0.0,
+                                            useGoogleFonts:
+                                                !FlutterFlowTheme.of(context)
+                                                    .bodyMediumIsCustom,
+                                          ),
+                                    ),
+                                  ],
                                 ),
-                                Align(
-                                  alignment: AlignmentDirectional(0.0, 0.0),
-                                  child: InkWell(
-                                    splashColor: Colors.transparent,
-                                    focusColor: Colors.transparent,
-                                    hoverColor: Colors.transparent,
-                                    highlightColor: Colors.transparent,
-                                    onTap: () async {
-                                      context.goNamed(
-                                          TemporaryLockPageWidget.routeName);
-                                    },
-                                    child: Icon(
-                                      Icons.lock_rounded,
-                                      color: Color(0xFF15161E),
-                                      size: 55.0,
+                                Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Align(
+                                      alignment: AlignmentDirectional(0.0, 0.0),
+                                      child: InkWell(
+                                        splashColor: Colors.transparent,
+                                        focusColor: Colors.transparent,
+                                        hoverColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                        onTap: () async {
+                                          context.goNamed(
+                                              TemporaryLockPageWidget
+                                                  .routeName);
+                                        },
+                                        child: Icon(
+                                          Icons.lock_rounded,
+                                          color: Color(0xFF15161E),
+                                          size: 55.0,
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                    Text(
+                                      FFLocalizations.of(context).getText(
+                                        'vs0u31es' /* 잠금화면 */,
+                                      ),
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMediumFamily,
+                                            letterSpacing: 0.0,
+                                            useGoogleFonts:
+                                                !FlutterFlowTheme.of(context)
+                                                    .bodyMediumIsCustom,
+                                          ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
@@ -312,6 +453,8 @@ class _StudentAnalyticsWidgetState extends State<StudentAnalyticsWidget>
                                                   30.0, 0.0, 0.0, 0.0),
                                           child: Row(
                                             mainAxisSize: MainAxisSize.max,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
                                             children: [
                                               InkWell(
                                                 splashColor: Colors.transparent,
@@ -669,6 +812,85 @@ class _StudentAnalyticsWidgetState extends State<StudentAnalyticsWidget>
                                                   ),
                                                 ),
                                               ),
+                                              Flexible(
+                                                child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  children: [
+                                                    Text(
+                                                      FFLocalizations.of(
+                                                              context)
+                                                          .getText(
+                                                        'tm5pdopl' /* 전체 과목 조회 */,
+                                                      ),
+                                                      style: FlutterFlowTheme
+                                                              .of(context)
+                                                          .bodyMedium
+                                                          .override(
+                                                            fontFamily:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMediumFamily,
+                                                            letterSpacing: 0.0,
+                                                            useGoogleFonts:
+                                                                !FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMediumIsCustom,
+                                                          ),
+                                                    ),
+                                                    Align(
+                                                      alignment:
+                                                          AlignmentDirectional(
+                                                              1.0, 0.0),
+                                                      child: Switch.adaptive(
+                                                        value:
+                                                            _model.switchValue!,
+                                                        onChanged:
+                                                            (newValue) async {
+                                                          safeSetState(() =>
+                                                              _model.switchValue =
+                                                                  newValue);
+                                                        },
+                                                        activeColor:
+                                                            Color(0xFFD57FD2),
+                                                        activeTrackColor:
+                                                            Color(0xFFD57FD2),
+                                                        inactiveTrackColor:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .alternate,
+                                                        inactiveThumbColor:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .secondaryBackground,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      FFLocalizations.of(
+                                                              context)
+                                                          .getText(
+                                                        '0tpy2i9d' /* 대표 과목 조회 */,
+                                                      ),
+                                                      style: FlutterFlowTheme
+                                                              .of(context)
+                                                          .bodyMedium
+                                                          .override(
+                                                            fontFamily:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMediumFamily,
+                                                            letterSpacing: 0.0,
+                                                            useGoogleFonts:
+                                                                !FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMediumIsCustom,
+                                                          ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
                                             ],
                                           ),
                                         ),
@@ -792,8 +1014,7 @@ class _StudentAnalyticsWidgetState extends State<StudentAnalyticsWidget>
                                                                               .startdate,
                                                                           _model
                                                                               .enddate,
-                                                                          FFAppState()
-                                                                              .insideDBStudent
+                                                                          (currentUserDocument?.studyDBbackup.toList() ?? [])
                                                                               .toList()),
                                                                       '측정중 ...',
                                                                     ),
@@ -863,8 +1084,7 @@ class _StudentAnalyticsWidgetState extends State<StudentAnalyticsWidget>
                                                                               .startdate,
                                                                           _model
                                                                               .enddate,
-                                                                          FFAppState()
-                                                                              .insideDBStudent
+                                                                          (currentUserDocument?.studyDBbackup.toList() ?? [])
                                                                               .toList()),
                                                                       '측정중 ...',
                                                                     ),
@@ -954,148 +1174,218 @@ class _StudentAnalyticsWidgetState extends State<StudentAnalyticsWidget>
                                                                   10.0,
                                                                   20.0,
                                                                   20.0),
-                                                      child: Container(
-                                                        width: double.infinity,
-                                                        height: 100.0,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .secondaryBackground,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      20.0),
-                                                        ),
-                                                        child: Column(
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            RichText(
-                                                              textScaler:
-                                                                  MediaQuery.of(
-                                                                          context)
-                                                                      .textScaler,
-                                                              text: TextSpan(
-                                                                children: [
-                                                                  TextSpan(
-                                                                    text: FFLocalizations.of(
-                                                                            context)
-                                                                        .getText(
-                                                                      'mrsd919y' /* 기간 총 공부시간 */,
+                                                      child:
+                                                          AuthUserStreamWidget(
+                                                        builder: (context) =>
+                                                            FutureBuilder<
+                                                                List<
+                                                                    VStudyTimeDailyBySpotRow>>(
+                                                          future:
+                                                              VStudyTimeDailyBySpotTable()
+                                                                  .queryRows(
+                                                            queryFn: (q) => q
+                                                                .eqOrNull(
+                                                                  'spot',
+                                                                  valueOrDefault(
+                                                                      currentUserDocument
+                                                                          ?.spot,
+                                                                      ''),
+                                                                )
+                                                                .gteOrNull(
+                                                                  'study_date',
+                                                                  supaSerialize<
+                                                                          DateTime>(
+                                                                      _model
+                                                                          .startdate),
+                                                                )
+                                                                .lteOrNull(
+                                                                  'study_date',
+                                                                  supaSerialize<
+                                                                          DateTime>(
+                                                                      _model
+                                                                          .enddate),
+                                                                ),
+                                                          ),
+                                                          builder: (context,
+                                                              snapshot) {
+                                                            // Customize what your widget looks like when it's loading.
+                                                            if (!snapshot
+                                                                .hasData) {
+                                                              return Center(
+                                                                child: SizedBox(
+                                                                  width: 50.0,
+                                                                  height: 50.0,
+                                                                  child:
+                                                                      CircularProgressIndicator(
+                                                                    valueColor:
+                                                                        AlwaysStoppedAnimation<
+                                                                            Color>(
+                                                                      FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .primary,
                                                                     ),
-                                                                    style:
-                                                                        TextStyle(),
                                                                   ),
-                                                                  TextSpan(
-                                                                    text: FFLocalizations.of(
-                                                                            context)
-                                                                        .getText(
-                                                                      'fhgycqst' /* 
+                                                                ),
+                                                              );
+                                                            }
+                                                            List<VStudyTimeDailyBySpotRow>
+                                                                containerVStudyTimeDailyBySpotRowList =
+                                                                snapshot.data!;
+
+                                                            return Container(
+                                                              width: double
+                                                                  .infinity,
+                                                              height: 100.0,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .secondaryBackground,
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            20.0),
+                                                              ),
+                                                              child: Column(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .max,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                children: [
+                                                                  RichText(
+                                                                    textScaler:
+                                                                        MediaQuery.of(context)
+                                                                            .textScaler,
+                                                                    text:
+                                                                        TextSpan(
+                                                                      children: [
+                                                                        TextSpan(
+                                                                          text:
+                                                                              FFLocalizations.of(context).getText(
+                                                                            'mrsd919y' /* 기간 총 공부시간 */,
+                                                                          ),
+                                                                          style:
+                                                                              TextStyle(),
+                                                                        ),
+                                                                        TextSpan(
+                                                                          text:
+                                                                              FFLocalizations.of(context).getText(
+                                                                            'fhgycqst' /* 
 
  */
-                                                                      ,
+                                                                            ,
+                                                                          ),
+                                                                          style:
+                                                                              TextStyle(),
+                                                                        ),
+                                                                        TextSpan(
+                                                                          text:
+                                                                              valueOrDefault<String>(
+                                                                            formatNumber(
+                                                                              valueOrDefault<double>(
+                                                                                    containerVStudyTimeDailyBySpotRowList.lastOrNull?.totalStudyMinute,
+                                                                                    0.0,
+                                                                                  ) /
+                                                                                  valueOrDefault<int>(
+                                                                                    containerVStudyTimeDailyBySpotRowList.lastOrNull?.uniqueStudents,
+                                                                                    0,
+                                                                                  ),
+                                                                              formatType: FormatType.custom,
+                                                                              format: '###.0#',
+                                                                              locale: '',
+                                                                            ),
+                                                                            '0',
+                                                                          ),
+                                                                          style:
+                                                                              TextStyle(),
+                                                                        )
+                                                                      ],
+                                                                      style: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .override(
+                                                                            fontFamily:
+                                                                                FlutterFlowTheme.of(context).bodyMediumFamily,
+                                                                            letterSpacing:
+                                                                                0.0,
+                                                                            useGoogleFonts:
+                                                                                !FlutterFlowTheme.of(context).bodyMediumIsCustom,
+                                                                          ),
                                                                     ),
-                                                                    style:
-                                                                        TextStyle(),
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
                                                                   ),
-                                                                  TextSpan(
-                                                                    text: FFLocalizations.of(
+                                                                  Divider(
+                                                                    thickness:
+                                                                        1.0,
+                                                                    indent:
+                                                                        10.0,
+                                                                    endIndent:
+                                                                        10.0,
+                                                                    color: FlutterFlowTheme.of(
                                                                             context)
-                                                                        .getText(
-                                                                      'bb5fuw8s' /* 데이터 수집중... */,
-                                                                    ),
-                                                                    style:
-                                                                        TextStyle(),
-                                                                  )
-                                                                ],
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium
-                                                                    .override(
-                                                                      fontFamily:
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .bodyMediumFamily,
-                                                                      letterSpacing:
-                                                                          0.0,
-                                                                      useGoogleFonts:
-                                                                          !FlutterFlowTheme.of(context)
-                                                                              .bodyMediumIsCustom,
-                                                                    ),
-                                                              ),
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .center,
-                                                            ),
-                                                            Divider(
-                                                              thickness: 1.0,
-                                                              indent: 10.0,
-                                                              endIndent: 10.0,
-                                                              color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .alternate,
-                                                            ),
-                                                            RichText(
-                                                              textScaler:
-                                                                  MediaQuery.of(
-                                                                          context)
-                                                                      .textScaler,
-                                                              text: TextSpan(
-                                                                children: [
-                                                                  TextSpan(
-                                                                    text: FFLocalizations.of(
-                                                                            context)
-                                                                        .getText(
-                                                                      'sdxtp42a' /* 평균공부시간 */,
-                                                                    ),
-                                                                    style:
-                                                                        TextStyle(),
+                                                                        .alternate,
                                                                   ),
-                                                                  TextSpan(
-                                                                    text: FFLocalizations.of(
-                                                                            context)
-                                                                        .getText(
-                                                                      'g390y24s' /* 
+                                                                  RichText(
+                                                                    textScaler:
+                                                                        MediaQuery.of(context)
+                                                                            .textScaler,
+                                                                    text:
+                                                                        TextSpan(
+                                                                      children: [
+                                                                        TextSpan(
+                                                                          text:
+                                                                              FFLocalizations.of(context).getText(
+                                                                            'sdxtp42a' /* 평균공부시간 */,
+                                                                          ),
+                                                                          style:
+                                                                              TextStyle(),
+                                                                        ),
+                                                                        TextSpan(
+                                                                          text:
+                                                                              FFLocalizations.of(context).getText(
+                                                                            'g390y24s' /* 
 
  */
-                                                                      ,
+                                                                            ,
+                                                                          ),
+                                                                          style:
+                                                                              TextStyle(),
+                                                                        ),
+                                                                        TextSpan(
+                                                                          text:
+                                                                              FFLocalizations.of(context).getText(
+                                                                            'nxoioc9e' /* 데이터 수집중... */,
+                                                                          ),
+                                                                          style:
+                                                                              TextStyle(),
+                                                                        )
+                                                                      ],
+                                                                      style: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .override(
+                                                                            fontFamily:
+                                                                                FlutterFlowTheme.of(context).bodyMediumFamily,
+                                                                            letterSpacing:
+                                                                                0.0,
+                                                                            useGoogleFonts:
+                                                                                !FlutterFlowTheme.of(context).bodyMediumIsCustom,
+                                                                          ),
                                                                     ),
-                                                                    style:
-                                                                        TextStyle(),
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
                                                                   ),
-                                                                  TextSpan(
-                                                                    text: FFLocalizations.of(
-                                                                            context)
-                                                                        .getText(
-                                                                      'nxoioc9e' /* 데이터 수집중... */,
-                                                                    ),
-                                                                    style:
-                                                                        TextStyle(),
-                                                                  )
-                                                                ],
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium
-                                                                    .override(
-                                                                      fontFamily:
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .bodyMediumFamily,
-                                                                      letterSpacing:
-                                                                          0.0,
-                                                                      useGoogleFonts:
-                                                                          !FlutterFlowTheme.of(context)
-                                                                              .bodyMediumIsCustom,
-                                                                    ),
+                                                                ].divide(SizedBox(
+                                                                    height:
+                                                                        15.0)),
                                                               ),
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .center,
-                                                            ),
-                                                          ].divide(SizedBox(
-                                                              height: 15.0)),
+                                                            );
+                                                          },
                                                         ),
                                                       ),
                                                     ),
@@ -1145,7 +1435,13 @@ class _StudentAnalyticsWidgetState extends State<StudentAnalyticsWidget>
                               child: custom_widgets.WeeklyLineChart(
                                 width: double.infinity,
                                 height: double.infinity,
-                                insideDBStudent: FFAppState().insideDBStudent,
+                                insideDBStudent: _model.switchValue!
+                                    ? functions.filterPageStateBySubjectList(
+                                        _model.listeach.toList(),
+                                        FFAppState()
+                                            .personalSubjectInfo
+                                            .toList())
+                                    : _model.listeach,
                                 startDate: _model.startdate,
                                 endDate: _model.enddate,
                               ),
@@ -1192,7 +1488,13 @@ class _StudentAnalyticsWidgetState extends State<StudentAnalyticsWidget>
                                 child: custom_widgets.DailyTotalStudyTimeSF(
                                   width: double.infinity,
                                   height: double.infinity,
-                                  insideDBStudent: FFAppState().insideDBStudent,
+                                  insideDBStudent: _model.switchValue!
+                                      ? functions.filterPageStateBySubjectList(
+                                          _model.listeach.toList(),
+                                          FFAppState()
+                                              .personalSubjectInfo
+                                              .toList())
+                                      : _model.listeach,
                                   startDate: _model.startdate,
                                   endDate: _model.enddate,
                                 ),
@@ -1229,7 +1531,13 @@ class _StudentAnalyticsWidgetState extends State<StudentAnalyticsWidget>
                               child: custom_widgets.WeeklyStartEndLineChart(
                                 width: double.infinity,
                                 height: double.infinity,
-                                insideDBStudent: FFAppState().insideDBStudent,
+                                insideDBStudent: _model.switchValue!
+                                    ? functions.filterPageStateBySubjectList(
+                                        _model.listeach.toList(),
+                                        FFAppState()
+                                            .personalSubjectInfo
+                                            .toList())
+                                    : _model.listeach,
                                 startDate: _model.startdate,
                                 endDate: _model.enddate,
                               ),
@@ -1265,8 +1573,13 @@ class _StudentAnalyticsWidgetState extends State<StudentAnalyticsWidget>
                               child: custom_widgets.WeeklyPieChart(
                                 width: double.infinity,
                                 height: double.infinity,
-                                pageStateSchemaList:
-                                    FFAppState().insideDBStudent,
+                                pageStateSchemaList: _model.switchValue!
+                                    ? functions.filterPageStateBySubjectList(
+                                        _model.listeach.toList(),
+                                        FFAppState()
+                                            .personalSubjectInfo
+                                            .toList())
+                                    : _model.listeach,
                                 startDate: _model.startdate,
                                 endDate: _model.enddate,
                               ),

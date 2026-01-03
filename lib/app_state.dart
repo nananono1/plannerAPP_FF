@@ -21,22 +21,6 @@ class FFAppState extends ChangeNotifier {
   Future initializePersistedState() async {
     secureStorage = FlutterSecureStorage();
     await _safeInitAsync(() async {
-      _insideDBStudent =
-          (await secureStorage.getStringList('ff_insideDBStudent'))
-                  ?.map((x) {
-                    try {
-                      return PageStateSchemaStruct.fromSerializableMap(
-                          jsonDecode(x));
-                    } catch (e) {
-                      print("Can't decode persisted data type. Error: $e.");
-                      return null;
-                    }
-                  })
-                  .withoutNulls
-                  .toList() ??
-              _insideDBStudent;
-    });
-    await _safeInitAsync(() async {
       if (await secureStorage.read(key: 'ff_pageStateSchemaVariable') != null) {
         try {
           final serializedData =
@@ -104,27 +88,16 @@ class FFAppState extends ChangeNotifier {
           _dDayAppState;
     });
     await _safeInitAsync(() async {
+      _currentIndexIDParameter =
+          await secureStorage.getInt('ff_currentIndexIDParameter') ??
+              _currentIndexIDParameter;
+    });
+    await _safeInitAsync(() async {
       _dateselectSafety =
           await secureStorage.read(key: 'ff_dateselectSafety') != null
               ? DateTime.fromMillisecondsSinceEpoch(
                   (await secureStorage.getInt('ff_dateselectSafety'))!)
               : _dateselectSafety;
-    });
-    await _safeInitAsync(() async {
-      _fixSubjectColorAppState =
-          (await secureStorage.getStringList('ff_fixSubjectColorAppState'))
-                  ?.map((x) {
-                    try {
-                      return FixSubjectColorStruct.fromSerializableMap(
-                          jsonDecode(x));
-                    } catch (e) {
-                      print("Can't decode persisted data type. Error: $e.");
-                      return null;
-                    }
-                  })
-                  .withoutNulls
-                  .toList() ??
-              _fixSubjectColorAppState;
     });
     await _safeInitAsync(() async {
       _weeklyTimeTableList =
@@ -206,6 +179,22 @@ class FFAppState extends ChangeNotifier {
       _newCallOnPlanner = await secureStorage.getBool('ff_newCallOnPlanner') ??
           _newCallOnPlanner;
     });
+    await _safeInitAsync(() async {
+      _penaltyInputList =
+          (await secureStorage.getStringList('ff_penaltyInputList'))
+                  ?.map((x) {
+                    try {
+                      return PenaltyInputEachStruct.fromSerializableMap(
+                          jsonDecode(x));
+                    } catch (e) {
+                      print("Can't decode persisted data type. Error: $e.");
+                      return null;
+                    }
+                  })
+                  .withoutNulls
+                  .toList() ??
+              _penaltyInputList;
+    });
   }
 
   void update(VoidCallback callback) {
@@ -219,30 +208,18 @@ class FFAppState extends ChangeNotifier {
   List<PageStateSchemaStruct> get insideDBStudent => _insideDBStudent;
   set insideDBStudent(List<PageStateSchemaStruct> value) {
     _insideDBStudent = value;
-    secureStorage.setStringList(
-        'ff_insideDBStudent', value.map((x) => x.serialize()).toList());
-  }
-
-  void deleteInsideDBStudent() {
-    secureStorage.delete(key: 'ff_insideDBStudent');
   }
 
   void addToInsideDBStudent(PageStateSchemaStruct value) {
     insideDBStudent.add(value);
-    secureStorage.setStringList('ff_insideDBStudent',
-        _insideDBStudent.map((x) => x.serialize()).toList());
   }
 
   void removeFromInsideDBStudent(PageStateSchemaStruct value) {
     insideDBStudent.remove(value);
-    secureStorage.setStringList('ff_insideDBStudent',
-        _insideDBStudent.map((x) => x.serialize()).toList());
   }
 
   void removeAtIndexFromInsideDBStudent(int index) {
     insideDBStudent.removeAt(index);
-    secureStorage.setStringList('ff_insideDBStudent',
-        _insideDBStudent.map((x) => x.serialize()).toList());
   }
 
   void updateInsideDBStudentAtIndex(
@@ -250,14 +227,10 @@ class FFAppState extends ChangeNotifier {
     PageStateSchemaStruct Function(PageStateSchemaStruct) updateFn,
   ) {
     insideDBStudent[index] = updateFn(_insideDBStudent[index]);
-    secureStorage.setStringList('ff_insideDBStudent',
-        _insideDBStudent.map((x) => x.serialize()).toList());
   }
 
   void insertAtIndexInInsideDBStudent(int index, PageStateSchemaStruct value) {
     insideDBStudent.insert(index, value);
-    secureStorage.setStringList('ff_insideDBStudent',
-        _insideDBStudent.map((x) => x.serialize()).toList());
   }
 
   PageStateSchemaStruct _pageStateSchemaVariable =
@@ -374,7 +347,7 @@ class FFAppState extends ChangeNotifier {
 
   List<DDaySchemaStruct> _dDayAppState = [
     DDaySchemaStruct.fromSerializableMap(jsonDecode(
-        '{\"dDay\":\"1762981200000\",\"isImportant\":\"false\",\"ddayInfo\":\"2026학년도 수능\"}'))
+        '{\"dDay\":\"1795014000000\",\"isImportant\":\"false\",\"ddayInfo\":\"2027학년도 수능\"}'))
   ];
   List<DDaySchemaStruct> get dDayAppState => _dDayAppState;
   set dDayAppState(List<DDaySchemaStruct> value) {
@@ -424,6 +397,11 @@ class FFAppState extends ChangeNotifier {
   int get currentIndexIDParameter => _currentIndexIDParameter;
   set currentIndexIDParameter(int value) {
     _currentIndexIDParameter = value;
+    secureStorage.setInt('ff_currentIndexIDParameter', value);
+  }
+
+  void deleteCurrentIndexIDParameter() {
+    secureStorage.delete(key: 'ff_currentIndexIDParameter');
   }
 
   DateTime? _dateselectSafety =
@@ -492,53 +470,6 @@ class FFAppState extends ChangeNotifier {
 
   void insertAtIndexInSpotInfoAppstate(int index, String value) {
     spotInfoAppstate.insert(index, value);
-  }
-
-  List<FixSubjectColorStruct> _fixSubjectColorAppState = [];
-  List<FixSubjectColorStruct> get fixSubjectColorAppState =>
-      _fixSubjectColorAppState;
-  set fixSubjectColorAppState(List<FixSubjectColorStruct> value) {
-    _fixSubjectColorAppState = value;
-    secureStorage.setStringList(
-        'ff_fixSubjectColorAppState', value.map((x) => x.serialize()).toList());
-  }
-
-  void deleteFixSubjectColorAppState() {
-    secureStorage.delete(key: 'ff_fixSubjectColorAppState');
-  }
-
-  void addToFixSubjectColorAppState(FixSubjectColorStruct value) {
-    fixSubjectColorAppState.add(value);
-    secureStorage.setStringList('ff_fixSubjectColorAppState',
-        _fixSubjectColorAppState.map((x) => x.serialize()).toList());
-  }
-
-  void removeFromFixSubjectColorAppState(FixSubjectColorStruct value) {
-    fixSubjectColorAppState.remove(value);
-    secureStorage.setStringList('ff_fixSubjectColorAppState',
-        _fixSubjectColorAppState.map((x) => x.serialize()).toList());
-  }
-
-  void removeAtIndexFromFixSubjectColorAppState(int index) {
-    fixSubjectColorAppState.removeAt(index);
-    secureStorage.setStringList('ff_fixSubjectColorAppState',
-        _fixSubjectColorAppState.map((x) => x.serialize()).toList());
-  }
-
-  void updateFixSubjectColorAppStateAtIndex(
-    int index,
-    FixSubjectColorStruct Function(FixSubjectColorStruct) updateFn,
-  ) {
-    fixSubjectColorAppState[index] = updateFn(_fixSubjectColorAppState[index]);
-    secureStorage.setStringList('ff_fixSubjectColorAppState',
-        _fixSubjectColorAppState.map((x) => x.serialize()).toList());
-  }
-
-  void insertAtIndexInFixSubjectColorAppState(
-      int index, FixSubjectColorStruct value) {
-    fixSubjectColorAppState.insert(index, value);
-    secureStorage.setStringList('ff_fixSubjectColorAppState',
-        _fixSubjectColorAppState.map((x) => x.serialize()).toList());
   }
 
   List<DailyInfoEachStruct> _dailyInfoList = [
@@ -675,15 +606,19 @@ class FFAppState extends ChangeNotifier {
 
   List<PersonalSubjectEachStruct> _personalSubjectInfo = [
     PersonalSubjectEachStruct.fromSerializableMap(
-        jsonDecode('{\"subject\":\"국어\",\"color\":\"#e6b58a\"}')),
+        jsonDecode('{\"subject\":\"국어\",\"color\":\"#ffc1cc\"}')),
     PersonalSubjectEachStruct.fromSerializableMap(
-        jsonDecode('{\"subject\":\"영어\",\"color\":\"#1781e8\"}')),
+        jsonDecode('{\"subject\":\"영어\",\"color\":\"#e1cfff\"}')),
     PersonalSubjectEachStruct.fromSerializableMap(
-        jsonDecode('{\"subject\":\"수학\",\"color\":\"#bdd299\"}')),
+        jsonDecode('{\"subject\":\"수학\",\"color\":\"#b2f2bb\"}')),
     PersonalSubjectEachStruct.fromSerializableMap(
-        jsonDecode('{\"subject\":\"탐구1\",\"color\":\"#e62de8\"}')),
+        jsonDecode('{\"subject\":\"탐구1\",\"color\":\"#aee1f9\"}')),
     PersonalSubjectEachStruct.fromSerializableMap(
-        jsonDecode('{\"subject\":\"탐구2\",\"color\":\"#ba84bc\"}'))
+        jsonDecode('{\"subject\":\"탐구2\",\"color\":\"#fff5ba\"}')),
+    PersonalSubjectEachStruct.fromSerializableMap(
+        jsonDecode('{\"subject\":\"기타1\",\"color\":\"#04122a\"}')),
+    PersonalSubjectEachStruct.fromSerializableMap(
+        jsonDecode('{\"subject\":\"기타2\",\"color\":\"#7fb3d5\"}'))
   ];
   List<PersonalSubjectEachStruct> get personalSubjectInfo =>
       _personalSubjectInfo;
@@ -856,6 +791,83 @@ class FFAppState extends ChangeNotifier {
   void insertAtIndexInCostCallList(
       int index, ConvertCostCallPerSpotStruct value) {
     costCallList.insert(index, value);
+  }
+
+  List<PenaltyInputEachStruct> _penaltyInputList = [
+    PenaltyInputEachStruct.fromSerializableMap(jsonDecode(
+        '{\"penaltyReason\":\"직접입력\",\"penaltyPoint\":\"0\",\"labelType\":\"none\"}')),
+    PenaltyInputEachStruct.fromSerializableMap(jsonDecode(
+        '{\"penaltyReason\":\"무단결석\",\"penaltyPoint\":\"4\",\"labelType\":\"none\"}')),
+    PenaltyInputEachStruct.fromSerializableMap(jsonDecode(
+        '{\"penaltyReason\":\"정규등원시각 무단지각\",\"penaltyPoint\":\"2\",\"labelType\":\"none\"}')),
+    PenaltyInputEachStruct.fromSerializableMap(jsonDecode(
+        '{\"penaltyReason\":\"무단지각\",\"penaltyPoint\":\"1\",\"labelType\":\"period\"}')),
+    PenaltyInputEachStruct.fromSerializableMap(jsonDecode(
+        '{\"penaltyReason\":\"10분 이내 지각\",\"penaltyPoint\":\"0.5\",\"labelType\":\"period\"}')),
+    PenaltyInputEachStruct.fromSerializableMap(jsonDecode(
+        '{\"penaltyReason\":\"무단조퇴\",\"penaltyPoint\":\"2\",\"labelType\":\"time\"}')),
+    PenaltyInputEachStruct.fromSerializableMap(jsonDecode(
+        '{\"penaltyReason\":\"무단외출\",\"penaltyPoint\":\"1\",\"labelType\":\"time\"}')),
+    PenaltyInputEachStruct.fromSerializableMap(jsonDecode(
+        '{\"penaltyReason\":\"스터디 플래너 미제출\",\"penaltyPoint\":\"1\",\"labelType\":\"planner\"}')),
+    PenaltyInputEachStruct.fromSerializableMap(jsonDecode(
+        '{\"penaltyReason\":\"무단입실\",\"penaltyPoint\":\"2\",\"labelType\":\"time\"}')),
+    PenaltyInputEachStruct.fromSerializableMap(jsonDecode(
+        '{\"penaltyReason\":\"무단이동\",\"penaltyPoint\":\"1\",\"labelType\":\"time\"}')),
+    PenaltyInputEachStruct.fromSerializableMap(jsonDecode(
+        '{\"penaltyReason\":\"휴대폰 미제출\",\"penaltyPoint\":\"3\",\"labelType\":\"time\"}')),
+    PenaltyInputEachStruct.fromSerializableMap(jsonDecode(
+        '{\"penaltyReason\":\"바코드 미태깅 입/출입\",\"penaltyPoint\":\"0.5\",\"labelType\":\"time\"}')),
+    PenaltyInputEachStruct.fromSerializableMap(jsonDecode(
+        '{\"penaltyReason\":\"학습 외 인터넷 사용\",\"penaltyPoint\":\"3\",\"labelType\":\"time\"}')),
+    PenaltyInputEachStruct.fromSerializableMap(jsonDecode(
+        '{\"penaltyReason\":\"기타 통신기기 사용\",\"penaltyPoint\":\"3\",\"labelType\":\"time\"}')),
+    PenaltyInputEachStruct.fromSerializableMap(jsonDecode(
+        '{\"penaltyReason\":\"지속적인 졸음\",\"penaltyPoint\":\"0.5\",\"labelType\":\"time\"}'))
+  ];
+  List<PenaltyInputEachStruct> get penaltyInputList => _penaltyInputList;
+  set penaltyInputList(List<PenaltyInputEachStruct> value) {
+    _penaltyInputList = value;
+    secureStorage.setStringList(
+        'ff_penaltyInputList', value.map((x) => x.serialize()).toList());
+  }
+
+  void deletePenaltyInputList() {
+    secureStorage.delete(key: 'ff_penaltyInputList');
+  }
+
+  void addToPenaltyInputList(PenaltyInputEachStruct value) {
+    penaltyInputList.add(value);
+    secureStorage.setStringList('ff_penaltyInputList',
+        _penaltyInputList.map((x) => x.serialize()).toList());
+  }
+
+  void removeFromPenaltyInputList(PenaltyInputEachStruct value) {
+    penaltyInputList.remove(value);
+    secureStorage.setStringList('ff_penaltyInputList',
+        _penaltyInputList.map((x) => x.serialize()).toList());
+  }
+
+  void removeAtIndexFromPenaltyInputList(int index) {
+    penaltyInputList.removeAt(index);
+    secureStorage.setStringList('ff_penaltyInputList',
+        _penaltyInputList.map((x) => x.serialize()).toList());
+  }
+
+  void updatePenaltyInputListAtIndex(
+    int index,
+    PenaltyInputEachStruct Function(PenaltyInputEachStruct) updateFn,
+  ) {
+    penaltyInputList[index] = updateFn(_penaltyInputList[index]);
+    secureStorage.setStringList('ff_penaltyInputList',
+        _penaltyInputList.map((x) => x.serialize()).toList());
+  }
+
+  void insertAtIndexInPenaltyInputList(
+      int index, PenaltyInputEachStruct value) {
+    penaltyInputList.insert(index, value);
+    secureStorage.setStringList('ff_penaltyInputList',
+        _penaltyInputList.map((x) => x.serialize()).toList());
   }
 }
 

@@ -12,6 +12,7 @@ import '/backend/backend.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '/backend/schema/structs/index.dart';
 import '/backend/schema/enums/enums.dart';
+import '/backend/supabase/supabase.dart';
 import '/auth/firebase_auth/auth_util.dart';
 
 double calculatePlannerCellHeight(
@@ -22,6 +23,69 @@ double calculatePlannerCellHeight(
 
   double calculateHeight = (478 / (endTime - startTime + 1));
   return calculateHeight;
+}
+
+DateTime subtractminusThreeHours(DateTime plannerDateSelected) {
+  DateTime newDate = plannerDateSelected.subtract(Duration(hours: 3));
+
+  // 새로 계산된 날짜를 반환합니다.
+  return newDate;
+}
+
+DateTime addThreeHours(DateTime plannerDateSelected) {
+  DateTime newDate = plannerDateSelected.add(Duration(hours: 3));
+
+  // 새로 계산된 날짜를 반환합니다.
+  return newDate;
+}
+
+String? penaltyTextEditorCopy(
+  String? whod,
+  String? dateStr,
+  String? reason,
+  String? addpoint,
+  String? total,
+  String? pointnow,
+) {
+  // null 혹은 빈값 방지용 처리
+  final who = (whod ?? '').trim();
+  final date = (dateStr ?? '').trim();
+  final r = (reason ?? '').trim();
+  final addPt = (addpoint ?? '').trim();
+  final totalPt = (total ?? '').trim();
+
+  // 필수값 없으면 null 반환
+  if (who.isEmpty ||
+      date.isEmpty ||
+      r.isEmpty ||
+      addPt.isEmpty ||
+      totalPt.isEmpty) {
+    return null;
+  }
+
+  // 최종 메시지 문자열 구성
+  final message = '[내공관리형스터디카페]\n'
+      '<$who> $date 벌점상쇄\n'
+      '사유: $r\n'
+      '상쇄벌점: ${addPt}점\n'
+      '누적벌점: ${totalPt}점\n'
+      '잔여 포인트 : ${pointnow}포인트';
+
+  return message;
+}
+
+DateTime addTenSecond(DateTime plannerDateSelected) {
+  DateTime newDate = plannerDateSelected.add(Duration(seconds: 10));
+
+  // 새로 계산된 날짜를 반환합니다.
+  return newDate;
+}
+
+DateTime subtractminusTenSeconds(DateTime plannerDateSelected) {
+  DateTime newDate = plannerDateSelected.subtract(Duration(seconds: 10));
+
+  // 새로 계산된 날짜를 반환합니다.
+  return newDate;
 }
 
 DateTime subtractminusweek(DateTime plannerDateSelected) {
@@ -59,6 +123,46 @@ int? removeLastDigit(int? insertedPin) {
 
   // 제거한 후 다시 int로 변환하여 반환
   return int.parse(updatedPinString);
+}
+
+int calculateDailyInNaegongStudyTimeMinutes(PageStateSchemaStruct pageState) {
+  int totalSeconds = 0; // ✅ 내공 공부시간 누적(초)
+
+  for (final plannerInput in pageState.inputListState) {
+    // ✅ 하루의 모든 plannerInput 순회
+    final List<DateTime> startList =
+        plannerInput.studyStartTime ?? []; // ✅ 시작시간 리스트(없으면 빈 리스트)
+    final List<DateTime> endList =
+        plannerInput.studyEndTime ?? []; // ✅ 종료시간 리스트(없으면 빈 리스트)
+    final List<bool> inNaegongList =
+        plannerInput.inNaegong ?? []; // ✅ inNaegong 리스트(없으면 빈 리스트)
+
+    final int pairCount = math.min(
+      // ✅ 3개 리스트 중 가장 짧은 길이까지만 안전하게 처리
+      math.min(startList.length, endList.length), // ✅ start/end 쌍 가능한 개수
+      inNaegongList.length, // ✅ inNaegong까지 포함해 매칭 가능한 개수
+    );
+
+    for (int i = 0; i < pairCount; i++) {
+      // ✅ 인덱스 매칭 기반으로 반복
+      if (inNaegongList[i] != true) {
+        // ✅ i번째 세션이 내공이 아니면
+        continue; // ✅ 스킵
+      }
+
+      final DateTime start = startList[i]; // ✅ i번째 시작시간
+      final DateTime end = endList[i]; // ✅ i번째 종료시간
+
+      if (end.isBefore(start)) {
+        // ✅ 종료가 시작보다 빠르면(데이터 이상)
+        continue; // ✅ 스킵
+      }
+
+      totalSeconds += end.difference(start).inSeconds; // ✅ (end-start) 초를 누적
+    }
+  }
+
+  return totalSeconds ~/ 60; // ✅ 초 → 분(int, 내림)으로 변환해 반환
 }
 
 String? calculateListTimeCopy(
@@ -192,50 +296,61 @@ Color getCellColorFromInputListState(
   String cellName,
   List<PlannerInputStruct>? inputListState,
 ) {
-  // 기본 색상 설정
-  Color defaultColor = Color(0xFFFFFFFF);
+  final Color defaultColor = const Color(0xFFFFFFFF); // 기본(미색칠) 색상
 
-  // Null 체크
+  // 입력이 없으면 기본색 반환
   if (inputListState == null || inputListState.isEmpty) {
     return defaultColor;
   }
 
-  // 셀 이름에서 rowHour와 cellIndex 추출
-  int rowHour = int.parse(cellName.substring(4, 6)); // 셀의 시간(시) 추출
-  int cellIndex = int.parse(cellName.substring(6, 7)) - 1; // 셀의 10분 단위 추출
+  // 셀 이름에서 시(hour)와 10분 슬롯 인덱스 추출
+  // cellName = "cellHHX" (HH=00~27, X=1~6 → 0~50분)
+  final int rowHour = int.parse(cellName.substring(4, 6)); // "HH" → 정수
+  final int cellIndex = int.parse(cellName.substring(6, 7)) // "X"   → 정수(1~6)
+      -
+      1; // 0 기반 인덱스로 변환(0~5)
 
-  // 셀의 시작 시간과 종료 시간 계산
-  int cellStartMinutes = rowHour * 60 + cellIndex * 10; // 셀 시작 시간 (분 단위)
-  int cellEndMinutes = cellStartMinutes + 10; // 셀 종료 시간 (분 단위)
+  // 셀의 시작/종료 분(시·분만 사용; 날짜는 사용 안 함)
+  final int cellStartMinutes =
+      rowHour * 60 + cellIndex * 10; // 예: 23*60 + (1*10)=1390
+  final int cellEndMinutes = cellStartMinutes + 10; // 10분 슬롯의 끝
 
-  // 여러 PlannerInputStruct에 대한 색상 추적
-  Color? selectedColor;
+  Color? selectedColor; // 마지막으로 겹친 항목의 색상
 
-  // 모든 PlannerInputStruct를 확인
-  for (var item in inputListState) {
-    if (item.studyStartTime != null && item.studyEndTime != null) {
-      for (int j = 0; j < item.studyStartTime!.length; j++) {
-        // 공부 시간 (분 단위로 변환)
-        DateTime startTime = item.studyStartTime![j];
-        DateTime endTime = item.studyEndTime![j];
-        int startMinutes = startTime.hour * 60 + startTime.minute;
-        int endMinutes = endTime.hour * 60 + endTime.minute;
+  // 각 입력 항목을 순회
+  for (final item in inputListState) {
+    // 시작/종료 배열이 비어있으면 스킵
+    if (item.studyStartTime == null || item.studyEndTime == null) continue;
 
-        // 겹치는 시간 계산
-        int overlapStart =
-            math.max(cellStartMinutes, startMinutes); // 겹치는 시작 시간
-        int overlapEnd = math.min(cellEndMinutes, endMinutes); // 겹치는 종료 시간
-        int overlapDuration = overlapEnd - overlapStart; // 겹치는 시간 (분 단위)
+    // 시작/종료 쌍을 순회(길이가 다르면 길이 짧은 쪽까지만 사용 권장이나,
+    // 기존 계약대로 시작 배열 길이에 맞춰 반복)
+    for (int j = 0; j < item.studyStartTime!.length; j++) {
+      final DateTime start = item.studyStartTime![j]; // j번째 시작시각
+      final DateTime end = item.studyEndTime![j]; // j번째 종료시각
 
-        // 5분 이상 겹칠 경우 색상 선택
-        if (overlapDuration >= 5) {
-          selectedColor = item.pickedColor;
-        }
+      // 시·분만 추출(날짜는 무시)
+      int startMinutes = start.hour * 60 + start.minute; // 예: 20:13 → 1213
+      int endMinutes = end.hour * 60 + end.minute; // 예: 02:11 → 131
+
+      // ✅ 자정 넘김 보정: 종료 시·분이 시작보다 작으면 +1440(다음날)
+      if (endMinutes < startMinutes) {
+        endMinutes += 1440; // 02:11(+1일) → 1571
+      }
+
+      // 셀 구간과 [start, end) 구간 겹침 계산(분 단위)
+      final int overlapStart = math.max(cellStartMinutes, startMinutes);
+      final int overlapEnd = math.min(cellEndMinutes, endMinutes);
+      final int overlapMinutes = overlapEnd - overlapStart; // 겹친 길이(분)
+
+      // 5분 이상 겹치면 해당 색상 채택
+      if (overlapMinutes >= 5) {
+        selectedColor = item.pickedColor; // Color? 라면 그대로 사용
+        // 만약 pickedColor가 String(hex)이면 별도 변환 필요(현재 계약이 Color라면 불필요)
       }
     }
   }
 
-  // 조건을 만족하는 PlannerInputStruct의 색상 반환 (없으면 기본 색상)
+  // 겹친 게 없으면 기본색, 있으면 최종 색상 반환
   return selectedColor ?? defaultColor;
 }
 
@@ -374,36 +489,6 @@ List<PageStateSchemaStruct>? fromFirebaseToSchema(
       docID: plannerRecord.reference.id, // Firestore 도큐먼트 ID를 저장
     );
   }).toList();
-}
-
-double returnDistanceBetweenTwoPoints(
-  LatLng? positionOne,
-  LatLng? positionTwo,
-) {
-  // null 체크
-  if (positionOne == null || positionTwo == null) {
-    return 0.0;
-  }
-
-  // 두 지점 사이의 거리를 계산하는 함수 (하버사인 공식 사용)
-  var p = 0.017453292519943295; // π / 180
-  var a = 0.5 -
-      math.cos((positionTwo.latitude - positionOne.latitude) * p) / 2 +
-      math.cos(positionOne.latitude * p) *
-          math.cos(positionTwo.latitude * p) *
-          (1 - math.cos((positionTwo.longitude - positionOne.longitude) * p)) /
-          2;
-  double result = 12742 * math.asin(math.sqrt(a)); // 지구 반지름 * 계산된 각도
-
-  // 결과 반환
-  return result;
-}
-
-LatLng convertToLatlng(
-  double lat,
-  double lng,
-) {
-  return LatLng(lat, lng);
 }
 
 DocumentReference convertStringToPlannerVariableListReference(
@@ -592,7 +677,7 @@ int? calculatePointDay(PageStateSchemaStruct? inputstate) {
         final nonPeakEnd =
             endDate.isBefore(eveningStart) ? endDate : eveningStart;
         final nonPeakMinutes = nonPeakEnd.difference(nonPeakStart).inMinutes;
-        totalPoints += (nonPeakMinutes * 1.6667).round();
+        totalPoints += (nonPeakMinutes * 1.66667 + 1).round();
         print('Non-Peak Points (09:00~22:20): $totalPoints');
       }
 
@@ -602,7 +687,7 @@ int? calculatePointDay(PageStateSchemaStruct? inputstate) {
             startDate.isAfter(morningStart) ? startDate : morningStart;
         final overlapEnd = endDate.isBefore(morningEnd) ? endDate : morningEnd;
         final peakMinutes = overlapEnd.difference(overlapStart).inMinutes;
-        totalPoints += (peakMinutes * 8.3334).round();
+        totalPoints += (peakMinutes * 8.33334 + 1).round();
         print('Peak Points (08:00~10:00): $totalPoints');
       }
 
@@ -612,7 +697,7 @@ int? calculatePointDay(PageStateSchemaStruct? inputstate) {
             startDate.isAfter(eveningStart) ? startDate : eveningStart;
         final overlapEnd = endDate.isBefore(eveningEnd) ? endDate : eveningEnd;
         final peakMinutes = overlapEnd.difference(overlapStart).inMinutes;
-        totalPoints += (peakMinutes * 8.3334).round();
+        totalPoints += (peakMinutes * 8.3334 + 1).round();
         print('Peak Points (22:20~23:59): $totalPoints');
       }
 
@@ -625,7 +710,7 @@ int? calculatePointDay(PageStateSchemaStruct? inputstate) {
         final nonPeakEnd =
             endDate.isBefore(nextDayMorningEnd) ? endDate : nextDayMorningEnd;
         final nonPeakMinutes = nonPeakEnd.difference(nonPeakStart).inMinutes;
-        totalPoints += (nonPeakMinutes * 1.6667).round();
+        totalPoints += (nonPeakMinutes * 1.6667 + 1).round();
         print('Non-Peak Points (00:30~07:00): $totalPoints');
       }
     }
@@ -822,4 +907,161 @@ DateTime? convertMaskedDateToDateTime(String maskedDate) {
     // 변환 중 오류가 발생하면 현재 날짜 반환 (또는 null 반환 가능)
     return DateTime.now(); // 또는 return null;
   }
+}
+
+List<PageStateSchemaStruct> filterPageStateBySubjectList(
+  List<PageStateSchemaStruct> data,
+  List<PersonalSubjectEachStruct> subjects,
+) {
+  // 선택된 과목명을 추출해서 Set<String>으로 만듦 (빠른 조회를 위함)
+  final selectedSubjects = subjects
+      .where((s) => s.subject != null && s.subject.trim().isNotEmpty)
+      .map((s) => s.subject.trim())
+      .toSet();
+
+  return data
+      .map((page) {
+        final filteredInputs = (page.inputListState ?? [])
+            .where((input) =>
+                input.subjectNamePlanner != null &&
+                selectedSubjects.contains(input.subjectNamePlanner!.trim()))
+            .toList();
+
+        if (filteredInputs.isEmpty) return null;
+
+        // ⚠️ 다른 필드가 필요하면 여기에 추가
+        return PageStateSchemaStruct(
+          submittedDatePlanner: page.submittedDatePlanner,
+          inputListState: filteredInputs,
+        );
+      })
+      .whereType<PageStateSchemaStruct>()
+      .toList();
+}
+
+String? penaltyTextEditor(
+  String? whod,
+  String? dateStr,
+  String? reason,
+  String? addpoint,
+  String? total,
+) {
+  // null 혹은 빈값 방지용 처리
+  final who = (whod ?? '').trim();
+  final date = (dateStr ?? '').trim();
+  final r = (reason ?? '').trim();
+  final addPt = (addpoint ?? '').trim();
+  final totalPt = (total ?? '').trim();
+
+  // 필수값 없으면 null 반환
+  if (who.isEmpty ||
+      date.isEmpty ||
+      r.isEmpty ||
+      addPt.isEmpty ||
+      totalPt.isEmpty) {
+    return null;
+  }
+
+  // 최종 메시지 문자열 구성
+  final message = '[내공관리형스터디카페]\n'
+      '<$who> $date 벌점부과\n'
+      '사유: $r\n'
+      '벌점: ${addPt}점\n'
+      '누적벌점: ${totalPt}점\n'
+      '벌점 20점이 누적될 경우에는 강제 퇴원 당하실 수 있습니다.\n'
+      '주의 부탁드립니다.';
+
+  return message;
+}
+
+String lastTwoChars(String input) {
+  if (input == null || input.length <= 2) {
+    return input;
+  }
+
+  // 문자열의 끝에서 두 글자만 잘라서 반환
+  return input.substring(input.length - 2);
+}
+
+int calculateDailyStudyTimeMinutes(PageStateSchemaStruct pageState) {
+  int totalSeconds = 0; // ✅ 총 공부시간(초) 누적용 변수
+
+  for (final plannerInput in pageState.inputListState) {
+    // ✅ 하루의 모든 plannerInput(과목/기록 단위) 순회
+    final List<DateTime> startList =
+        plannerInput.studyStartTime ?? []; // ✅ 시작시간 리스트(없으면 빈 리스트)
+    final List<DateTime> endList =
+        plannerInput.studyEndTime ?? []; // ✅ 종료시간 리스트(없으면 빈 리스트)
+
+    final int pairCount =
+        math.min(startList.length, endList.length); // ✅ start/end 쌍이 되는 개수만 계산
+
+    for (int i = 0; i < pairCount; i++) {
+      // ✅ 가능한 쌍만큼 반복
+      final DateTime start = startList[i]; // ✅ i번째 시작시간
+      final DateTime end = endList[i]; // ✅ i번째 종료시간
+
+      if (end.isBefore(start)) {
+        // ✅ 종료가 시작보다 빠르면(데이터 이상)
+        continue; // ✅ 해당 항목은 무시
+      }
+
+      totalSeconds += end.difference(start).inSeconds; // ✅ (end-start) 초 단위로 누적
+    }
+  }
+
+  final int totalMinutes = totalSeconds ~/ 60; // ✅ 초 → 분(내림) 변환
+  return totalMinutes; // ✅ “분” 단위 int 반환
+}
+
+double avgStudyMinuteFromEnrichedRows(dynamic rows) {
+  int? toInt(dynamic v) {
+    // 다양한 타입(int/double/String)을 int로 안전 변환하는 로컬 함수
+    if (v == null) return null; // 값이 null이면 변환 불가
+    if (v is int) return v; // 이미 int면 그대로 반환
+    if (v is double) return v.floor(); // double이면 내림하여 int로 변환
+    if (v is String) {
+      // 문자열이면
+      final s = v.trim(); // 공백 제거
+      if (s.isEmpty) return null; // 빈 문자열이면 변환 불가
+      final asInt = int.tryParse(s); // int 파싱 시도
+      if (asInt != null) return asInt; // 성공하면 반환
+      final asDouble = double.tryParse(s); // double 파싱 시도
+      if (asDouble != null) return asDouble.floor(); // 성공하면 내림하여 반환
+    }
+    return null; // 그 외 타입은 변환 불가
+  } // toInt 끝
+
+  Map<String, dynamic>? toMap(dynamic row) {
+    // row(맵/객체)를 Map<String,dynamic>로 변환하는 로컬 함수
+    if (row == null) return null; // row가 null이면 변환 불가
+    if (row is Map<String, dynamic>) return row; // 이미 원하는 타입이면 그대로 반환
+    if (row is Map)
+      return Map<String, dynamic>.from(row); // 일반 Map이면 강제 캐스팅하여 반환
+    try {
+      // Supabase Row 객체처럼 toMap() 메서드가 있는 경우를 시도
+      final dynamic m = (row as dynamic).toMap(); // 동적으로 toMap() 호출
+      if (m is Map<String, dynamic>) return m; // 반환이 정확한 타입이면 반환
+      if (m is Map) return Map<String, dynamic>.from(m); // 일반 Map이면 강제 캐스팅하여 반환
+    } catch (_) {} // 실패하면 무시하고 null로 진행
+    return null; // 변환 실패
+  } // toMap 끝
+
+  if (rows == null || rows is! List) return 0.0; // 입력이 List가 아니면 평균 0 반환
+
+  int sum = 0; // study_time_of_day 합계(분)
+  int cnt = 0; // 유효한 row 개수
+
+  for (final row in rows) {
+    // 모든 row를 순회
+    final m = toMap(row); // row를 Map으로 변환
+    if (m == null) continue; // 변환 실패 row는 스킵
+    final minutes = toInt(m['study_time_of_day']); // study_time_of_day(분) 읽기
+    if (minutes == null) continue; // 값이 없거나 파싱 실패면 스킵
+    sum += minutes; // 합계 누적
+    cnt += 1; // 카운트 증가
+  } // for 끝
+
+  if (cnt == 0) return 0.0; // 유효 row가 없으면 0
+  return sum / cnt; // 평균(분) 반환
 }

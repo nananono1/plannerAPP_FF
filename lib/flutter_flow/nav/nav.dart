@@ -89,12 +89,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               : AuthWelcomeScreenWidget(),
         ),
         FFRoute(
-          name: HomePageWidget.routeName,
-          path: HomePageWidget.routePath,
-          requireAuth: true,
-          builder: (context, params) => HomePageWidget(),
-        ),
-        FFRoute(
           name: AuthWelcomeScreenWidget.routeName,
           path: AuthWelcomeScreenWidget.routePath,
           builder: (context, params) => AuthWelcomeScreenWidget(),
@@ -134,25 +128,10 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: BackupWidget.routeName,
-          path: BackupWidget.routePath,
-          builder: (context, params) => BackupWidget(),
-        ),
-        FFRoute(
           name: UserPageWidget.routeName,
           path: UserPageWidget.routePath,
           requireAuth: true,
           builder: (context, params) => UserPageWidget(),
-        ),
-        FFRoute(
-          name: Settings1NotificationsWidget.routeName,
-          path: Settings1NotificationsWidget.routePath,
-          builder: (context, params) => Settings1NotificationsWidget(),
-        ),
-        FFRoute(
-          name: AnalyticsPageWidget.routeName,
-          path: AnalyticsPageWidget.routePath,
-          builder: (context, params) => AnalyticsPageWidget(),
         ),
         FFRoute(
           name: AdminSeatConfigureWidget.routeName,
@@ -183,11 +162,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: StudentAnalyticsWidget.routeName,
           path: StudentAnalyticsWidget.routePath,
           builder: (context, params) => StudentAnalyticsWidget(),
-        ),
-        FFRoute(
-          name: SetBestColorPageWidget.routeName,
-          path: SetBestColorPageWidget.routePath,
-          builder: (context, params) => SetBestColorPageWidget(),
         ),
         FFRoute(
           name: PageeeeWidget.routeName,
@@ -303,11 +277,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => AdminTimeTablePageWidget(),
         ),
         FFRoute(
-          name: MasterSpotCheckPageWidget.routeName,
-          path: MasterSpotCheckPageWidget.routePath,
-          builder: (context, params) => MasterSpotCheckPageWidget(),
-        ),
-        FFRoute(
           name: AdminCostCheckWidget.routeName,
           path: AdminCostCheckWidget.routePath,
           builder: (context, params) => AdminCostCheckWidget(
@@ -331,6 +300,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: AdminSignCheckWidget.routeName,
           path: AdminSignCheckWidget.routePath,
           builder: (context, params) => AdminSignCheckWidget(),
+        ),
+        FFRoute(
+          name: AdminPwCheckWidget.routeName,
+          path: AdminPwCheckWidget.routePath,
+          builder: (context, params) => AdminPwCheckWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

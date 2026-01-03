@@ -1,6 +1,5 @@
 import '/backend/backend.dart';
 import '/backend/schema/structs/index.dart';
-import '/components/simple_color_picker_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -165,51 +164,19 @@ class _TimetablestartNaegongtimeWidgetState
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
                         children: [
-                          Builder(
-                            builder: (context) => InkWell(
-                              splashColor: Colors.transparent,
-                              focusColor: Colors.transparent,
-                              hoverColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              onTap: () async {
-                                await showDialog(
-                                  context: context,
-                                  builder: (dialogContext) {
-                                    return Dialog(
-                                      elevation: 0,
-                                      insetPadding: EdgeInsets.zero,
-                                      backgroundColor: Colors.transparent,
-                                      alignment: AlignmentDirectional(0.0, 0.0)
-                                          .resolve(Directionality.of(context)),
-                                      child: SimpleColorPickerWidget(),
-                                    );
-                                  },
-                                ).then((value) =>
-                                    safeSetState(() => _model.zzz = value));
-
-                                _model.pickedColor = valueOrDefault<Color>(
-                                  _model.zzz,
-                                  Color(0xFFD9AEAE),
-                                );
-                                safeSetState(() {});
-
-                                safeSetState(() {});
-                              },
-                              child: Material(
-                                color: Colors.transparent,
-                                elevation: 5.0,
-                                shape: const CircleBorder(),
-                                child: Container(
-                                  width: 40.0,
-                                  height: 40.0,
-                                  decoration: BoxDecoration(
-                                    color: FlutterFlowTheme.of(context).primary,
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: Color(0x8604122A),
-                                      width: 5.0,
-                                    ),
-                                  ),
+                          Material(
+                            color: Colors.transparent,
+                            elevation: 5.0,
+                            shape: const CircleBorder(),
+                            child: Container(
+                              width: 40.0,
+                              height: 40.0,
+                              decoration: BoxDecoration(
+                                color: FlutterFlowTheme.of(context).primary,
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: Color(0x8604122A),
+                                  width: 5.0,
                                 ),
                               ),
                             ),

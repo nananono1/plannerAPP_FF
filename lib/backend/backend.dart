@@ -8,14 +8,12 @@ import 'schema/util/firestore_util.dart';
 import 'schema/users_record.dart';
 import 'schema/notification_record.dart';
 import 'schema/planner_variable_list_record.dart';
-import 'schema/student_call_record.dart';
 import 'schema/weekly_rank_record.dart';
 import 'schema/monthly_rank_record.dart';
 import 'schema/rules_record.dart';
-import 'schema/requests_record.dart';
-import 'schema/inside_d_b_server_record.dart';
-import 'schema/time_overall_record.dart';
-import 'schema/average_time_by_spot_record.dart';
+import 'schema/point_list_each_agg_record.dart';
+import 'schema/study_d_bbackup_agg_record.dart';
+import 'schema/log_record.dart';
 
 export 'dart:async' show StreamSubscription;
 export 'package:cloud_firestore/cloud_firestore.dart' hide Order;
@@ -27,14 +25,12 @@ export 'schema/util/schema_util.dart';
 export 'schema/users_record.dart';
 export 'schema/notification_record.dart';
 export 'schema/planner_variable_list_record.dart';
-export 'schema/student_call_record.dart';
 export 'schema/weekly_rank_record.dart';
 export 'schema/monthly_rank_record.dart';
 export 'schema/rules_record.dart';
-export 'schema/requests_record.dart';
-export 'schema/inside_d_b_server_record.dart';
-export 'schema/time_overall_record.dart';
-export 'schema/average_time_by_spot_record.dart';
+export 'schema/point_list_each_agg_record.dart';
+export 'schema/study_d_bbackup_agg_record.dart';
+export 'schema/log_record.dart';
 
 /// Functions to query UsersRecords (as a Stream and as a Future).
 Future<int> queryUsersRecordCount({
@@ -145,43 +141,6 @@ Future<List<PlannerVariableListRecord>> queryPlannerVariableListRecordOnce({
     queryCollectionOnce(
       PlannerVariableListRecord.collection(parent),
       PlannerVariableListRecord.fromSnapshot,
-      queryBuilder: queryBuilder,
-      limit: limit,
-      singleRecord: singleRecord,
-    );
-
-/// Functions to query StudentCallRecords (as a Stream and as a Future).
-Future<int> queryStudentCallRecordCount({
-  Query Function(Query)? queryBuilder,
-  int limit = -1,
-}) =>
-    queryCollectionCount(
-      StudentCallRecord.collection,
-      queryBuilder: queryBuilder,
-      limit: limit,
-    );
-
-Stream<List<StudentCallRecord>> queryStudentCallRecord({
-  Query Function(Query)? queryBuilder,
-  int limit = -1,
-  bool singleRecord = false,
-}) =>
-    queryCollection(
-      StudentCallRecord.collection,
-      StudentCallRecord.fromSnapshot,
-      queryBuilder: queryBuilder,
-      limit: limit,
-      singleRecord: singleRecord,
-    );
-
-Future<List<StudentCallRecord>> queryStudentCallRecordOnce({
-  Query Function(Query)? queryBuilder,
-  int limit = -1,
-  bool singleRecord = false,
-}) =>
-    queryCollectionOnce(
-      StudentCallRecord.collection,
-      StudentCallRecord.fromSnapshot,
       queryBuilder: queryBuilder,
       limit: limit,
       singleRecord: singleRecord,
@@ -298,149 +257,118 @@ Future<List<RulesRecord>> queryRulesRecordOnce({
       singleRecord: singleRecord,
     );
 
-/// Functions to query RequestsRecords (as a Stream and as a Future).
-Future<int> queryRequestsRecordCount({
+/// Functions to query PointListEachAggRecords (as a Stream and as a Future).
+Future<int> queryPointListEachAggRecordCount({
+  DocumentReference? parent,
   Query Function(Query)? queryBuilder,
   int limit = -1,
 }) =>
     queryCollectionCount(
-      RequestsRecord.collection,
+      PointListEachAggRecord.collection(parent),
       queryBuilder: queryBuilder,
       limit: limit,
     );
 
-Stream<List<RequestsRecord>> queryRequestsRecord({
+Stream<List<PointListEachAggRecord>> queryPointListEachAggRecord({
+  DocumentReference? parent,
   Query Function(Query)? queryBuilder,
   int limit = -1,
   bool singleRecord = false,
 }) =>
     queryCollection(
-      RequestsRecord.collection,
-      RequestsRecord.fromSnapshot,
+      PointListEachAggRecord.collection(parent),
+      PointListEachAggRecord.fromSnapshot,
       queryBuilder: queryBuilder,
       limit: limit,
       singleRecord: singleRecord,
     );
 
-Future<List<RequestsRecord>> queryRequestsRecordOnce({
+Future<List<PointListEachAggRecord>> queryPointListEachAggRecordOnce({
+  DocumentReference? parent,
   Query Function(Query)? queryBuilder,
   int limit = -1,
   bool singleRecord = false,
 }) =>
     queryCollectionOnce(
-      RequestsRecord.collection,
-      RequestsRecord.fromSnapshot,
+      PointListEachAggRecord.collection(parent),
+      PointListEachAggRecord.fromSnapshot,
       queryBuilder: queryBuilder,
       limit: limit,
       singleRecord: singleRecord,
     );
 
-/// Functions to query InsideDBServerRecords (as a Stream and as a Future).
-Future<int> queryInsideDBServerRecordCount({
+/// Functions to query StudyDBbackupAggRecords (as a Stream and as a Future).
+Future<int> queryStudyDBbackupAggRecordCount({
+  DocumentReference? parent,
   Query Function(Query)? queryBuilder,
   int limit = -1,
 }) =>
     queryCollectionCount(
-      InsideDBServerRecord.collection,
+      StudyDBbackupAggRecord.collection(parent),
       queryBuilder: queryBuilder,
       limit: limit,
     );
 
-Stream<List<InsideDBServerRecord>> queryInsideDBServerRecord({
+Stream<List<StudyDBbackupAggRecord>> queryStudyDBbackupAggRecord({
+  DocumentReference? parent,
   Query Function(Query)? queryBuilder,
   int limit = -1,
   bool singleRecord = false,
 }) =>
     queryCollection(
-      InsideDBServerRecord.collection,
-      InsideDBServerRecord.fromSnapshot,
+      StudyDBbackupAggRecord.collection(parent),
+      StudyDBbackupAggRecord.fromSnapshot,
       queryBuilder: queryBuilder,
       limit: limit,
       singleRecord: singleRecord,
     );
 
-Future<List<InsideDBServerRecord>> queryInsideDBServerRecordOnce({
+Future<List<StudyDBbackupAggRecord>> queryStudyDBbackupAggRecordOnce({
+  DocumentReference? parent,
   Query Function(Query)? queryBuilder,
   int limit = -1,
   bool singleRecord = false,
 }) =>
     queryCollectionOnce(
-      InsideDBServerRecord.collection,
-      InsideDBServerRecord.fromSnapshot,
+      StudyDBbackupAggRecord.collection(parent),
+      StudyDBbackupAggRecord.fromSnapshot,
       queryBuilder: queryBuilder,
       limit: limit,
       singleRecord: singleRecord,
     );
 
-/// Functions to query TimeOverallRecords (as a Stream and as a Future).
-Future<int> queryTimeOverallRecordCount({
+/// Functions to query LogRecords (as a Stream and as a Future).
+Future<int> queryLogRecordCount({
   Query Function(Query)? queryBuilder,
   int limit = -1,
 }) =>
     queryCollectionCount(
-      TimeOverallRecord.collection,
+      LogRecord.collection,
       queryBuilder: queryBuilder,
       limit: limit,
     );
 
-Stream<List<TimeOverallRecord>> queryTimeOverallRecord({
+Stream<List<LogRecord>> queryLogRecord({
   Query Function(Query)? queryBuilder,
   int limit = -1,
   bool singleRecord = false,
 }) =>
     queryCollection(
-      TimeOverallRecord.collection,
-      TimeOverallRecord.fromSnapshot,
+      LogRecord.collection,
+      LogRecord.fromSnapshot,
       queryBuilder: queryBuilder,
       limit: limit,
       singleRecord: singleRecord,
     );
 
-Future<List<TimeOverallRecord>> queryTimeOverallRecordOnce({
+Future<List<LogRecord>> queryLogRecordOnce({
   Query Function(Query)? queryBuilder,
   int limit = -1,
   bool singleRecord = false,
 }) =>
     queryCollectionOnce(
-      TimeOverallRecord.collection,
-      TimeOverallRecord.fromSnapshot,
-      queryBuilder: queryBuilder,
-      limit: limit,
-      singleRecord: singleRecord,
-    );
-
-/// Functions to query AverageTimeBySpotRecords (as a Stream and as a Future).
-Future<int> queryAverageTimeBySpotRecordCount({
-  Query Function(Query)? queryBuilder,
-  int limit = -1,
-}) =>
-    queryCollectionCount(
-      AverageTimeBySpotRecord.collection,
-      queryBuilder: queryBuilder,
-      limit: limit,
-    );
-
-Stream<List<AverageTimeBySpotRecord>> queryAverageTimeBySpotRecord({
-  Query Function(Query)? queryBuilder,
-  int limit = -1,
-  bool singleRecord = false,
-}) =>
-    queryCollection(
-      AverageTimeBySpotRecord.collection,
-      AverageTimeBySpotRecord.fromSnapshot,
-      queryBuilder: queryBuilder,
-      limit: limit,
-      singleRecord: singleRecord,
-    );
-
-Future<List<AverageTimeBySpotRecord>> queryAverageTimeBySpotRecordOnce({
-  Query Function(Query)? queryBuilder,
-  int limit = -1,
-  bool singleRecord = false,
-}) =>
-    queryCollectionOnce(
-      AverageTimeBySpotRecord.collection,
-      AverageTimeBySpotRecord.fromSnapshot,
+      LogRecord.collection,
+      LogRecord.fromSnapshot,
       queryBuilder: queryBuilder,
       limit: limit,
       singleRecord: singleRecord,

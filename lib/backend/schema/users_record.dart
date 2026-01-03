@@ -203,6 +203,26 @@ class UsersRecord extends FirestoreRecord {
   String get grade => _grade ?? '';
   bool hasGrade() => _grade != null;
 
+  // "penaltyPoint" field.
+  double? _penaltyPoint;
+  double get penaltyPoint => _penaltyPoint ?? 0.0;
+  bool hasPenaltyPoint() => _penaltyPoint != null;
+
+  // "penaltyList" field.
+  List<PenaltyInputStruct>? _penaltyList;
+  List<PenaltyInputStruct> get penaltyList => _penaltyList ?? const [];
+  bool hasPenaltyList() => _penaltyList != null;
+
+  // "pointLocation" field.
+  DocumentReference? _pointLocation;
+  DocumentReference? get pointLocation => _pointLocation;
+  bool hasPointLocation() => _pointLocation != null;
+
+  // "plannerLocation" field.
+  DocumentReference? _plannerLocation;
+  DocumentReference? get plannerLocation => _plannerLocation;
+  bool hasPlannerLocation() => _plannerLocation != null;
+
   void _initializeFields() {
     _email = snapshotData['email'] as String?;
     _displayName = snapshotData['display_name'] as String?;
@@ -257,6 +277,13 @@ class UsersRecord extends FirestoreRecord {
     _scheduleRequestTime = snapshotData['scheduleRequestTime'] as DateTime?;
     _idAllowed = snapshotData['idAllowed'] as bool?;
     _grade = snapshotData['grade'] as String?;
+    _penaltyPoint = castToType<double>(snapshotData['penaltyPoint']);
+    _penaltyList = getStructList(
+      snapshotData['penaltyList'],
+      PenaltyInputStruct.fromMap,
+    );
+    _pointLocation = snapshotData['pointLocation'] as DocumentReference?;
+    _plannerLocation = snapshotData['plannerLocation'] as DocumentReference?;
   }
 
   static CollectionReference get collection =>
@@ -327,6 +354,9 @@ Map<String, dynamic> createUsersRecordData({
   DateTime? scheduleRequestTime,
   bool? idAllowed,
   String? grade,
+  double? penaltyPoint,
+  DocumentReference? pointLocation,
+  DocumentReference? plannerLocation,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -364,6 +394,9 @@ Map<String, dynamic> createUsersRecordData({
       'scheduleRequestTime': scheduleRequestTime,
       'idAllowed': idAllowed,
       'grade': grade,
+      'penaltyPoint': penaltyPoint,
+      'pointLocation': pointLocation,
+      'plannerLocation': plannerLocation,
     }.withoutNulls,
   );
 
@@ -422,7 +455,11 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e1?.signedUser == e2?.signedUser &&
         e1?.scheduleRequestTime == e2?.scheduleRequestTime &&
         e1?.idAllowed == e2?.idAllowed &&
-        e1?.grade == e2?.grade;
+        e1?.grade == e2?.grade &&
+        e1?.penaltyPoint == e2?.penaltyPoint &&
+        listEquality.equals(e1?.penaltyList, e2?.penaltyList) &&
+        e1?.pointLocation == e2?.pointLocation &&
+        e1?.plannerLocation == e2?.plannerLocation;
   }
 
   @override
@@ -463,7 +500,11 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e?.signedUser,
         e?.scheduleRequestTime,
         e?.idAllowed,
-        e?.grade
+        e?.grade,
+        e?.penaltyPoint,
+        e?.penaltyList,
+        e?.pointLocation,
+        e?.plannerLocation
       ]);
 
   @override

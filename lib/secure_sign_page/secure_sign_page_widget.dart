@@ -1,14 +1,11 @@
 import '/auth/firebase_auth/auth_util.dart';
-import '/backend/backend.dart';
-import '/backend/firebase_storage/storage.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/upload_data.dart';
+import '/functional/sign_pad_component/sign_pad_component_widget.dart';
 import '/custom_code/actions/index.dart' as actions;
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:signature/signature.dart';
 import 'secure_sign_page_model.dart';
 export 'secure_sign_page_model.dart';
 
@@ -34,6 +31,7 @@ class _SecureSignPageWidgetState extends State<SecureSignPageWidget> {
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
+      await actions.setPortraitMode();
       await actions.setPortraitMode();
     });
 
@@ -143,51 +141,31 @@ class _SecureSignPageWidgetState extends State<SecureSignPageWidget> {
                                 },
                               ) ??
                               false;
-                          if (confirmDialogResponse) {
-                            final signatureImage = await _model
-                                .signature1Controller!
-                                .toPngBytes(height: 150);
-                            if (signatureImage == null) {
-                              showUploadMessage(
-                                context,
-                                'Signature is empty.',
-                              );
-                              return;
-                            }
-                            showUploadMessage(
-                              context,
-                              'Uploading signature...',
-                              showLoading: true,
-                            );
-                            final downloadUrl = (await uploadData(
-                                getSignatureStoragePath(), signatureImage));
-
-                            ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                            if (downloadUrl != null) {
-                              safeSetState(() =>
-                                  _model.uploadedSignatureUrl = downloadUrl);
-                              showUploadMessage(
-                                context,
-                                'Success!',
-                              );
-                            } else {
-                              showUploadMessage(
-                                context,
-                                'Failed to upload signature.',
-                              );
-                              return;
-                            }
-                          } else {
+                          if (!confirmDialogResponse) {
+                            confirmDialogResponse = await showDialog<bool>(
+                                  context: context,
+                                  builder: (alertDialogContext) {
+                                    return AlertDialog(
+                                      title: Text('정보 누락'),
+                                      content: Text('모든 정보를 입력 및 서명해주요'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () => Navigator.pop(
+                                              alertDialogContext, false),
+                                          child: Text('Cancel'),
+                                        ),
+                                        TextButton(
+                                          onPressed: () => Navigator.pop(
+                                              alertDialogContext, true),
+                                          child: Text('Confirm'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                ) ??
+                                false;
                             return;
                           }
-
-                          await currentUserReference!
-                              .update(createUsersRecordData(
-                            studyDetails: createStudyDetailsStruct(
-                              signature3: _model.uploadedSignatureUrl,
-                              clearUnsetFields: false,
-                            ),
-                          ));
 
                           context.goNamed(HomePageCopyWidget.routeName);
                         },
@@ -321,7 +299,7 @@ class _SecureSignPageWidgetState extends State<SecureSignPageWidget> {
                                             hintText:
                                                 FFLocalizations.of(context)
                                                     .getText(
-                                              'm6il66px' /* TextField */,
+                                              'm6il66px' /* ex)김내공 */,
                                             ),
                                             hintStyle:
                                                 FlutterFlowTheme.of(context)
@@ -438,7 +416,7 @@ class _SecureSignPageWidgetState extends State<SecureSignPageWidget> {
                                               ),
                                               child: Align(
                                                 alignment: AlignmentDirectional(
-                                                    -1.0, 0.0),
+                                                    0.0, 0.0),
                                                 child: Text(
                                                   FFLocalizations.of(context)
                                                       .getText(
@@ -519,7 +497,7 @@ class _SecureSignPageWidgetState extends State<SecureSignPageWidget> {
                                                             FFLocalizations.of(
                                                                     context)
                                                                 .getText(
-                                                          'rspjh83r' /* TextField */,
+                                                          'rspjh83r' /* ex) 010-1234-5678 */,
                                                         ),
                                                         hintStyle:
                                                             FlutterFlowTheme.of(
@@ -722,7 +700,7 @@ class _SecureSignPageWidgetState extends State<SecureSignPageWidget> {
                                                             FFLocalizations.of(
                                                                     context)
                                                                 .getText(
-                                                          '2y6b5xco' /* TextField */,
+                                                          '2y6b5xco' /* ex) 20060512 */,
                                                         ),
                                                         hintStyle:
                                                             FlutterFlowTheme.of(
@@ -1130,41 +1108,107 @@ class _SecureSignPageWidgetState extends State<SecureSignPageWidget> {
                             color: FlutterFlowTheme.of(context)
                                 .secondaryBackground,
                           ),
-                          child: Stack(
-                            children: [
-                              ClipRect(
-                                child: Signature(
-                                  controller: _model.signature1Controller ??=
-                                      SignatureController(
-                                    penStrokeWidth: 2.0,
-                                    penColor: FlutterFlowTheme.of(context)
-                                        .primaryText,
-                                    exportBackgroundColor: Color(0x00000000),
+                          child: Align(
+                            alignment: AlignmentDirectional(0.0, 0.0),
+                            child: Stack(
+                              alignment: AlignmentDirectional(0.0, 0.0),
+                              children: [
+                                Container(
+                                  width: 100.0,
+                                  height: 50.0,
+                                  decoration: BoxDecoration(
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryBackground,
                                   ),
-                                  backgroundColor: FlutterFlowTheme.of(context)
-                                      .primaryBackground,
-                                  height: 150.0,
-                                ),
-                              ),
-                              Align(
-                                alignment: AlignmentDirectional(0.0, 0.0),
-                                child: Text(
-                                  FFLocalizations.of(context).getText(
-                                    'fsjw9pzv' /* (서명) */,
-                                  ),
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
-                                        fontFamily: FlutterFlowTheme.of(context)
-                                            .bodyMediumFamily,
-                                        letterSpacing: 0.0,
-                                        useGoogleFonts:
-                                            !FlutterFlowTheme.of(context)
-                                                .bodyMediumIsCustom,
+                                  child: Builder(
+                                    builder: (context) => AuthUserStreamWidget(
+                                      builder: (context) => InkWell(
+                                        splashColor: Colors.transparent,
+                                        focusColor: Colors.transparent,
+                                        hoverColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                        onTap: () async {
+                                          await showDialog(
+                                            barrierDismissible: false,
+                                            context: context,
+                                            builder: (dialogContext) {
+                                              return Dialog(
+                                                elevation: 0,
+                                                insetPadding: EdgeInsets.zero,
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                                alignment: AlignmentDirectional(
+                                                        0.0, 0.0)
+                                                    .resolve(Directionality.of(
+                                                        context)),
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    FocusScope.of(dialogContext)
+                                                        .unfocus();
+                                                    FocusManager
+                                                        .instance.primaryFocus
+                                                        ?.unfocus();
+                                                  },
+                                                  child: SignPadComponentWidget(
+                                                    type: 3,
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          );
+
+                                          safeSetState(() {});
+                                        },
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                          child: Image.network(
+                                            currentUserDocument!
+                                                .studyDetails.signature1,
+                                            width: 200.0,
+                                            height: 100.0,
+                                            fit: BoxFit.cover,
+                                            errorBuilder:
+                                                (context, error, stackTrace) =>
+                                                    Image.asset(
+                                              'assets/images/error_image.png',
+                                              width: 200.0,
+                                              height: 100.0,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
                                       ),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ],
+                                if (currentUserDocument
+                                            ?.studyDetails.signature1 ==
+                                        null ||
+                                    currentUserDocument
+                                            ?.studyDetails.signature1 ==
+                                        '')
+                                  AuthUserStreamWidget(
+                                    builder: (context) => Text(
+                                      FFLocalizations.of(context).getText(
+                                        '7e9i3eu7' /* tap! */,
+                                      ),
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMediumFamily,
+                                            letterSpacing: 0.0,
+                                            fontWeight: FontWeight.bold,
+                                            useGoogleFonts:
+                                                !FlutterFlowTheme.of(context)
+                                                    .bodyMediumIsCustom,
+                                          ),
+                                    ),
+                                  ),
+                              ],
+                            ),
                           ),
                         ),
                       ],

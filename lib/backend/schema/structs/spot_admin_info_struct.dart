@@ -14,12 +14,18 @@ class SpotAdminInfoStruct extends FFFirebaseStruct {
     DocumentReference? references,
     List<SpotDailyDataStruct>? spotStudyEach,
     String? spotPassword,
+    int? companyId,
+    String? spotid,
+    String? chatLink,
     FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
   })  : _spot = spot,
         _sheetRoot = sheetRoot,
         _references = references,
         _spotStudyEach = spotStudyEach,
         _spotPassword = spotPassword,
+        _companyId = companyId,
+        _spotid = spotid,
+        _chatLink = chatLink,
         super(firestoreUtilData);
 
   // "spot" field.
@@ -61,6 +67,29 @@ class SpotAdminInfoStruct extends FFFirebaseStruct {
 
   bool hasSpotPassword() => _spotPassword != null;
 
+  // "companyId" field.
+  int? _companyId;
+  int get companyId => _companyId ?? 0;
+  set companyId(int? val) => _companyId = val;
+
+  void incrementCompanyId(int amount) => companyId = companyId + amount;
+
+  bool hasCompanyId() => _companyId != null;
+
+  // "spotid" field.
+  String? _spotid;
+  String get spotid => _spotid ?? '';
+  set spotid(String? val) => _spotid = val;
+
+  bool hasSpotid() => _spotid != null;
+
+  // "ChatLink" field.
+  String? _chatLink;
+  String get chatLink => _chatLink ?? '';
+  set chatLink(String? val) => _chatLink = val;
+
+  bool hasChatLink() => _chatLink != null;
+
   static SpotAdminInfoStruct fromMap(Map<String, dynamic> data) =>
       SpotAdminInfoStruct(
         spot: data['spot'] as String?,
@@ -71,6 +100,9 @@ class SpotAdminInfoStruct extends FFFirebaseStruct {
           SpotDailyDataStruct.fromMap,
         ),
         spotPassword: data['spotPassword'] as String?,
+        companyId: castToType<int>(data['companyId']),
+        spotid: data['spotid'] as String?,
+        chatLink: data['ChatLink'] as String?,
       );
 
   static SpotAdminInfoStruct? maybeFromMap(dynamic data) => data is Map
@@ -83,6 +115,9 @@ class SpotAdminInfoStruct extends FFFirebaseStruct {
         'references': _references,
         'spotStudyEach': _spotStudyEach?.map((e) => e.toMap()).toList(),
         'spotPassword': _spotPassword,
+        'companyId': _companyId,
+        'spotid': _spotid,
+        'ChatLink': _chatLink,
       }.withoutNulls;
 
   @override
@@ -106,6 +141,18 @@ class SpotAdminInfoStruct extends FFFirebaseStruct {
         ),
         'spotPassword': serializeParam(
           _spotPassword,
+          ParamType.String,
+        ),
+        'companyId': serializeParam(
+          _companyId,
+          ParamType.int,
+        ),
+        'spotid': serializeParam(
+          _spotid,
+          ParamType.String,
+        ),
+        'ChatLink': serializeParam(
+          _chatLink,
           ParamType.String,
         ),
       }.withoutNulls;
@@ -139,6 +186,21 @@ class SpotAdminInfoStruct extends FFFirebaseStruct {
           ParamType.String,
           false,
         ),
+        companyId: deserializeParam(
+          data['companyId'],
+          ParamType.int,
+          false,
+        ),
+        spotid: deserializeParam(
+          data['spotid'],
+          ParamType.String,
+          false,
+        ),
+        chatLink: deserializeParam(
+          data['ChatLink'],
+          ParamType.String,
+          false,
+        ),
       );
 
   @override
@@ -152,12 +214,23 @@ class SpotAdminInfoStruct extends FFFirebaseStruct {
         sheetRoot == other.sheetRoot &&
         references == other.references &&
         listEquality.equals(spotStudyEach, other.spotStudyEach) &&
-        spotPassword == other.spotPassword;
+        spotPassword == other.spotPassword &&
+        companyId == other.companyId &&
+        spotid == other.spotid &&
+        chatLink == other.chatLink;
   }
 
   @override
-  int get hashCode => const ListEquality()
-      .hash([spot, sheetRoot, references, spotStudyEach, spotPassword]);
+  int get hashCode => const ListEquality().hash([
+        spot,
+        sheetRoot,
+        references,
+        spotStudyEach,
+        spotPassword,
+        companyId,
+        spotid,
+        chatLink
+      ]);
 }
 
 SpotAdminInfoStruct createSpotAdminInfoStruct({
@@ -165,6 +238,9 @@ SpotAdminInfoStruct createSpotAdminInfoStruct({
   String? sheetRoot,
   DocumentReference? references,
   String? spotPassword,
+  int? companyId,
+  String? spotid,
+  String? chatLink,
   Map<String, dynamic> fieldValues = const {},
   bool clearUnsetFields = true,
   bool create = false,
@@ -175,6 +251,9 @@ SpotAdminInfoStruct createSpotAdminInfoStruct({
       sheetRoot: sheetRoot,
       references: references,
       spotPassword: spotPassword,
+      companyId: companyId,
+      spotid: spotid,
+      chatLink: chatLink,
       firestoreUtilData: FirestoreUtilData(
         clearUnsetFields: clearUnsetFields,
         create: create,

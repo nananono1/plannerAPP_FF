@@ -1,17 +1,16 @@
 import '/auth/firebase_auth/auth_util.dart';
+import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
-import '/backend/firebase_storage/storage.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
-import '/flutter_flow/upload_data.dart';
+import '/functional/sign_pad_component/sign_pad_component_widget.dart';
 import '/custom_code/actions/index.dart' as actions;
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:signature/signature.dart';
 import 'sign2_model.dart';
 export 'sign2_model.dart';
 
@@ -37,6 +36,7 @@ class _Sign2WidgetState extends State<Sign2Widget> {
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
+      await actions.setPortraitMode();
       await actions.setPortraitMode();
     });
 
@@ -168,289 +168,336 @@ class _Sign2WidgetState extends State<Sign2Widget> {
                                 ),
                           ),
                         ),
-                        InkWell(
-                          splashColor: Colors.transparent,
-                          focusColor: Colors.transparent,
-                          hoverColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
-                          onTap: () async {
-                            if (valueOrDefault<bool>(
-                                  _model.addressTextController.text == '',
-                                  false,
-                                ) ||
-                                !((_model.textFieldmomTextController
-                                                .text !=
-                                            '') ||
-                                    (_model.textFielddadTextController
-                                                .text !=
-                                            '')) ||
-                                (((_model.checkboxCSATValue == true) &&
-                                        (_model.checkboxHARDWAYValue ==
-                                            true)) ||
-                                    ((_model.checkboxCSATValue == true) &&
-                                        (_model.checkboxETCValue == true)) ||
-                                    ((_model.checkboxETCValue == true) &&
-                                        (_model.checkboxHARDWAYValue ==
-                                            true))) ||
-                                (_model.userNameTextController.text == '') ||
-                                (_model.parentsNameTextController.text ==
-                                        '')) {
-                              await showDialog(
-                                context: context,
-                                builder: (alertDialogContext) {
-                                  return AlertDialog(
-                                    content: Text('모든 항목을 체크해주세요'),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () =>
-                                            Navigator.pop(alertDialogContext),
-                                        child: Text('Ok'),
-                                      ),
-                                    ],
-                                  );
-                                },
+                        StreamBuilder<List<NotificationRecord>>(
+                          stream: queryNotificationRecord(
+                            singleRecord: true,
+                          ),
+                          builder: (context, snapshot) {
+                            // Customize what your widget looks like when it's loading.
+                            if (!snapshot.hasData) {
+                              return Center(
+                                child: SizedBox(
+                                  width: 50.0,
+                                  height: 50.0,
+                                  child: CircularProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                      FlutterFlowTheme.of(context).primary,
+                                    ),
+                                  ),
+                                ),
                               );
-                              return;
                             }
-                            var confirmDialogResponse = await showDialog<bool>(
+                            List<NotificationRecord>
+                                containerNotificationRecordList =
+                                snapshot.data!;
+                            // Return an empty Container when the item does not exist.
+                            if (snapshot.data!.isEmpty) {
+                              return Container();
+                            }
+                            final containerNotificationRecord =
+                                containerNotificationRecordList.isNotEmpty
+                                    ? containerNotificationRecordList.first
+                                    : null;
+
+                            return InkWell(
+                              splashColor: Colors.transparent,
+                              focusColor: Colors.transparent,
+                              hoverColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onTap: () async {
+                                var _shouldSetState = false;
+                                if (valueOrDefault<bool>(
+                                      _model.addressTextController.text ==
+                                              '',
+                                      false,
+                                    ) ||
+                                    !((_model.textFieldmomTextController
+                                                    .text !=
+                                                '') ||
+                                        (_model.textFielddadTextController
+                                                    .text !=
+                                                '')) ||
+                                    (((_model.checkboxCSATValue == true) &&
+                                            (_model.checkboxHARDWAYValue ==
+                                                true)) ||
+                                        ((_model.checkboxCSATValue == true) &&
+                                            (_model.checkboxETCValue ==
+                                                true)) ||
+                                        ((_model.checkboxETCValue ==
+                                                true) &&
+                                            (_model
+                                                    .checkboxHARDWAYValue ==
+                                                true))) ||
+                                    (_model.userNameTextController.text ==
+                                            '') ||
+                                    (_model.parentsNameTextController.text ==
+                                            '')) {
+                                  await showDialog(
+                                    context: context,
+                                    builder: (alertDialogContext) {
+                                      return AlertDialog(
+                                        content: Text('모든 항목을 체크해주세요'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () => Navigator.pop(
+                                                alertDialogContext),
+                                            child: Text('Ok'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                  if (_shouldSetState) safeSetState(() {});
+                                  return;
+                                }
+                                var confirmDialogResponse =
+                                    await showDialog<bool>(
+                                          context: context,
+                                          builder: (alertDialogContext) {
+                                            return AlertDialog(
+                                              title: Text('서약서 저장'),
+                                              content: Text('서약서를 저장하시겠습니까?'),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () =>
+                                                      Navigator.pop(
+                                                          alertDialogContext,
+                                                          false),
+                                                  child: Text('아니오'),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () =>
+                                                      Navigator.pop(
+                                                          alertDialogContext,
+                                                          true),
+                                                  child: Text('네'),
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        ) ??
+                                        false;
+                                if (!confirmDialogResponse) {
+                                  if (_shouldSetState) safeSetState(() {});
+                                  return;
+                                }
+
+                                await currentUserReference!
+                                    .update(createUsersRecordData(
+                                  address: _model.addressTextController.text,
+                                  parentsPhone1:
+                                      _model.textFieldmomTextController.text,
+                                  parentsPhone2:
+                                      _model.textFielddadTextController.text,
+                                  studyDetails: updateStudyDetailsStruct(
+                                    StudyDetailsStruct(
+                                      forwhat: () {
+                                        if (_model.checkboxCSATValue == true) {
+                                          return '수능';
+                                        } else if (_model
+                                                .checkboxHARDWAYValue ==
+                                            true) {
+                                          return '공시';
+                                        } else {
+                                          return '기타';
+                                        }
+                                      }(),
+                                      forwhatDetail: () {
+                                        if (_model.checkboxCSATValue == true) {
+                                          return (_model.checkboxsusiValue ==
+                                                  true
+                                              ? '수시 - ${_model.dropDownValue}'
+                                              : '정시');
+                                        } else if (_model
+                                                .checkboxHARDWAYValue ==
+                                            true) {
+                                          return _model
+                                              .textFieldHardWayTextController
+                                              .text;
+                                        } else {
+                                          return _model
+                                              .textFieldETCTextController.text;
+                                        }
+                                      }(),
+                                      needConsulting:
+                                          _model.checkboxConsultingValue,
+                                      needPlannerCoaching:
+                                          _model.checkboxPlannerCoachingValue,
+                                      signname1:
+                                          _model.userNameTextController.text,
+                                      signname2:
+                                          _model.parentsNameTextController.text,
+                                      signTime: getCurrentTimestamp,
+                                      gradeinfo1: GradeInfoStruct(
+                                        subject: '국어',
+                                        select: _model.selectKoreanValue,
+                                        grade: valueOrDefault<int>(
+                                          int.tryParse(_model
+                                              .gradeKoreanTextController.text),
+                                          9,
+                                        ),
+                                      ),
+                                      gradeinfo2: GradeInfoStruct(
+                                        subject: '영어',
+                                        select: _model.selectEnglsihValue,
+                                        grade: valueOrDefault<int>(
+                                          int.tryParse(_model
+                                              .gradeEnglishTextController.text),
+                                          9,
+                                        ),
+                                      ),
+                                      gradeinfo3: GradeInfoStruct(
+                                        subject: '한국사',
+                                        select: _model.selectHistoryValue,
+                                        grade: valueOrDefault<int>(
+                                          int.tryParse(_model
+                                              .gradeHistoryTextController.text),
+                                          9,
+                                        ),
+                                      ),
+                                      gradeinfo4: GradeInfoStruct(
+                                        subject: '수학',
+                                        select: _model.selectMathValue,
+                                        grade: valueOrDefault<int>(
+                                          int.tryParse(_model
+                                              .gradeMathTextController.text),
+                                          9,
+                                        ),
+                                      ),
+                                      gradeinfo5: GradeInfoStruct(
+                                        subject: '탐구1',
+                                        select: _model.select111Value,
+                                        grade: int.tryParse(
+                                            _model.grade111TextController.text),
+                                      ),
+                                      gradeinfo6: GradeInfoStruct(
+                                        subject: '탐구2',
+                                        select: _model.select222Value,
+                                        grade: int.tryParse(
+                                            _model.grade222TextController.text),
+                                      ),
+                                      firstDate: valueOrDefault<String>(
+                                        dateTimeFormat(
+                                          "y/MM/dd",
+                                          getCurrentTimestamp,
+                                          locale: FFLocalizations.of(context)
+                                              .languageCode,
+                                        ),
+                                        '0000/00/00',
+                                      ),
+                                    ),
+                                    clearUnsetFields: false,
+                                  ),
+                                  signedUser: true,
+                                  grade: _model.dropDownGradeValue == '성인'
+                                      ? valueOrDefault(
+                                          currentUserDocument?.forWhat, '')
+                                      : valueOrDefault<String>(
+                                          _model.dropDownGradeValue,
+                                          '-',
+                                        ),
+                                ));
+                                _model.aaa = await SheetContactCall.call(
+                                  username: currentUserDisplayName,
+                                  spotSheetLink: containerNotificationRecord
+                                      ?.spotdatas
+                                      .where((e) =>
+                                          e.spot ==
+                                          valueOrDefault(
+                                              currentUserDocument?.spot, ''))
+                                      .toList()
+                                      .firstOrNull
+                                      ?.sheetRoot,
+                                  storekey: containerNotificationRecord
+                                      ?.spotdatas
+                                      .where((e) =>
+                                          e.spot ==
+                                          valueOrDefault(
+                                              currentUserDocument?.spot, ''))
+                                      .toList()
+                                      .firstOrNull
+                                      ?.spotid,
+                                  action: 'contact',
+                                  phoneNumber: currentPhoneNumber,
+                                  parentsPhoneNumber1: valueOrDefault(
+                                      currentUserDocument?.parentsPhone1, ''),
+                                  parentsPhoneNumber2: valueOrDefault(
+                                      currentUserDocument?.parentsPhone2, ''),
+                                  school: valueOrDefault(
+                                      currentUserDocument?.school, ''),
+                                  grade: valueOrDefault<String>(
+                                    valueOrDefault(currentUserDocument?.grade,
+                                                '') ==
+                                            '성인'
+                                        ? valueOrDefault(
+                                            currentUserDocument?.forWhat, '')
+                                        : valueOrDefault(
+                                            currentUserDocument?.grade, ''),
+                                    '-',
+                                  ),
+                                );
+
+                                _shouldSetState = true;
+
+                                context.goNamed(SecureSignPageWidget.routeName);
+
+                                if (_shouldSetState) safeSetState(() {});
+                              },
+                              onDoubleTap: () async {
+                                await showDialog(
                                   context: context,
                                   builder: (alertDialogContext) {
                                     return AlertDialog(
-                                      title: Text('서약서 저장'),
-                                      content: Text('서약서를 저장하시겠습니까?'),
+                                      title: Text('더블클릭방지'),
+                                      content: Text('다시시도해주세요'),
                                       actions: [
                                         TextButton(
-                                          onPressed: () => Navigator.pop(
-                                              alertDialogContext, false),
-                                          child: Text('아니오'),
-                                        ),
-                                        TextButton(
-                                          onPressed: () => Navigator.pop(
-                                              alertDialogContext, true),
-                                          child: Text('네'),
+                                          onPressed: () =>
+                                              Navigator.pop(alertDialogContext),
+                                          child: Text('Ok'),
                                         ),
                                       ],
                                     );
                                   },
-                                ) ??
-                                false;
-                            if (confirmDialogResponse) {
-                              final signatureImage1 = await _model
-                                  .signatureController1!
-                                  .toPngBytes(height: 50, width: 100);
-                              if (signatureImage1 == null) {
-                                showUploadMessage(
-                                  context,
-                                  'Signature is empty.',
                                 );
-                                return;
-                              }
-                              showUploadMessage(
-                                context,
-                                'Uploading signature...',
-                                showLoading: true,
-                              );
-                              final downloadUrl1 = (await uploadData(
-                                  getSignatureStoragePath(), signatureImage1));
-
-                              ScaffoldMessenger.of(context)
-                                  .hideCurrentSnackBar();
-                              if (downloadUrl1 != null) {
-                                safeSetState(() => _model
-                                    .uploadedSignatureUrl1 = downloadUrl1);
-                                showUploadMessage(
-                                  context,
-                                  'Success!',
-                                );
-                              } else {
-                                showUploadMessage(
-                                  context,
-                                  'Failed to upload signature.',
-                                );
-                                return;
-                              }
-
-                              final signatureImage2 = await _model
-                                  .signatureController2!
-                                  .toPngBytes(height: 50, width: 100);
-                              if (signatureImage2 == null) {
-                                showUploadMessage(
-                                  context,
-                                  'Signature is empty.',
-                                );
-                                return;
-                              }
-                              showUploadMessage(
-                                context,
-                                'Uploading signature...',
-                                showLoading: true,
-                              );
-                              final downloadUrl2 = (await uploadData(
-                                  getSignatureStoragePath(), signatureImage2));
-
-                              ScaffoldMessenger.of(context)
-                                  .hideCurrentSnackBar();
-                              if (downloadUrl2 != null) {
-                                safeSetState(() => _model
-                                    .uploadedSignatureUrl2 = downloadUrl2);
-                                showUploadMessage(
-                                  context,
-                                  'Success!',
-                                );
-                              } else {
-                                showUploadMessage(
-                                  context,
-                                  'Failed to upload signature.',
-                                );
-                                return;
-                              }
-                            } else {
-                              return;
-                            }
-
-                            await currentUserReference!
-                                .update(createUsersRecordData(
-                              address: _model.addressTextController.text,
-                              parentsPhone1:
-                                  _model.textFieldmomTextController.text,
-                              parentsPhone2:
-                                  _model.textFielddadTextController.text,
-                              studyDetails: updateStudyDetailsStruct(
-                                StudyDetailsStruct(
-                                  forwhat: () {
-                                    if (_model.checkboxCSATValue == true) {
-                                      return '수능';
-                                    } else if (_model.checkboxHARDWAYValue ==
-                                        true) {
-                                      return '공시';
-                                    } else {
-                                      return '기타';
-                                    }
-                                  }(),
-                                  forwhatDetail: () {
-                                    if (_model.checkboxCSATValue == true) {
-                                      return (_model.checkboxsusiValue == true
-                                          ? '수시 - ${_model.dropDownValue}'
-                                          : '정시');
-                                    } else if (_model.checkboxHARDWAYValue ==
-                                        true) {
-                                      return _model
-                                          .textFieldHardWayTextController.text;
-                                    } else {
-                                      return _model
-                                          .textFieldETCTextController.text;
-                                    }
-                                  }(),
-                                  needConsulting:
-                                      _model.checkboxConsultingValue,
-                                  needPlannerCoaching:
-                                      _model.checkboxPlannerCoachingValue,
-                                  signname1: _model.userNameTextController.text,
-                                  signname2:
-                                      _model.parentsNameTextController.text,
-                                  signTime: getCurrentTimestamp,
-                                  gradeinfo1: GradeInfoStruct(
-                                    subject: '국어',
-                                    select: _model.selectKoreanValue,
-                                    grade: valueOrDefault<int>(
-                                      int.tryParse(_model
-                                          .gradeKoreanTextController.text),
-                                      9,
-                                    ),
-                                  ),
-                                  gradeinfo2: GradeInfoStruct(
-                                    subject: '영어',
-                                    select: _model.selectEnglsihValue,
-                                    grade: valueOrDefault<int>(
-                                      int.tryParse(_model
-                                          .gradeEnglishTextController.text),
-                                      9,
-                                    ),
-                                  ),
-                                  gradeinfo3: GradeInfoStruct(
-                                    subject: '한국사',
-                                    select: _model.selectHistoryValue,
-                                    grade: valueOrDefault<int>(
-                                      int.tryParse(_model
-                                          .gradeHistoryTextController.text),
-                                      9,
-                                    ),
-                                  ),
-                                  gradeinfo4: GradeInfoStruct(
-                                    subject: '수학',
-                                    select: _model.selectMathValue,
-                                    grade: valueOrDefault<int>(
-                                      int.tryParse(
-                                          _model.gradeMathTextController.text),
-                                      9,
-                                    ),
-                                  ),
-                                  gradeinfo5: GradeInfoStruct(
-                                    subject: '탐구1',
-                                    select: _model.select111Value,
-                                    grade: int.tryParse(
-                                        _model.grade111TextController.text),
-                                  ),
-                                  gradeinfo6: GradeInfoStruct(
-                                    subject: '탐구2',
-                                    select: _model.select222Value,
-                                    grade: int.tryParse(
-                                        _model.grade222TextController.text),
-                                  ),
-                                  signature1: _model.uploadedSignatureUrl1,
-                                  signature2: _model.uploadedSignatureUrl2,
-                                  firstDate: valueOrDefault<String>(
-                                    dateTimeFormat(
-                                      "y/MM/dd",
-                                      getCurrentTimestamp,
-                                      locale: FFLocalizations.of(context)
-                                          .languageCode,
-                                    ),
-                                    '0000/00/00',
-                                  ),
+                              },
+                              child: Container(
+                                width: 80.0,
+                                height: 80.0,
+                                decoration: BoxDecoration(
+                                  color: FlutterFlowTheme.of(context)
+                                      .secondaryBackground,
                                 ),
-                                clearUnsetFields: false,
-                              ),
-                              signedUser: true,
-                              grade: _model.dropDownGradeValue,
-                            ));
-
-                            context.goNamed(SecureSignPageWidget.routeName);
-                          },
-                          child: Container(
-                            width: 80.0,
-                            height: 80.0,
-                            decoration: BoxDecoration(
-                              color: FlutterFlowTheme.of(context)
-                                  .secondaryBackground,
-                            ),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Icon(
-                                  Icons.save,
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryText,
-                                  size: 43.0,
-                                ),
-                                Text(
-                                  FFLocalizations.of(context).getText(
-                                    '9073ofsa' /* 저장하기 */,
-                                  ),
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
-                                        fontFamily: FlutterFlowTheme.of(context)
-                                            .bodyMediumFamily,
-                                        letterSpacing: 0.0,
-                                        useGoogleFonts:
-                                            !FlutterFlowTheme.of(context)
-                                                .bodyMediumIsCustom,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Icon(
+                                      Icons.save,
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryText,
+                                      size: 43.0,
+                                    ),
+                                    Text(
+                                      FFLocalizations.of(context).getText(
+                                        '9073ofsa' /* 저장하기 */,
                                       ),
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMediumFamily,
+                                            letterSpacing: 0.0,
+                                            useGoogleFonts:
+                                                !FlutterFlowTheme.of(context)
+                                                    .bodyMediumIsCustom,
+                                          ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          ),
+                              ),
+                            );
+                          },
                         ),
                       ],
                     ),
@@ -948,10 +995,6 @@ class _Sign2WidgetState extends State<Sign2Widget> {
                                                 FFLocalizations.of(context)
                                                     .getText(
                                                   'j8c9cpoz' /* 중1 */,
-                                                ),
-                                                FFLocalizations.of(context)
-                                                    .getText(
-                                                  'kw3r5jgl' /* 기타 */,
                                                 )
                                               ],
                                               onChanged: (val) => safeSetState(
@@ -1001,6 +1044,26 @@ class _Sign2WidgetState extends State<Sign2Widget> {
                                               isOverButton: false,
                                               isSearchable: false,
                                               isMultiSelect: false,
+                                            ),
+                                            Text(
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'lkquke0q' /* (성인인 경우 '성인'선택) */,
+                                              ),
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        fontFamily:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMediumFamily,
+                                                        letterSpacing: 0.0,
+                                                        useGoogleFonts:
+                                                            !FlutterFlowTheme
+                                                                    .of(context)
+                                                                .bodyMediumIsCustom,
+                                                      ),
                                             ),
                                           ],
                                         ),
@@ -1888,6 +1951,10 @@ class _Sign2WidgetState extends State<Sign2Widget> {
                                                   FFLocalizations.of(context)
                                                       .getText(
                                                     'xsfz2dfs' /* 교과 */,
+                                                  ),
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    'mhpz0uhg' /* 기타(미정) */,
                                                   )
                                                 ],
                                                 onChanged: (val) =>
@@ -5339,7 +5406,7 @@ class _Sign2WidgetState extends State<Sign2Widget> {
                                           Padding(
                                             padding:
                                                 EdgeInsetsDirectional.fromSTEB(
-                                                    0.0, 15.0, 0.0, 0.0),
+                                                    0.0, 15.0, 0.0, 20.0),
                                             child: Row(
                                               mainAxisSize: MainAxisSize.max,
                                               mainAxisAlignment:
@@ -5367,204 +5434,285 @@ class _Sign2WidgetState extends State<Sign2Widget> {
                                                                     .bodyMediumIsCustom,
                                                           ),
                                                 ),
-                                                Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(
-                                                          30.0, 0.0, 0.0, 0.0),
-                                                  child: Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceEvenly,
-                                                    children: [
-                                                      Row(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        children: [
-                                                          Text(
-                                                            FFLocalizations.of(
-                                                                    context)
-                                                                .getText(
-                                                              'o1m7axi3' /* 사용자 서명 :    */,
-                                                            ),
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .bodyMedium
-                                                                .override(
-                                                                  fontFamily: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMediumFamily,
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                  useGoogleFonts:
-                                                                      !FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMediumIsCustom,
-                                                                ),
-                                                          ),
-                                                          Container(
-                                                            width: 170.0,
-                                                            child: Container(
-                                                              width: 120.0,
-                                                              child:
-                                                                  TextFormField(
-                                                                controller: _model
-                                                                    .userNameTextController,
-                                                                focusNode: _model
-                                                                    .userNameFocusNode,
-                                                                autofocus:
-                                                                    false,
-                                                                obscureText:
-                                                                    false,
-                                                                decoration:
-                                                                    InputDecoration(
-                                                                  isDense: true,
-                                                                  labelStyle: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .labelMedium
-                                                                      .override(
-                                                                        fontFamily:
-                                                                            FlutterFlowTheme.of(context).labelMediumFamily,
-                                                                        letterSpacing:
-                                                                            0.0,
-                                                                        useGoogleFonts:
-                                                                            !FlutterFlowTheme.of(context).labelMediumIsCustom,
-                                                                      ),
-                                                                  hintStyle: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .labelMedium
-                                                                      .override(
-                                                                        fontFamily:
-                                                                            FlutterFlowTheme.of(context).labelMediumFamily,
-                                                                        letterSpacing:
-                                                                            0.0,
-                                                                        useGoogleFonts:
-                                                                            !FlutterFlowTheme.of(context).labelMediumIsCustom,
-                                                                      ),
-                                                                  enabledBorder:
-                                                                      UnderlineInputBorder(
-                                                                    borderSide:
-                                                                        BorderSide(
-                                                                      color: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .alternate,
-                                                                      width:
-                                                                          1.0,
-                                                                    ),
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            8.0),
-                                                                  ),
-                                                                  focusedBorder:
-                                                                      UnderlineInputBorder(
-                                                                    borderSide:
-                                                                        BorderSide(
-                                                                      color: Color(
-                                                                          0x00000000),
-                                                                      width:
-                                                                          1.0,
-                                                                    ),
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            8.0),
-                                                                  ),
-                                                                  errorBorder:
-                                                                      UnderlineInputBorder(
-                                                                    borderSide:
-                                                                        BorderSide(
-                                                                      color: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .error,
-                                                                      width:
-                                                                          1.0,
-                                                                    ),
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            8.0),
-                                                                  ),
-                                                                  focusedErrorBorder:
-                                                                      UnderlineInputBorder(
-                                                                    borderSide:
-                                                                        BorderSide(
-                                                                      color: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .error,
-                                                                      width:
-                                                                          1.0,
-                                                                    ),
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            8.0),
-                                                                  ),
-                                                                ),
-                                                                style: FlutterFlowTheme.of(
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0.0, 0.0, 40.0, 0.0),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              Text(
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                                  'o1m7axi3' /* 사용자 서명 :    */,
+                                                ),
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMediumFamily,
+                                                          letterSpacing: 0.0,
+                                                          useGoogleFonts:
+                                                              !FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .bodyMediumIsCustom,
+                                                        ),
+                                              ),
+                                              Container(
+                                                width: 170.0,
+                                                child: Container(
+                                                  width: 120.0,
+                                                  child: TextFormField(
+                                                    controller: _model
+                                                        .userNameTextController,
+                                                    focusNode: _model
+                                                        .userNameFocusNode,
+                                                    autofocus: false,
+                                                    obscureText: false,
+                                                    decoration: InputDecoration(
+                                                      isDense: true,
+                                                      labelStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .labelMedium
+                                                              .override(
+                                                                fontFamily: FlutterFlowTheme.of(
                                                                         context)
-                                                                    .bodyMedium
-                                                                    .override(
-                                                                      fontFamily:
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .bodyMediumFamily,
-                                                                      letterSpacing:
-                                                                          0.0,
-                                                                      useGoogleFonts:
-                                                                          !FlutterFlowTheme.of(context)
-                                                                              .bodyMediumIsCustom,
-                                                                    ),
-                                                                cursorColor:
-                                                                    FlutterFlowTheme.of(
+                                                                    .labelMediumFamily,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                useGoogleFonts:
+                                                                    !FlutterFlowTheme.of(
                                                                             context)
-                                                                        .primaryText,
-                                                                validator: _model
-                                                                    .userNameTextControllerValidator
-                                                                    .asValidator(
-                                                                        context),
+                                                                        .labelMediumIsCustom,
+                                                              ),
+                                                      hintStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .labelMedium
+                                                              .override(
+                                                                fontFamily: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .labelMediumFamily,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                useGoogleFonts:
+                                                                    !FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .labelMediumIsCustom,
+                                                              ),
+                                                      enabledBorder:
+                                                          UnderlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .alternate,
+                                                          width: 1.0,
+                                                        ),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.0),
+                                                      ),
+                                                      focusedBorder:
+                                                          UnderlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                          color:
+                                                              Color(0x00000000),
+                                                          width: 1.0,
+                                                        ),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.0),
+                                                      ),
+                                                      errorBorder:
+                                                          UnderlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .error,
+                                                          width: 1.0,
+                                                        ),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.0),
+                                                      ),
+                                                      focusedErrorBorder:
+                                                          UnderlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .error,
+                                                          width: 1.0,
+                                                        ),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.0),
+                                                      ),
+                                                    ),
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMediumFamily,
+                                                          letterSpacing: 0.0,
+                                                          useGoogleFonts:
+                                                              !FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .bodyMediumIsCustom,
+                                                        ),
+                                                    cursorColor:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .primaryText,
+                                                    validator: _model
+                                                        .userNameTextControllerValidator
+                                                        .asValidator(context),
+                                                  ),
+                                                ),
+                                              ),
+                                              Align(
+                                                alignment: AlignmentDirectional(
+                                                    0.0, 0.0),
+                                                child: Builder(
+                                                  builder: (context) => InkWell(
+                                                    splashColor:
+                                                        Colors.transparent,
+                                                    focusColor:
+                                                        Colors.transparent,
+                                                    hoverColor:
+                                                        Colors.transparent,
+                                                    highlightColor:
+                                                        Colors.transparent,
+                                                    onTap: () async {
+                                                      await showDialog(
+                                                        barrierDismissible:
+                                                            false,
+                                                        context: context,
+                                                        builder:
+                                                            (dialogContext) {
+                                                          return Dialog(
+                                                            elevation: 0,
+                                                            insetPadding:
+                                                                EdgeInsets.zero,
+                                                            backgroundColor:
+                                                                Colors
+                                                                    .transparent,
+                                                            alignment: AlignmentDirectional(
+                                                                    0.0, 0.0)
+                                                                .resolve(
+                                                                    Directionality.of(
+                                                                        context)),
+                                                            child:
+                                                                GestureDetector(
+                                                              onTap: () {
+                                                                FocusScope.of(
+                                                                        dialogContext)
+                                                                    .unfocus();
+                                                                FocusManager
+                                                                    .instance
+                                                                    .primaryFocus
+                                                                    ?.unfocus();
+                                                              },
+                                                              child:
+                                                                  SignPadComponentWidget(
+                                                                type: 1,
+                                                              ),
+                                                            ),
+                                                          );
+                                                        },
+                                                      );
+
+                                                      safeSetState(() {});
+                                                    },
+                                                    child: Stack(
+                                                      alignment:
+                                                          AlignmentDirectional(
+                                                              0.0, 0.0),
+                                                      children: [
+                                                        Container(
+                                                          width: 100.0,
+                                                          height: 50.0,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .secondaryBackground,
+                                                          ),
+                                                          child:
+                                                              AuthUserStreamWidget(
+                                                            builder:
+                                                                (context) =>
+                                                                    ClipRRect(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          8.0),
+                                                              child:
+                                                                  Image.network(
+                                                                currentUserDocument!
+                                                                    .studyDetails
+                                                                    .signature1,
+                                                                width: 200.0,
+                                                                height: 100.0,
+                                                                fit: BoxFit
+                                                                    .cover,
                                                               ),
                                                             ),
                                                           ),
-                                                          Align(
-                                                            alignment:
-                                                                AlignmentDirectional(
-                                                                    0.0, 0.0),
-                                                            child: Stack(
-                                                              alignment:
-                                                                  AlignmentDirectional(
-                                                                      0.0, 0.0),
-                                                              children: [
-                                                                Container(
-                                                                  width: 100.0,
-                                                                  height: 50.0,
-                                                                  decoration:
-                                                                      BoxDecoration(
-                                                                    color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .secondaryBackground,
-                                                                  ),
-                                                                  child:
-                                                                      ClipRect(
-                                                                    child:
-                                                                        Signature(
-                                                                      controller:
-                                                                          _model.signatureController1 ??=
-                                                                              SignatureController(
-                                                                        penStrokeWidth:
-                                                                            2.0,
-                                                                        penColor:
-                                                                            FlutterFlowTheme.of(context).primaryText,
-                                                                        exportBackgroundColor:
-                                                                            Colors.white,
-                                                                      ),
-                                                                      backgroundColor:
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .primaryBackground,
-                                                                      width:
-                                                                          100.0,
-                                                                      height:
-                                                                          50.0,
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                Text(
+                                                        ),
+                                                        if (currentUserDocument
+                                                                    ?.studyDetails
+                                                                    .signature2 ==
+                                                                null ||
+                                                            currentUserDocument
+                                                                    ?.studyDetails
+                                                                    .signature2 ==
+                                                                '')
+                                                          AuthUserStreamWidget(
+                                                            builder:
+                                                                (context) =>
+                                                                    Container(
+                                                              width: 100.0,
+                                                              height: 50.0,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primaryBackground,
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10.0),
+                                                              ),
+                                                              child: Align(
+                                                                alignment:
+                                                                    AlignmentDirectional(
+                                                                        0.0,
+                                                                        0.0),
+                                                                child: Text(
                                                                   FFLocalizations.of(
                                                                           context)
                                                                       .getText(
@@ -5578,24 +5726,254 @@ class _Sign2WidgetState extends State<Sign2Widget> {
                                                                             FlutterFlowTheme.of(context).bodyMediumFamily,
                                                                         letterSpacing:
                                                                             0.0,
+                                                                        fontWeight:
+                                                                            FontWeight.bold,
                                                                         useGoogleFonts:
                                                                             !FlutterFlowTheme.of(context).bodyMediumIsCustom,
                                                                       ),
                                                                 ),
-                                                              ],
+                                                              ),
                                                             ),
                                                           ),
-                                                        ],
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Text(
+                                          FFLocalizations.of(context).getText(
+                                            'ocxath8z' /* 보호자 서명 :    */,
+                                          ),
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium
+                                              .override(
+                                                fontFamily:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMediumFamily,
+                                                letterSpacing: 0.0,
+                                                useGoogleFonts:
+                                                    !FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMediumIsCustom,
+                                              ),
+                                        ),
+                                        Container(
+                                          width: 170.0,
+                                          child: Container(
+                                            width: 120.0,
+                                            child: TextFormField(
+                                              controller: _model
+                                                  .parentsNameTextController,
+                                              focusNode:
+                                                  _model.parentsNameFocusNode,
+                                              autofocus: false,
+                                              obscureText: false,
+                                              decoration: InputDecoration(
+                                                isDense: true,
+                                                labelStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .labelMedium
+                                                        .override(
+                                                          fontFamily:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .labelMediumFamily,
+                                                          letterSpacing: 0.0,
+                                                          useGoogleFonts:
+                                                              !FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .labelMediumIsCustom,
+                                                        ),
+                                                hintStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .labelMedium
+                                                        .override(
+                                                          fontFamily:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .labelMediumFamily,
+                                                          letterSpacing: 0.0,
+                                                          useGoogleFonts:
+                                                              !FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .labelMediumIsCustom,
+                                                        ),
+                                                enabledBorder:
+                                                    UnderlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .alternate,
+                                                    width: 1.0,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          8.0),
+                                                ),
+                                                focusedBorder:
+                                                    UnderlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                    color: Color(0x00000000),
+                                                    width: 1.0,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          8.0),
+                                                ),
+                                                errorBorder:
+                                                    UnderlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .error,
+                                                    width: 1.0,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          8.0),
+                                                ),
+                                                focusedErrorBorder:
+                                                    UnderlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .error,
+                                                    width: 1.0,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          8.0),
+                                                ),
+                                              ),
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        fontFamily:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMediumFamily,
+                                                        letterSpacing: 0.0,
+                                                        useGoogleFonts:
+                                                            !FlutterFlowTheme
+                                                                    .of(context)
+                                                                .bodyMediumIsCustom,
                                                       ),
-                                                      Row(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        children: [
-                                                          Text(
+                                              cursorColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryText,
+                                              validator: _model
+                                                  .parentsNameTextControllerValidator
+                                                  .asValidator(context),
+                                            ),
+                                          ),
+                                        ),
+                                        Builder(
+                                          builder: (context) => InkWell(
+                                            splashColor: Colors.transparent,
+                                            focusColor: Colors.transparent,
+                                            hoverColor: Colors.transparent,
+                                            highlightColor: Colors.transparent,
+                                            onTap: () async {
+                                              await showDialog(
+                                                barrierDismissible: false,
+                                                context: context,
+                                                builder: (dialogContext) {
+                                                  return Dialog(
+                                                    elevation: 0,
+                                                    insetPadding:
+                                                        EdgeInsets.zero,
+                                                    backgroundColor:
+                                                        Colors.transparent,
+                                                    alignment:
+                                                        AlignmentDirectional(
+                                                                0.0, 0.0)
+                                                            .resolve(
+                                                                Directionality.of(
+                                                                    context)),
+                                                    child: GestureDetector(
+                                                      onTap: () {
+                                                        FocusScope.of(
+                                                                dialogContext)
+                                                            .unfocus();
+                                                        FocusManager.instance
+                                                            .primaryFocus
+                                                            ?.unfocus();
+                                                      },
+                                                      child:
+                                                          SignPadComponentWidget(
+                                                        type: 2,
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                              );
+
+                                              safeSetState(() {});
+                                            },
+                                            child: Container(
+                                              width: 100.0,
+                                              height: 50.0,
+                                              decoration: BoxDecoration(
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .secondaryBackground,
+                                              ),
+                                              child: Stack(
+                                                alignment: AlignmentDirectional(
+                                                    0.0, 0.0),
+                                                children: [
+                                                  AuthUserStreamWidget(
+                                                    builder: (context) =>
+                                                        ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8.0),
+                                                      child: Image.network(
+                                                        currentUserDocument!
+                                                            .studyDetails
+                                                            .signature2,
+                                                        width: 200.0,
+                                                        height: 200.0,
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  if (currentUserDocument
+                                                              ?.studyDetails
+                                                              .signature2 ==
+                                                          null ||
+                                                      currentUserDocument
+                                                              ?.studyDetails
+                                                              .signature2 ==
+                                                          '')
+                                                    AuthUserStreamWidget(
+                                                      builder: (context) =>
+                                                          Container(
+                                                        width: 100.0,
+                                                        height: 50.0,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primaryBackground,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      10.0),
+                                                        ),
+                                                        child: Align(
+                                                          alignment:
+                                                              AlignmentDirectional(
+                                                                  0.0, 0.0),
+                                                          child: Text(
                                                             FFLocalizations.of(
                                                                     context)
                                                                 .getText(
-                                                              'ocxath8z' /* 보호자 서명 :    */,
+                                                              'w7cegmt7' /* (서명) */,
                                                             ),
                                                             style: FlutterFlowTheme
                                                                     .of(context)
@@ -5612,195 +5990,15 @@ class _Sign2WidgetState extends State<Sign2Widget> {
                                                                           .bodyMediumIsCustom,
                                                                 ),
                                                           ),
-                                                          Container(
-                                                            width: 170.0,
-                                                            child: Container(
-                                                              width: 120.0,
-                                                              child:
-                                                                  TextFormField(
-                                                                controller: _model
-                                                                    .parentsNameTextController,
-                                                                focusNode: _model
-                                                                    .parentsNameFocusNode,
-                                                                autofocus:
-                                                                    false,
-                                                                obscureText:
-                                                                    false,
-                                                                decoration:
-                                                                    InputDecoration(
-                                                                  isDense: true,
-                                                                  labelStyle: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .labelMedium
-                                                                      .override(
-                                                                        fontFamily:
-                                                                            FlutterFlowTheme.of(context).labelMediumFamily,
-                                                                        letterSpacing:
-                                                                            0.0,
-                                                                        useGoogleFonts:
-                                                                            !FlutterFlowTheme.of(context).labelMediumIsCustom,
-                                                                      ),
-                                                                  hintStyle: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .labelMedium
-                                                                      .override(
-                                                                        fontFamily:
-                                                                            FlutterFlowTheme.of(context).labelMediumFamily,
-                                                                        letterSpacing:
-                                                                            0.0,
-                                                                        useGoogleFonts:
-                                                                            !FlutterFlowTheme.of(context).labelMediumIsCustom,
-                                                                      ),
-                                                                  enabledBorder:
-                                                                      UnderlineInputBorder(
-                                                                    borderSide:
-                                                                        BorderSide(
-                                                                      color: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .alternate,
-                                                                      width:
-                                                                          1.0,
-                                                                    ),
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            8.0),
-                                                                  ),
-                                                                  focusedBorder:
-                                                                      UnderlineInputBorder(
-                                                                    borderSide:
-                                                                        BorderSide(
-                                                                      color: Color(
-                                                                          0x00000000),
-                                                                      width:
-                                                                          1.0,
-                                                                    ),
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            8.0),
-                                                                  ),
-                                                                  errorBorder:
-                                                                      UnderlineInputBorder(
-                                                                    borderSide:
-                                                                        BorderSide(
-                                                                      color: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .error,
-                                                                      width:
-                                                                          1.0,
-                                                                    ),
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            8.0),
-                                                                  ),
-                                                                  focusedErrorBorder:
-                                                                      UnderlineInputBorder(
-                                                                    borderSide:
-                                                                        BorderSide(
-                                                                      color: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .error,
-                                                                      width:
-                                                                          1.0,
-                                                                    ),
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            8.0),
-                                                                  ),
-                                                                ),
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium
-                                                                    .override(
-                                                                      fontFamily:
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .bodyMediumFamily,
-                                                                      letterSpacing:
-                                                                          0.0,
-                                                                      useGoogleFonts:
-                                                                          !FlutterFlowTheme.of(context)
-                                                                              .bodyMediumIsCustom,
-                                                                    ),
-                                                                cursorColor:
-                                                                    FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .primaryText,
-                                                                validator: _model
-                                                                    .parentsNameTextControllerValidator
-                                                                    .asValidator(
-                                                                        context),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Container(
-                                                            width: 100.0,
-                                                            height: 50.0,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .secondaryBackground,
-                                                            ),
-                                                            child: Stack(
-                                                              alignment:
-                                                                  AlignmentDirectional(
-                                                                      0.0, 0.0),
-                                                              children: [
-                                                                ClipRect(
-                                                                  child:
-                                                                      Signature(
-                                                                    controller:
-                                                                        _model.signatureController2 ??=
-                                                                            SignatureController(
-                                                                      penStrokeWidth:
-                                                                          2.0,
-                                                                      penColor:
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .primaryText,
-                                                                      exportBackgroundColor:
-                                                                          Colors
-                                                                              .white,
-                                                                    ),
-                                                                    backgroundColor:
-                                                                        FlutterFlowTheme.of(context)
-                                                                            .primaryBackground,
-                                                                    width:
-                                                                        100.0,
-                                                                    height:
-                                                                        50.0,
-                                                                  ),
-                                                                ),
-                                                                Text(
-                                                                  FFLocalizations.of(
-                                                                          context)
-                                                                      .getText(
-                                                                    'w7cegmt7' /* (서명) */,
-                                                                  ),
-                                                                  style: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium
-                                                                      .override(
-                                                                        fontFamily:
-                                                                            FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                        letterSpacing:
-                                                                            0.0,
-                                                                        useGoogleFonts:
-                                                                            !FlutterFlowTheme.of(context).bodyMediumIsCustom,
-                                                                      ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ],
+                                                        ),
                                                       ),
-                                                    ].divide(
-                                                        SizedBox(height: 20.0)),
-                                                  ),
-                                                ),
-                                              ],
+                                                    ),
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),

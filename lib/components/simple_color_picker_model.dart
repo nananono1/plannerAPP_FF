@@ -3,6 +3,10 @@ import 'simple_color_picker_widget.dart' show SimpleColorPickerWidget;
 import 'package:flutter/material.dart';
 
 class SimpleColorPickerModel extends FlutterFlowModel<SimpleColorPickerWidget> {
+  ///  State fields for stateful widgets in this component.
+
+  Color? colorPicked;
+
   @override
   void initState(BuildContext context) {}
 

@@ -23,8 +23,6 @@ class TimetablestartNaegongtimeModel
 
   ///  State fields for stateful widgets in this component.
 
-  // Stores action output result for [Alert Dialog - Custom Dialog] action in Container widget.
-  Color? zzz;
   // Stores action output result for [Custom Action - cupertinoTimePicker2] action in RichText widget.
   DateTime? cuoer1;
   // State field(s) for starthour widget.

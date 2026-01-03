@@ -6,7 +6,8 @@ class ReorderableListviewModel
     extends FlutterFlowModel<ReorderableListviewWidget> {
   ///  State fields for stateful widgets in this component.
 
-  Color? colorPicked;
+  // Stores action output result for [Alert Dialog - Custom Dialog] action in Container widget.
+  Color? color;
 
   @override
   void initState(BuildContext context) {}

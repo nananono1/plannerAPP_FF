@@ -9,9 +9,7 @@ import '/flutter_flow/form_field_controller.dart';
 import '/functional/password_component/password_component_widget.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'auth_create_model.dart';
@@ -36,13 +34,6 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => AuthCreateModel());
-
-    // On page load action.
-    SchedulerBinding.instance.addPostFrameCallback((_) async {
-      _model.aaaaa = await queryNotificationRecordOnce(
-        singleRecord: true,
-      ).then((s) => s.firstOrNull);
-    });
 
     _model.emailAddressTextController1 ??= TextEditingController();
     _model.emailAddressFocusNode1 ??= FocusNode();
@@ -792,7 +783,7 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget> {
                                     's179xcqi' /* 학생 */,
                                   ),
                                   FFLocalizations.of(context).getText(
-                                    'bc0rgaqo' /* 재수 */,
+                                    'bc0rgaqo' /* N수 */,
                                   ),
                                   FFLocalizations.of(context).getText(
                                     'yolq9242' /* 공시 */,
@@ -852,7 +843,7 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget> {
                                   decoration: InputDecoration(
                                     labelText:
                                         FFLocalizations.of(context).getText(
-                                      'nhut6xey' /* 학교명(00고등학교) */,
+                                      'nhut6xey' /* 학교명(ex. 한국고등학교) */,
                                     ),
                                     labelStyle: FlutterFlowTheme.of(context)
                                         .labelLarge
@@ -951,49 +942,85 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget> {
                             Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
                                   13.0, 15.0, 13.0, 0.0),
-                              child: FlutterFlowDropDown<String>(
-                                controller:
-                                    _model.dropDownSpotValueController ??=
-                                        FormFieldController<String>(null),
-                                options: _model.aaaaa!.spotdatas
-                                    .map((e) => e.spot)
-                                    .toList(),
-                                onChanged: (val) => safeSetState(
-                                    () => _model.dropDownSpotValue = val),
-                                width: double.infinity,
-                                height: 56.0,
-                                textStyle: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .override(
-                                      fontFamily: FlutterFlowTheme.of(context)
-                                          .bodyMediumFamily,
-                                      letterSpacing: 0.0,
-                                      useGoogleFonts:
-                                          !FlutterFlowTheme.of(context)
-                                              .bodyMediumIsCustom,
+                              child: StreamBuilder<List<NotificationRecord>>(
+                                stream: queryNotificationRecord(
+                                  singleRecord: true,
+                                ),
+                                builder: (context, snapshot) {
+                                  // Customize what your widget looks like when it's loading.
+                                  if (!snapshot.hasData) {
+                                    return Center(
+                                      child: SizedBox(
+                                        width: 50.0,
+                                        height: 50.0,
+                                        child: CircularProgressIndicator(
+                                          valueColor:
+                                              AlwaysStoppedAnimation<Color>(
+                                            FlutterFlowTheme.of(context)
+                                                .primary,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                  List<NotificationRecord>
+                                      dropDownSpotNotificationRecordList =
+                                      snapshot.data!;
+                                  final dropDownSpotNotificationRecord =
+                                      dropDownSpotNotificationRecordList
+                                              .isNotEmpty
+                                          ? dropDownSpotNotificationRecordList
+                                              .first
+                                          : null;
+
+                                  return FlutterFlowDropDown<String>(
+                                    controller:
+                                        _model.dropDownSpotValueController ??=
+                                            FormFieldController<String>(null),
+                                    options: dropDownSpotNotificationRecord!
+                                        .spotdatas
+                                        .map((e) => e.spot)
+                                        .toList(),
+                                    onChanged: (val) => safeSetState(
+                                        () => _model.dropDownSpotValue = val),
+                                    width: double.infinity,
+                                    height: 56.0,
+                                    textStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .override(
+                                          fontFamily:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMediumFamily,
+                                          letterSpacing: 0.0,
+                                          useGoogleFonts:
+                                              !FlutterFlowTheme.of(context)
+                                                  .bodyMediumIsCustom,
+                                        ),
+                                    hintText:
+                                        FFLocalizations.of(context).getText(
+                                      'qsuxqay6' /* 센터명 */,
                                     ),
-                                hintText: FFLocalizations.of(context).getText(
-                                  'qsuxqay6' /* 센터명 */,
-                                ),
-                                icon: Icon(
-                                  Icons.keyboard_arrow_down_rounded,
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryText,
-                                  size: 24.0,
-                                ),
-                                fillColor: FlutterFlowTheme.of(context)
-                                    .secondaryBackground,
-                                elevation: 2.0,
-                                borderColor:
-                                    FlutterFlowTheme.of(context).alternate,
-                                borderWidth: 2.0,
-                                borderRadius: 8.0,
-                                margin: EdgeInsetsDirectional.fromSTEB(
-                                    16.0, 4.0, 16.0, 4.0),
-                                hidesUnderline: true,
-                                isOverButton: true,
-                                isSearchable: false,
-                                isMultiSelect: false,
+                                    icon: Icon(
+                                      Icons.keyboard_arrow_down_rounded,
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryText,
+                                      size: 24.0,
+                                    ),
+                                    fillColor: FlutterFlowTheme.of(context)
+                                        .secondaryBackground,
+                                    elevation: 2.0,
+                                    borderColor:
+                                        FlutterFlowTheme.of(context).alternate,
+                                    borderWidth: 2.0,
+                                    borderRadius: 8.0,
+                                    margin: EdgeInsetsDirectional.fromSTEB(
+                                        16.0, 4.0, 16.0, 4.0),
+                                    hidesUnderline: true,
+                                    isOverButton: true,
+                                    isSearchable: false,
+                                    isMultiSelect: false,
+                                  );
+                                },
                               ),
                             ),
                             Padding(
@@ -1008,7 +1035,7 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget> {
                                 decoration: InputDecoration(
                                   labelText:
                                       FFLocalizations.of(context).getText(
-                                    'nno0kj8l' /* 전화번호 (ex.010-1234-5678) */,
+                                    'nno0kj8l' /* 전화번호 (ex. 01012345678) */,
                                   ),
                                   labelStyle: FlutterFlowTheme.of(context)
                                       .labelLarge
@@ -1114,7 +1141,7 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget> {
                                 decoration: InputDecoration(
                                   labelText:
                                       FFLocalizations.of(context).getText(
-                                    'i8y86u1n' /* 생년월일 (ex.2006/01/05) */,
+                                    'i8y86u1n' /* 생년월일 (ex. 20060105) */,
                                   ),
                                   labelStyle: FlutterFlowTheme.of(context)
                                       .labelLarge
@@ -1271,7 +1298,9 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget> {
                                         FocusManager.instance.primaryFocus
                                             ?.unfocus();
                                       },
-                                      child: PasswordComponentWidget(),
+                                      child: PasswordComponentWidget(
+                                        spot: _model.dropDownSpotValue!,
+                                      ),
                                     ),
                                   );
                                 },
@@ -1279,7 +1308,7 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget> {
                                   safeSetState(() => _model.aa = value));
 
                               _shouldSetState = true;
-                              if (_model.aa != false) {
+                              if (_model.aa != true) {
                                 await showDialog(
                                   context: context,
                                   builder: (alertDialogContext) {
@@ -1349,7 +1378,7 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget> {
                                     _model.displayNameTextController1.text,
                                 school: valueOrDefault<String>(
                                   _model.emailAddressTextController2.text,
-                                  '일반',
+                                  '성인',
                                 ),
                                 createdTime: getCurrentTimestamp,
                                 isAdmin: false,
@@ -1359,13 +1388,13 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget> {
                                 rankOpen: true,
                                 secondPin: int.tryParse(
                                     _model.password2TextController.text),
-                                pw: _model.passwordTextController.text,
                                 forWhat: _model.dropDown1Value,
                                 birthday: functions.convertMaskedDateToDateTime(
                                     _model.displayNameTextController3.text),
                                 phoneNumber:
                                     _model.displayNameTextController2.text,
-                                idAllowed: false,
+                                idAllowed: true,
+                                penaltyPoint: 0.0,
                               ),
                               ...mapToFirestore(
                                 {
@@ -1385,7 +1414,110 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget> {
                               ),
                             });
 
-                            context.pushNamedAuth(
+                            var pointListEachAggRecordReference =
+                                PointListEachAggRecord.createDoc(
+                                    currentUserReference!);
+                            await pointListEachAggRecordReference.set({
+                              ...createPointListEachAggRecordData(
+                                lastMigratedAt: getCurrentTimestamp,
+                                uid: currentUserReference,
+                              ),
+                              ...mapToFirestore(
+                                {
+                                  'penaltyInputList': [
+                                    getPenaltyInputFirestoreData(
+                                      updatePenaltyInputStruct(
+                                        PenaltyInputStruct(
+                                          label: '벌점',
+                                          reasonWhy: '신규가입',
+                                          penaltygiven: 0.0,
+                                        ),
+                                        clearUnsetFields: false,
+                                        create: true,
+                                      ),
+                                      true,
+                                    )
+                                  ],
+                                  'pointInputList': [
+                                    getPointInputFirestoreData(
+                                      updatePointInputStruct(
+                                        PointInputStruct(
+                                          pointGet: 0,
+                                          getDate: getCurrentTimestamp,
+                                          reasonWhy: '회원가입',
+                                        ),
+                                        clearUnsetFields: false,
+                                        create: true,
+                                      ),
+                                      true,
+                                    )
+                                  ],
+                                },
+                              ),
+                            });
+                            _model.pointlocation =
+                                PointListEachAggRecord.getDocumentFromData({
+                              ...createPointListEachAggRecordData(
+                                lastMigratedAt: getCurrentTimestamp,
+                                uid: currentUserReference,
+                              ),
+                              ...mapToFirestore(
+                                {
+                                  'penaltyInputList': [
+                                    getPenaltyInputFirestoreData(
+                                      updatePenaltyInputStruct(
+                                        PenaltyInputStruct(
+                                          label: '벌점',
+                                          reasonWhy: '신규가입',
+                                          penaltygiven: 0.0,
+                                        ),
+                                        clearUnsetFields: false,
+                                        create: true,
+                                      ),
+                                      true,
+                                    )
+                                  ],
+                                  'pointInputList': [
+                                    getPointInputFirestoreData(
+                                      updatePointInputStruct(
+                                        PointInputStruct(
+                                          pointGet: 0,
+                                          getDate: getCurrentTimestamp,
+                                          reasonWhy: '회원가입',
+                                        ),
+                                        clearUnsetFields: false,
+                                        create: true,
+                                      ),
+                                      true,
+                                    )
+                                  ],
+                                },
+                              ),
+                            }, pointListEachAggRecordReference);
+                            _shouldSetState = true;
+
+                            var studyDBbackupAggRecordReference =
+                                StudyDBbackupAggRecord.createDoc(
+                                    currentUserReference!);
+                            await studyDBbackupAggRecordReference
+                                .set(createStudyDBbackupAggRecordData(
+                              lastMigratedAt: getCurrentTimestamp,
+                            ));
+                            _model.dblocation =
+                                StudyDBbackupAggRecord.getDocumentFromData(
+                                    createStudyDBbackupAggRecordData(
+                                      lastMigratedAt: getCurrentTimestamp,
+                                    ),
+                                    studyDBbackupAggRecordReference);
+                            _shouldSetState = true;
+
+                            await currentUserReference!
+                                .update(createUsersRecordData(
+                              pointLocation: _model.pointlocation?.reference,
+                              plannerLocation: _model.dblocation?.reference,
+                            ));
+
+                            context.goNamedAuth(
                                 Sign2Widget.routeName, context.mounted);
                           }
 

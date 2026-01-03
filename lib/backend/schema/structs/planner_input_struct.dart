@@ -102,7 +102,7 @@ class PlannerInputStruct extends FFFirebaseStruct {
 
   // "isdone" field.
   String? _isdone;
-  String get isdone => _isdone ?? 'unfinish';
+  String get isdone => _isdone ?? 'nothing';
   set isdone(String? val) => _isdone = val;
 
   bool hasIsdone() => _isdone != null;

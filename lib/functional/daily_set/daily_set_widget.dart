@@ -338,7 +338,7 @@ class _DailySetWidgetState extends State<DailySetWidget> {
                           return;
                         }
 
-                        Navigator.pop(context);
+                        Navigator.pop(context, true);
                       },
                       text: FFLocalizations.of(context).getText(
                         '8n5xkeci' /* 저장 */,

@@ -9,8 +9,6 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 class AuthCreateModel extends FlutterFlowModel<AuthCreateWidget> {
   ///  State fields for stateful widgets in this page.
 
-  // Stores action output result for [Firestore Query - Query a collection] action in auth_Create widget.
-  NotificationRecord? aaaaa;
   // State field(s) for emailAddress widget.
   FocusNode? emailAddressFocusNode1;
   TextEditingController? emailAddressTextController1;
@@ -56,6 +54,10 @@ class AuthCreateModel extends FlutterFlowModel<AuthCreateWidget> {
   String? Function(BuildContext, String?)? displayNameTextController3Validator;
   // Stores action output result for [Alert Dialog - Custom Dialog] action in Button widget.
   bool? aa;
+  // Stores action output result for [Backend Call - Create Document] action in Button widget.
+  PointListEachAggRecord? pointlocation;
+  // Stores action output result for [Backend Call - Create Document] action in Button widget.
+  StudyDBbackupAggRecord? dblocation;
 
   @override
   void initState(BuildContext context) {

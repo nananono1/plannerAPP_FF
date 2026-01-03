@@ -625,28 +625,43 @@ class _SecureSign2CaptureWidgetState extends State<SecureSign2CaptureWidget> {
                                 .bodyMediumIsCustom,
                           ),
                     ),
-                    Container(
-                      width: 100.0,
-                      height: 50.0,
-                      decoration: BoxDecoration(
-                        color: FlutterFlowTheme.of(context).secondaryBackground,
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: Image.network(
-                          widget.user2!.studyDetails.signature3,
-                          width: 200.0,
-                          height: 200.0,
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) =>
-                              Image.asset(
-                            'assets/images/error_image.png',
-                            width: 200.0,
-                            height: 200.0,
-                            fit: BoxFit.cover,
+                    Stack(
+                      alignment: AlignmentDirectional(0.0, 0.0),
+                      children: [
+                        Container(
+                          width: 100.0,
+                          height: 50.0,
+                          decoration: BoxDecoration(
+                            color: FlutterFlowTheme.of(context)
+                                .secondaryBackground,
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8.0),
+                            child: Image.network(
+                              widget.user2!.studyDetails.signature3,
+                              width: 200.0,
+                              height: 200.0,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
-                      ),
+                        if (widget.user2?.studyDetails.signature3 == null ||
+                            widget.user2?.studyDetails.signature3 == '')
+                          Text(
+                            FFLocalizations.of(context).getText(
+                              'ege0ros4' /* tap! */,
+                            ),
+                            style: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .override(
+                                  fontFamily: FlutterFlowTheme.of(context)
+                                      .bodyMediumFamily,
+                                  letterSpacing: 0.0,
+                                  useGoogleFonts: !FlutterFlowTheme.of(context)
+                                      .bodyMediumIsCustom,
+                                ),
+                          ),
+                      ],
                     ),
                   ],
                 ),

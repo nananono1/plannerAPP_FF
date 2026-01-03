@@ -1,4 +1,3 @@
-import '/auth/firebase_auth/auth_util.dart';
 import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -11,9 +10,11 @@ class PointCheckComponentWidget extends StatefulWidget {
   const PointCheckComponentWidget({
     super.key,
     required this.pointlist,
-  });
+    int? totalpoint,
+  }) : this.totalpoint = totalpoint ?? 0;
 
   final List<PointInputStruct>? pointlist;
+  final int totalpoint;
 
   @override
   State<PointCheckComponentWidget> createState() =>
@@ -57,20 +58,44 @@ class _PointCheckComponentWidgetState extends State<PointCheckComponentWidget> {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
-            Align(
-              alignment: AlignmentDirectional(-1.0, 0.0),
-              child: Text(
-                FFLocalizations.of(context).getText(
-                  'gqpnxmnm' /* 포인트확인 */,
-                ),
-                style: FlutterFlowTheme.of(context).bodyMedium.override(
-                      fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                      fontSize: 40.0,
-                      letterSpacing: 0.0,
-                      useGoogleFonts:
-                          !FlutterFlowTheme.of(context).bodyMediumIsCustom,
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Align(
+                  alignment: AlignmentDirectional(-1.0, 0.0),
+                  child: Text(
+                    FFLocalizations.of(context).getText(
+                      'gqpnxmnm' /* 포인트확인 */,
                     ),
-              ),
+                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                          fontFamily:
+                              FlutterFlowTheme.of(context).bodyMediumFamily,
+                          fontSize: 40.0,
+                          letterSpacing: 0.0,
+                          useGoogleFonts:
+                              !FlutterFlowTheme.of(context).bodyMediumIsCustom,
+                        ),
+                  ),
+                ),
+                Align(
+                  alignment: AlignmentDirectional(1.0, 0.0),
+                  child: InkWell(
+                    splashColor: Colors.transparent,
+                    focusColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onTap: () async {
+                      Navigator.pop(context);
+                    },
+                    child: Icon(
+                      Icons.close_outlined,
+                      color: FlutterFlowTheme.of(context).primaryText,
+                      size: 30.0,
+                    ),
+                  ),
+                ),
+              ],
             ),
             Expanded(
               child: Padding(
@@ -291,8 +316,11 @@ class _PointCheckComponentWidgetState extends State<PointCheckComponentWidget> {
                                               alignment: AlignmentDirectional(
                                                   0.0, 0.0),
                                               child: AutoSizeText(
-                                                pointlistloadedItem.pointGet
-                                                    .toString(),
+                                                valueOrDefault<String>(
+                                                  pointlistloadedItem.pointGet
+                                                      .toString(),
+                                                  '0',
+                                                ),
                                                 minFontSize: 14.0,
                                                 style:
                                                     FlutterFlowTheme.of(context)
@@ -334,7 +362,10 @@ class _PointCheckComponentWidgetState extends State<PointCheckComponentWidget> {
                                               alignment: AlignmentDirectional(
                                                   0.0, 0.0),
                                               child: AutoSizeText(
-                                                pointlistloadedItem.reasonWhy,
+                                                valueOrDefault<String>(
+                                                  pointlistloadedItem.reasonWhy,
+                                                  '-',
+                                                ),
                                                 minFontSize: 14.0,
                                                 style:
                                                     FlutterFlowTheme.of(context)
@@ -431,26 +462,24 @@ class _PointCheckComponentWidgetState extends State<PointCheckComponentWidget> {
                                 ),
                                 child: Align(
                                   alignment: AlignmentDirectional(0.0, 0.0),
-                                  child: AuthUserStreamWidget(
-                                    builder: (context) => AutoSizeText(
-                                      valueOrDefault(
-                                              currentUserDocument?.totalPoint,
-                                              0)
-                                          .toString(),
-                                      minFontSize: 14.0,
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            fontFamily:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMediumFamily,
-                                            fontSize: 30.0,
-                                            letterSpacing: 0.0,
-                                            useGoogleFonts:
-                                                !FlutterFlowTheme.of(context)
-                                                    .bodyMediumIsCustom,
-                                          ),
+                                  child: AutoSizeText(
+                                    valueOrDefault<String>(
+                                      widget.totalpoint.toString(),
+                                      '0',
                                     ),
+                                    minFontSize: 14.0,
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .override(
+                                          fontFamily:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMediumFamily,
+                                          fontSize: 30.0,
+                                          letterSpacing: 0.0,
+                                          useGoogleFonts:
+                                              !FlutterFlowTheme.of(context)
+                                                  .bodyMediumIsCustom,
+                                        ),
                                   ),
                                 ),
                               ),

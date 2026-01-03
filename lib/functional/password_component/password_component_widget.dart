@@ -1,21 +1,18 @@
-import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'password_component_model.dart';
 export 'password_component_model.dart';
 
 class PasswordComponentWidget extends StatefulWidget {
   const PasswordComponentWidget({
     super.key,
-    this.passedInfos,
-  });
+    String? spot,
+  }) : this.spot = spot ?? ' ';
 
-  final PageStateSchemaStruct? passedInfos;
+  final String spot;
 
   @override
   State<PasswordComponentWidget> createState() =>
@@ -51,8 +48,6 @@ class _PasswordComponentWidgetState extends State<PasswordComponentWidget> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
-
     return Container(
       width: 600.0,
       height: 300.0,
@@ -127,137 +122,8 @@ class _PasswordComponentWidgetState extends State<PasswordComponentWidget> {
                               child: TextFormField(
                                 controller: _model.textController,
                                 focusNode: _model.textFieldFocusNode,
-                                onChanged: (_) => EasyDebounce.debounce(
-                                  '_model.textController',
-                                  Duration(milliseconds: 2000),
-                                  () async {
-                                    if (_model.textController.text ==
-                                        FFAppState()
-                                            .personalSubjectInfo
-                                            .elementAtOrNull(0)
-                                            ?.subject) {
-                                      _model.colorToSet = valueOrDefault<Color>(
-                                        FFAppState()
-                                            .personalSubjectInfo
-                                            .elementAtOrNull(0)
-                                            ?.color,
-                                        FlutterFlowTheme.of(context).primary,
-                                      );
-                                      safeSetState(() {});
-                                    } else if (_model.textController.text ==
-                                        FFAppState()
-                                            .personalSubjectInfo
-                                            .elementAtOrNull(1)
-                                            ?.subject) {
-                                      _model.colorToSet = valueOrDefault<Color>(
-                                        FFAppState()
-                                            .personalSubjectInfo
-                                            .elementAtOrNull(1)
-                                            ?.color,
-                                        FlutterFlowTheme.of(context).secondary,
-                                      );
-                                      safeSetState(() {});
-                                    } else if (_model.textController.text ==
-                                        FFAppState()
-                                            .personalSubjectInfo
-                                            .elementAtOrNull(2)
-                                            ?.subject) {
-                                      _model.colorToSet = valueOrDefault<Color>(
-                                        FFAppState()
-                                            .personalSubjectInfo
-                                            .elementAtOrNull(2)
-                                            ?.color,
-                                        FlutterFlowTheme.of(context).tertiary,
-                                      );
-                                      safeSetState(() {});
-                                    } else if (_model.textController.text ==
-                                        FFAppState()
-                                            .personalSubjectInfo
-                                            .elementAtOrNull(3)
-                                            ?.subject) {
-                                      _model.colorToSet = valueOrDefault<Color>(
-                                        FFAppState()
-                                            .personalSubjectInfo
-                                            .elementAtOrNull(3)
-                                            ?.color,
-                                        FlutterFlowTheme.of(context).alternate,
-                                      );
-                                      safeSetState(() {});
-                                    } else if (_model.textController.text ==
-                                        FFAppState()
-                                            .personalSubjectInfo
-                                            .elementAtOrNull(4)
-                                            ?.subject) {
-                                      _model.colorToSet = valueOrDefault<Color>(
-                                        FFAppState()
-                                            .personalSubjectInfo
-                                            .elementAtOrNull(4)
-                                            ?.color,
-                                        FlutterFlowTheme.of(context).accent2,
-                                      );
-                                      safeSetState(() {});
-                                    } else {
-                                      return;
-                                    }
-                                  },
-                                ),
-                                onFieldSubmitted: (_) async {
-                                  if (_model.textController.text ==
-                                      FFAppState()
-                                          .personalSubjectInfo
-                                          .elementAtOrNull(0)
-                                          ?.subject) {
-                                    _model.colorToSet = FFAppState()
-                                        .personalSubjectInfo
-                                        .elementAtOrNull(0)!
-                                        .color!;
-                                    safeSetState(() {});
-                                  } else if (_model.textController.text ==
-                                      FFAppState()
-                                          .personalSubjectInfo
-                                          .elementAtOrNull(1)
-                                          ?.subject) {
-                                    _model.colorToSet = FFAppState()
-                                        .personalSubjectInfo
-                                        .elementAtOrNull(1)!
-                                        .color!;
-                                    safeSetState(() {});
-                                  } else if (_model.textController.text ==
-                                      FFAppState()
-                                          .personalSubjectInfo
-                                          .elementAtOrNull(2)
-                                          ?.subject) {
-                                    _model.colorToSet = FFAppState()
-                                        .personalSubjectInfo
-                                        .elementAtOrNull(2)!
-                                        .color!;
-                                    safeSetState(() {});
-                                  } else if (_model.textController.text ==
-                                      FFAppState()
-                                          .personalSubjectInfo
-                                          .elementAtOrNull(3)
-                                          ?.subject) {
-                                    _model.colorToSet = FFAppState()
-                                        .personalSubjectInfo
-                                        .elementAtOrNull(3)!
-                                        .color!;
-                                    safeSetState(() {});
-                                  } else if (_model.textController.text ==
-                                      FFAppState()
-                                          .personalSubjectInfo
-                                          .elementAtOrNull(4)
-                                          ?.subject) {
-                                    _model.colorToSet = FFAppState()
-                                        .personalSubjectInfo
-                                        .elementAtOrNull(4)!
-                                        .color!;
-                                    safeSetState(() {});
-                                  } else {
-                                    return;
-                                  }
-                                },
                                 autofocus: true,
-                                obscureText: false,
+                                obscureText: !_model.passwordVisibility,
                                 decoration: InputDecoration(
                                   labelText:
                                       FFLocalizations.of(context).getText(
@@ -313,6 +179,19 @@ class _PasswordComponentWidgetState extends State<PasswordComponentWidget> {
                                     ),
                                     borderRadius: BorderRadius.circular(8.0),
                                   ),
+                                  suffixIcon: InkWell(
+                                    onTap: () => safeSetState(
+                                      () => _model.passwordVisibility =
+                                          !_model.passwordVisibility,
+                                    ),
+                                    focusNode: FocusNode(skipTraversal: true),
+                                    child: Icon(
+                                      _model.passwordVisibility
+                                          ? Icons.visibility_outlined
+                                          : Icons.visibility_off_outlined,
+                                      size: 22,
+                                    ),
+                                  ),
                                 ),
                                 style: FlutterFlowTheme.of(context)
                                     .bodyMedium
@@ -365,10 +244,6 @@ class _PasswordComponentWidgetState extends State<PasswordComponentWidget> {
                               }
                               List<NotificationRecord>
                                   buttonNotificationRecordList = snapshot.data!;
-                              // Return an empty Container when the item does not exist.
-                              if (snapshot.data!.isEmpty) {
-                                return Container();
-                              }
                               final buttonNotificationRecord =
                                   buttonNotificationRecordList.isNotEmpty
                                       ? buttonNotificationRecordList.first
@@ -378,18 +253,10 @@ class _PasswordComponentWidgetState extends State<PasswordComponentWidget> {
                                 onPressed: () async {
                                   if (_model.textController.text ==
                                       buttonNotificationRecord?.spotdatas
-                                          .where((e) =>
-                                              e.spot ==
-                                              valueOrDefault(
-                                                  currentUserDocument?.spot,
-                                                  ''))
+                                          .where((e) => e.spot == widget.spot)
                                           .toList()
                                           .firstOrNull
                                           ?.spotPassword) {
-                                    await currentUserReference!
-                                        .update(createUsersRecordData(
-                                      idAllowed: true,
-                                    ));
                                     await showDialog(
                                       context: context,
                                       builder: (alertDialogContext) {
@@ -423,6 +290,7 @@ class _PasswordComponentWidgetState extends State<PasswordComponentWidget> {
                                         );
                                       },
                                     );
+                                    Navigator.pop(context, false);
                                     return;
                                   }
 

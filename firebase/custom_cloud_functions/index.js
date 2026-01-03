@@ -13,6 +13,10 @@ exports.unlockUsers = unlockUsers.unlockUsers;
 const getActiveUsersAndDetailsByDateRange = require("./get_active_users_and_details_by_date_range.js");
 exports.getActiveUsersAndDetailsByDateRange =
   getActiveUsersAndDetailsByDateRange.getActiveUsersAndDetailsByDateRange;
-const generateFeedbackOnCreate = require("./generate_feedback_on_create.js");
-exports.generateFeedbackOnCreate =
-  generateFeedbackOnCreate.generateFeedbackOnCreate;
+const updateUserData = require("./update_user_data.js");
+exports.updateUserData = updateUserData.updateUserData;
+const newCloudFunction = require("./new_cloud_function.js");
+exports.newCloudFunction = newCloudFunction.newCloudFunction;
+const updatePointsOnAdminCheck4 = require("./update_points_on_admin_check4.js");
+exports.updatePointsOnAdminCheck4 =
+  updatePointsOnAdminCheck4.updatePointsOnAdminCheck4;

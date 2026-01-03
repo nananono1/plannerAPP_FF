@@ -71,7 +71,7 @@ class _AdminCostCheckWidgetState extends State<AdminCostCheckWidget> {
           },
         );
 
-        context.goNamed(HomePageWidget.routeName);
+        context.goNamed(HomePageCopyWidget.routeName);
       }
     });
 
@@ -302,55 +302,85 @@ class _AdminCostCheckWidgetState extends State<AdminCostCheckWidget> {
                                                   padding: EdgeInsetsDirectional
                                                       .fromSTEB(
                                                           8.0, 4.0, 8.0, 4.0),
-                                                  child: FutureBuilder<int>(
-                                                    future:
-                                                        queryPlannerVariableListRecordCount(
-                                                      queryBuilder:
-                                                          (plannerVariableListRecord) =>
-                                                              plannerVariableListRecord
-                                                                  .where(
-                                                                    'plannerSubmitted',
-                                                                    isEqualTo:
-                                                                        true,
-                                                                  )
-                                                                  .where(
-                                                                    'adminChecked',
-                                                                    isNotEqualTo:
-                                                                        true,
-                                                                  ),
-                                                    ),
-                                                    builder:
-                                                        (context, snapshot) {
-                                                      // Customize what your widget looks like when it's loading.
-                                                      if (!snapshot.hasData) {
-                                                        return Center(
-                                                          child: SizedBox(
-                                                            width: 50.0,
-                                                            height: 50.0,
-                                                            child:
-                                                                CircularProgressIndicator(
-                                                              valueColor:
-                                                                  AlwaysStoppedAnimation<
-                                                                      Color>(
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .primary,
+                                                  child: AuthUserStreamWidget(
+                                                    builder: (context) =>
+                                                        FutureBuilder<int>(
+                                                      future:
+                                                          queryPlannerVariableListRecordCount(
+                                                        queryBuilder:
+                                                            (plannerVariableListRecord) =>
+                                                                plannerVariableListRecord
+                                                                    .where(
+                                                                      'plannerSubmitted',
+                                                                      isEqualTo:
+                                                                          true,
+                                                                    )
+                                                                    .where(
+                                                                      'adminChecked',
+                                                                      isNotEqualTo:
+                                                                          true,
+                                                                    )
+                                                                    .where(
+                                                                      'submittedDate',
+                                                                      isEqualTo:
+                                                                          FFAppState()
+                                                                              .plannerDateSelected,
+                                                                    )
+                                                                    .where(
+                                                                      'basicInfo.userSpot',
+                                                                      isEqualTo: valueOrDefault(currentUserDocument?.spot, '') !=
+                                                                              ''
+                                                                          ? valueOrDefault(
+                                                                              currentUserDocument?.spot,
+                                                                              '')
+                                                                          : null,
+                                                                    ),
+                                                      ),
+                                                      builder:
+                                                          (context, snapshot) {
+                                                        // Customize what your widget looks like when it's loading.
+                                                        if (!snapshot.hasData) {
+                                                          return Center(
+                                                            child: SizedBox(
+                                                              width: 50.0,
+                                                              height: 50.0,
+                                                              child:
+                                                                  CircularProgressIndicator(
+                                                                valueColor:
+                                                                    AlwaysStoppedAnimation<
+                                                                        Color>(
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .primary,
+                                                                ),
                                                               ),
                                                             ),
-                                                          ),
-                                                        );
-                                                      }
-                                                      int textCount =
-                                                          snapshot.data!;
+                                                          );
+                                                        }
+                                                        int textCount =
+                                                            snapshot.data!;
 
-                                                      return Text(
-                                                        textCount.toString(),
-                                                        style: FlutterFlowTheme
-                                                                .of(context)
-                                                            .bodyMedium
-                                                            .override(
-                                                              font: GoogleFonts
-                                                                  .plusJakartaSans(
+                                                        return Text(
+                                                          textCount.toString(),
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                font: GoogleFonts
+                                                                    .plusJakartaSans(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                                ),
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 14.0,
+                                                                letterSpacing:
+                                                                    0.0,
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w500,
@@ -359,22 +389,9 @@ class _AdminCostCheckWidgetState extends State<AdminCostCheckWidget> {
                                                                     .bodyMedium
                                                                     .fontStyle,
                                                               ),
-                                                              color:
-                                                                  Colors.white,
-                                                              fontSize: 14.0,
-                                                              letterSpacing:
-                                                                  0.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              fontStyle:
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium
-                                                                      .fontStyle,
-                                                            ),
-                                                      );
-                                                    },
+                                                        );
+                                                      },
+                                                    ),
                                                   ),
                                                 ),
                                               ),
@@ -413,49 +430,194 @@ class _AdminCostCheckWidgetState extends State<AdminCostCheckWidget> {
                                             8.0, 0.0, 6.0, 0.0),
                                         child: Row(
                                           mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Icon(
-                                              Icons.space_dashboard_rounded,
-                                              color: Color(0xFF15161E),
-                                              size: 24.0,
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(
-                                                      12.0, 0.0, 0.0, 0.0),
-                                              child: Text(
-                                                FFLocalizations.of(context)
-                                                    .getText(
-                                                  '4nq7es0s' /* 시간표 관리 */,
-                                                ),
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          font: GoogleFonts
-                                                              .plusJakartaSans(
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            fontStyle:
-                                                                FlutterFlowTheme.of(
+                                            Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  children: [
+                                                    Icon(
+                                                      Icons
+                                                          .space_dashboard_rounded,
+                                                      color: Color(0xFF15161E),
+                                                      size: 24.0,
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  12.0,
+                                                                  0.0,
+                                                                  0.0,
+                                                                  0.0),
+                                                      child: Text(
+                                                        FFLocalizations.of(
+                                                                context)
+                                                            .getText(
+                                                          '4nq7es0s' /* 시간표 관리 */,
+                                                        ),
+                                                        style: FlutterFlowTheme
+                                                                .of(context)
+                                                            .bodyMedium
+                                                            .override(
+                                                              font: GoogleFonts
+                                                                  .plusJakartaSans(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                fontStyle: FlutterFlowTheme.of(
                                                                         context)
                                                                     .bodyMedium
                                                                     .fontStyle,
-                                                          ),
-                                                          color:
-                                                              Color(0xFF15161E),
-                                                          fontSize: 14.0,
-                                                          letterSpacing: 0.0,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          fontStyle:
+                                                              ),
+                                                              color: Color(
+                                                                  0xFF15161E),
+                                                              fontSize: 14.0,
+                                                              letterSpacing:
+                                                                  0.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              fontStyle:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                            ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                            if (true /* Warning: Trying to access variable not yet defined. */)
+                                              AuthUserStreamWidget(
+                                                builder: (context) =>
+                                                    FutureBuilder<int>(
+                                                  future: queryUsersRecordCount(
+                                                    queryBuilder:
+                                                        (usersRecord) =>
+                                                            usersRecord
+                                                                .where(
+                                                                  'scheduleChangeRequest',
+                                                                  isEqualTo:
+                                                                      true,
+                                                                )
+                                                                .where(
+                                                                  'spot',
+                                                                  isEqualTo: valueOrDefault(
+                                                                              currentUserDocument
+                                                                                  ?.spot,
+                                                                              '') !=
+                                                                          ''
+                                                                      ? valueOrDefault(
+                                                                          currentUserDocument
+                                                                              ?.spot,
+                                                                          '')
+                                                                      : null,
+                                                                )
+                                                                .where(
+                                                                  'seatNo',
+                                                                  isGreaterThan:
+                                                                      0,
+                                                                )
+                                                                .where(
+                                                                  'seatNo',
+                                                                  isLessThan:
+                                                                      200,
+                                                                ),
+                                                  ),
+                                                  builder: (context, snapshot) {
+                                                    // Customize what your widget looks like when it's loading.
+                                                    if (!snapshot.hasData) {
+                                                      return Center(
+                                                        child: SizedBox(
+                                                          width: 50.0,
+                                                          height: 50.0,
+                                                          child:
+                                                              CircularProgressIndicator(
+                                                            valueColor:
+                                                                AlwaysStoppedAnimation<
+                                                                    Color>(
                                                               FlutterFlowTheme.of(
                                                                       context)
-                                                                  .bodyMedium
-                                                                  .fontStyle,
+                                                                  .primary,
+                                                            ),
+                                                          ),
                                                         ),
+                                                      );
+                                                    }
+                                                    int containerCount =
+                                                        snapshot.data!;
+
+                                                    return Container(
+                                                      width: 32.0,
+                                                      height: 32.0,
+                                                      decoration: BoxDecoration(
+                                                        color:
+                                                            Color(0xFFFF0000),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.0),
+                                                      ),
+                                                      child: Align(
+                                                        alignment:
+                                                            AlignmentDirectional(
+                                                                0.0, 0.0),
+                                                        child: Padding(
+                                                          padding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(
+                                                                      8.0,
+                                                                      4.0,
+                                                                      8.0,
+                                                                      4.0),
+                                                          child: Text(
+                                                            valueOrDefault<
+                                                                String>(
+                                                              containerCount
+                                                                  .toString(),
+                                                              '1',
+                                                            ),
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  font: GoogleFonts
+                                                                      .plusJakartaSans(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .fontStyle,
+                                                                  ),
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize:
+                                                                      14.0,
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                                ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                                ),
                                               ),
-                                            ),
                                           ],
                                         ),
                                       ),
@@ -723,48 +885,74 @@ class _AdminCostCheckWidgetState extends State<AdminCostCheckWidget> {
                                                   padding: EdgeInsetsDirectional
                                                       .fromSTEB(
                                                           8.0, 4.0, 8.0, 4.0),
-                                                  child: FutureBuilder<int>(
-                                                    future:
-                                                        queryUsersRecordCount(
-                                                      queryBuilder:
-                                                          (usersRecord) =>
-                                                              usersRecord.where(
-                                                        'seatRequest',
-                                                        isEqualTo: true,
+                                                  child: AuthUserStreamWidget(
+                                                    builder: (context) =>
+                                                        FutureBuilder<int>(
+                                                      future:
+                                                          queryUsersRecordCount(
+                                                        queryBuilder:
+                                                            (usersRecord) =>
+                                                                usersRecord
+                                                                    .where(
+                                                                      'seatRequest',
+                                                                      isEqualTo:
+                                                                          true,
+                                                                    )
+                                                                    .where(
+                                                                      'spot',
+                                                                      isEqualTo: valueOrDefault(currentUserDocument?.spot, '') !=
+                                                                              ''
+                                                                          ? valueOrDefault(
+                                                                              currentUserDocument?.spot,
+                                                                              '')
+                                                                          : null,
+                                                                    ),
                                                       ),
-                                                    ),
-                                                    builder:
-                                                        (context, snapshot) {
-                                                      // Customize what your widget looks like when it's loading.
-                                                      if (!snapshot.hasData) {
-                                                        return Center(
-                                                          child: SizedBox(
-                                                            width: 50.0,
-                                                            height: 50.0,
-                                                            child:
-                                                                CircularProgressIndicator(
-                                                              valueColor:
-                                                                  AlwaysStoppedAnimation<
-                                                                      Color>(
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .primary,
+                                                      builder:
+                                                          (context, snapshot) {
+                                                        // Customize what your widget looks like when it's loading.
+                                                        if (!snapshot.hasData) {
+                                                          return Center(
+                                                            child: SizedBox(
+                                                              width: 50.0,
+                                                              height: 50.0,
+                                                              child:
+                                                                  CircularProgressIndicator(
+                                                                valueColor:
+                                                                    AlwaysStoppedAnimation<
+                                                                        Color>(
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .primary,
+                                                                ),
                                                               ),
                                                             ),
-                                                          ),
-                                                        );
-                                                      }
-                                                      int textCount =
-                                                          snapshot.data!;
+                                                          );
+                                                        }
+                                                        int textCount =
+                                                            snapshot.data!;
 
-                                                      return Text(
-                                                        textCount.toString(),
-                                                        style: FlutterFlowTheme
-                                                                .of(context)
-                                                            .bodyMedium
-                                                            .override(
-                                                              font: GoogleFonts
-                                                                  .plusJakartaSans(
+                                                        return Text(
+                                                          textCount.toString(),
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                font: GoogleFonts
+                                                                    .plusJakartaSans(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                                ),
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 14.0,
+                                                                letterSpacing:
+                                                                    0.0,
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w500,
@@ -773,22 +961,9 @@ class _AdminCostCheckWidgetState extends State<AdminCostCheckWidget> {
                                                                     .bodyMedium
                                                                     .fontStyle,
                                                               ),
-                                                              color:
-                                                                  Colors.white,
-                                                              fontSize: 14.0,
-                                                              letterSpacing:
-                                                                  0.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              fontStyle:
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium
-                                                                      .fontStyle,
-                                                            ),
-                                                      );
-                                                    },
+                                                        );
+                                                      },
+                                                    ),
                                                   ),
                                                 ),
                                               ),
@@ -916,7 +1091,7 @@ class _AdminCostCheckWidgetState extends State<AdminCostCheckWidget> {
                                               child: Text(
                                                 FFLocalizations.of(context)
                                                     .getText(
-                                                  'b8e7kile' /* 포인트 관리 */,
+                                                  'b8e7kile' /* 포인트 및 벌점 관리 */,
                                                 ),
                                                 style:
                                                     FlutterFlowTheme.of(context)
@@ -1074,6 +1249,84 @@ class _AdminCostCheckWidgetState extends State<AdminCostCheckWidget> {
                                                 FFLocalizations.of(context)
                                                     .getText(
                                                   'gk5md4b7' /* 입학원서/서약서확인 */,
+                                                ),
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          font: GoogleFonts
+                                                              .plusJakartaSans(
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                          ),
+                                                          color:
+                                                              Color(0xFF15161E),
+                                                          fontSize: 14.0,
+                                                          letterSpacing: 0.0,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                        ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      16.0, 0.0, 16.0, 0.0),
+                                  child: InkWell(
+                                    splashColor: Colors.transparent,
+                                    focusColor: Colors.transparent,
+                                    hoverColor: Colors.transparent,
+                                    highlightColor: Colors.transparent,
+                                    onTap: () async {
+                                      context.pushNamed(
+                                          AdminPwCheckWidget.routeName);
+                                    },
+                                    child: AnimatedContainer(
+                                      duration: Duration(milliseconds: 200),
+                                      curve: Curves.easeInOut,
+                                      width: double.infinity,
+                                      height: 44.0,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(12.0),
+                                        shape: BoxShape.rectangle,
+                                      ),
+                                      child: Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            8.0, 0.0, 6.0, 0.0),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            Icon(
+                                              Icons.work,
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryText,
+                                              size: 24.0,
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(
+                                                      12.0, 0.0, 0.0, 0.0),
+                                              child: Text(
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                                  'wqrem84i' /* 아이디 / 비밀번호 관리 */,
                                                 ),
                                                 style:
                                                     FlutterFlowTheme.of(context)

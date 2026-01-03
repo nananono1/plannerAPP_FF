@@ -4163,7 +4163,7 @@ class _Sign2componentWidgetState extends State<Sign2componentWidget> {
                                       children: [
                                         Text(
                                           FFLocalizations.of(context).getText(
-                                            's5g4jrq9' /* 결제 전 본 내용에 대해 고지 및 설명을 받았으며, 이... */,
+                                            's5g4jrq9' /* 결제 전 환불규정 대해 고지 및 설명을 받았으며, 이에... */,
                                           ),
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium

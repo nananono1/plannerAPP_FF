@@ -122,6 +122,23 @@ class _CallWhileStudyWidgetState extends State<CallWhileStudyWidget> {
 
                   safeSetState(() {});
                 },
+                onDoubleTap: () async {
+                  await showDialog(
+                    context: context,
+                    builder: (alertDialogContext) {
+                      return AlertDialog(
+                        title: Text('더블클릭방지'),
+                        content: Text('한번만 클릭해주세요.'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(alertDialogContext),
+                            child: Text('Ok'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
                 child: Container(
                   height: 140.0,
                   decoration: BoxDecoration(
@@ -228,6 +245,23 @@ class _CallWhileStudyWidgetState extends State<CallWhileStudyWidget> {
 
                   safeSetState(() {});
                 },
+                onDoubleTap: () async {
+                  await showDialog(
+                    context: context,
+                    builder: (alertDialogContext) {
+                      return AlertDialog(
+                        title: Text('더블클릭방지'),
+                        content: Text('한번만 클릭해주세요.'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(alertDialogContext),
+                            child: Text('Ok'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
                 child: Container(
                   height: 140.0,
                   decoration: BoxDecoration(
@@ -333,6 +367,23 @@ class _CallWhileStudyWidgetState extends State<CallWhileStudyWidget> {
                   Navigator.pop(context);
 
                   safeSetState(() {});
+                },
+                onDoubleTap: () async {
+                  await showDialog(
+                    context: context,
+                    builder: (alertDialogContext) {
+                      return AlertDialog(
+                        title: Text('더블클릭방지'),
+                        content: Text('한번만 클릭해주세요.'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(alertDialogContext),
+                            child: Text('Ok'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
                 },
                 child: Container(
                   height: 140.0,

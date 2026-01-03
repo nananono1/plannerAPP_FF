@@ -28,6 +28,7 @@ class _WeeklyToCaptureWidgetState extends State<WeeklyToCaptureWidget> {
     super.initState();
     _model = createModel(context, () => WeeklyToCaptureModel());
 
+    _model.switchValue = true;
     _model.textController1 ??= TextEditingController();
     _model.textFieldFocusNode1 ??= FocusNode();
 
@@ -530,6 +531,77 @@ class _WeeklyToCaptureWidgetState extends State<WeeklyToCaptureWidget> {
                                               ),
                                             ),
                                           ),
+                                          Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Text(
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                                  'qey1petn' /* 전체 */,
+                                                ),
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMediumFamily,
+                                                          letterSpacing: 0.0,
+                                                          useGoogleFonts:
+                                                              !FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .bodyMediumIsCustom,
+                                                        ),
+                                              ),
+                                              Align(
+                                                alignment: AlignmentDirectional(
+                                                    1.0, 0.0),
+                                                child: Switch.adaptive(
+                                                  value: _model.switchValue!,
+                                                  onChanged: (newValue) async {
+                                                    safeSetState(() =>
+                                                        _model.switchValue =
+                                                            newValue);
+                                                  },
+                                                  activeColor:
+                                                      Color(0xFFF5F0F4),
+                                                  activeTrackColor:
+                                                      Color(0xFFD57FD2),
+                                                  inactiveTrackColor:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .alternate,
+                                                  inactiveThumbColor:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .secondaryBackground,
+                                                ),
+                                              ),
+                                              Text(
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                                  'gkpakm4o' /* 대표  */,
+                                                ),
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMediumFamily,
+                                                          letterSpacing: 0.0,
+                                                          useGoogleFonts:
+                                                              !FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .bodyMediumIsCustom,
+                                                        ),
+                                              ),
+                                            ],
+                                          ),
                                         ],
                                       ),
                                       Expanded(
@@ -999,8 +1071,16 @@ class _WeeklyToCaptureWidgetState extends State<WeeklyToCaptureWidget> {
                                   child: custom_widgets.WeeklyLineChart(
                                     width: double.infinity,
                                     height: double.infinity,
-                                    insideDBStudent:
-                                        FFAppState().insideDBStudent,
+                                    insideDBStudent: _model.switchValue!
+                                        ? functions
+                                            .filterPageStateBySubjectList(
+                                                FFAppState()
+                                                    .insideDBStudent
+                                                    .toList(),
+                                                FFAppState()
+                                                    .personalSubjectInfo
+                                                    .toList())
+                                        : FFAppState().insideDBStudent,
                                     startDate: _model.starttime,
                                     endDate: _model.endtime,
                                   ),
@@ -1035,8 +1115,16 @@ class _WeeklyToCaptureWidgetState extends State<WeeklyToCaptureWidget> {
                                   child: custom_widgets.WeeklyStackLineChart(
                                     width: double.infinity,
                                     height: double.infinity,
-                                    insideDBStudent:
-                                        FFAppState().insideDBStudent,
+                                    insideDBStudent: _model.switchValue!
+                                        ? functions
+                                            .filterPageStateBySubjectList(
+                                                FFAppState()
+                                                    .insideDBStudent
+                                                    .toList(),
+                                                FFAppState()
+                                                    .personalSubjectInfo
+                                                    .toList())
+                                        : FFAppState().insideDBStudent,
                                     startDate: _model.starttime,
                                     endDate: _model.endtime,
                                   ),
@@ -1083,8 +1171,16 @@ class _WeeklyToCaptureWidgetState extends State<WeeklyToCaptureWidget> {
                                     child: custom_widgets.DailyTotalStudyTimeSF(
                                       width: double.infinity,
                                       height: double.infinity,
-                                      insideDBStudent:
-                                          FFAppState().insideDBStudent,
+                                      insideDBStudent: _model.switchValue!
+                                          ? functions
+                                              .filterPageStateBySubjectList(
+                                                  FFAppState()
+                                                      .insideDBStudent
+                                                      .toList(),
+                                                  FFAppState()
+                                                      .personalSubjectInfo
+                                                      .toList())
+                                          : FFAppState().insideDBStudent,
                                       startDate: _model.starttime,
                                       endDate: _model.endtime,
                                     ),
@@ -1121,8 +1217,16 @@ class _WeeklyToCaptureWidgetState extends State<WeeklyToCaptureWidget> {
                                   child: custom_widgets.WeeklyStartEndLineChart(
                                     width: double.infinity,
                                     height: double.infinity,
-                                    insideDBStudent:
-                                        FFAppState().insideDBStudent,
+                                    insideDBStudent: _model.switchValue!
+                                        ? functions
+                                            .filterPageStateBySubjectList(
+                                                FFAppState()
+                                                    .insideDBStudent
+                                                    .toList(),
+                                                FFAppState()
+                                                    .personalSubjectInfo
+                                                    .toList())
+                                        : FFAppState().insideDBStudent,
                                     startDate: _model.starttime,
                                     endDate: _model.endtime,
                                   ),
@@ -1158,8 +1262,16 @@ class _WeeklyToCaptureWidgetState extends State<WeeklyToCaptureWidget> {
                                   child: custom_widgets.WeeklyPieChart(
                                     width: double.infinity,
                                     height: double.infinity,
-                                    pageStateSchemaList:
-                                        FFAppState().insideDBStudent,
+                                    pageStateSchemaList: _model.switchValue!
+                                        ? functions
+                                            .filterPageStateBySubjectList(
+                                                FFAppState()
+                                                    .insideDBStudent
+                                                    .toList(),
+                                                FFAppState()
+                                                    .personalSubjectInfo
+                                                    .toList())
+                                        : FFAppState().insideDBStudent,
                                     startDate: _model.starttime,
                                     endDate: _model.endtime,
                                   ),

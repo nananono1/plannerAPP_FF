@@ -127,7 +127,7 @@ exports.calculateRankings2 = functions
 
     // ✅ todayStr을 위한 별도 날짜 객체 생성 (하루 뒤 날짜)
     const tomorrowKST = new Date(dateMadeKST);
-    tomorrowKST.setDate(tomorrowKST.getDate() + 0);
+    tomorrowKST.setDate(tomorrowKST.getDate() + 1);
     // ✅ Realtime Database에 매장별 활성 유저 데이터 저장
     const todayStr = tomorrowKST.toISOString().split("T")[0];
 

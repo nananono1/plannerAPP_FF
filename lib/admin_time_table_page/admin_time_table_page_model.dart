@@ -26,6 +26,8 @@ class AdminTimeTablePageModel
 
   bool manualChaneMode = false;
 
+  bool loading = false;
+
   ///  State fields for stateful widgets in this page.
 
   // Stores action output result for [Custom Action - checkUserClaims] action in adminTimeTablePage widget.
@@ -34,13 +36,19 @@ class AdminTimeTablePageModel
   String? dropDownValue;
   FormFieldController<String>? dropDownValueController;
   // State field(s) for TextField widget.
-  FocusNode? textFieldFocusNode;
-  TextEditingController? textController;
-  String? Function(BuildContext, String?)? textControllerValidator;
+  FocusNode? textFieldFocusNode1;
+  TextEditingController? textController1;
+  String? Function(BuildContext, String?)? textController1Validator;
   // Stores action output result for [Firestore Query - Query a collection] action in Icon widget.
   List<UsersRecord>? dddd;
-  // Stores action output result for [Backend Call - API (timetablechanger)] action in Button widget.
+  // Stores action output result for [Alert Dialog - Custom Dialog] action in Button widget.
+  String? managersign;
+  // Stores action output result for [Backend Call - API (Sheet schedule)] action in Button widget.
   ApiCallResponse? apicall;
+  // State field(s) for TextField widget.
+  FocusNode? textFieldFocusNode2;
+  TextEditingController? textController2;
+  String? Function(BuildContext, String?)? textController2Validator;
   // State field(s) for RadioButton widget.
   FormFieldController<String>? radioButtonValueController;
   // State field(s) for Checkbox widget.
@@ -59,8 +67,11 @@ class AdminTimeTablePageModel
 
   @override
   void dispose() {
-    textFieldFocusNode?.dispose();
-    textController?.dispose();
+    textFieldFocusNode1?.dispose();
+    textController1?.dispose();
+
+    textFieldFocusNode2?.dispose();
+    textController2?.dispose();
   }
 
   /// Additional helper methods.

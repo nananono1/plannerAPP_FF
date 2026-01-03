@@ -7,7 +7,6 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_timer.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/functional/call_while_study/call_while_study_widget.dart';
-import '/functional/rest_info_fix/rest_info_fix_widget.dart';
 import 'dart:async';
 import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
@@ -54,7 +53,11 @@ class _TimerPageWidgetState extends State<TimerPageWidget> {
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       if (FFAppState().crashed) {
-        await Future.delayed(const Duration(milliseconds: 500));
+        await Future.delayed(
+          Duration(
+            milliseconds: 500,
+          ),
+        );
         _model.timerController.timer.setPresetTime(
           mSec: getCurrentTimestamp.millisecondsSinceEpoch -
               FFAppState()
@@ -68,7 +71,11 @@ class _TimerPageWidgetState extends State<TimerPageWidget> {
         );
         _model.timerController.onResetTimer();
 
-        await Future.delayed(const Duration(milliseconds: 500));
+        await Future.delayed(
+          Duration(
+            milliseconds: 500,
+          ),
+        );
         _model.timerController.onStartTimer();
         return;
       }
@@ -85,7 +92,11 @@ class _TimerPageWidgetState extends State<TimerPageWidget> {
         FFAppState().update(() {});
       }
       _model.locationtimerpage = await actions.getCurrentLocation();
-      await Future.delayed(const Duration(milliseconds: 3000));
+      await Future.delayed(
+        Duration(
+          milliseconds: 3000,
+        ),
+      );
       _model.widgetOn = false;
       safeSetState(() {});
     });
@@ -142,8 +153,8 @@ class _TimerPageWidgetState extends State<TimerPageWidget> {
             FocusScope.of(context).unfocus();
             FocusManager.instance.primaryFocus?.unfocus();
           },
-          child: WillPopScope(
-            onWillPop: () async => false,
+          child: PopScope(
+            canPop: false,
             child: Scaffold(
               key: scaffoldKey,
               backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -471,9 +482,9 @@ class _TimerPageWidgetState extends State<TimerPageWidget> {
                                                         Align(
                                                           alignment:
                                                               AlignmentDirectional(
-                                                                  0.6, 1.0),
+                                                                  1.0, 0.0),
                                                           child: Container(
-                                                            width: 300.0,
+                                                            width: 330.4,
                                                             height: 100.0,
                                                             decoration:
                                                                 BoxDecoration(),
@@ -511,7 +522,7 @@ class _TimerPageWidgetState extends State<TimerPageWidget> {
                                                                           fontFamily:
                                                                               FlutterFlowTheme.of(context).bodyMediumFamily,
                                                                           fontSize:
-                                                                              20.0,
+                                                                              15.0,
                                                                           letterSpacing:
                                                                               0.0,
                                                                           useGoogleFonts:
@@ -585,10 +596,13 @@ class _TimerPageWidgetState extends State<TimerPageWidget> {
                                                               FFAppState()
                                                                   .update(
                                                                       () {});
-                                                              await Future.delayed(
-                                                                  const Duration(
-                                                                      milliseconds:
-                                                                          200));
+                                                              await Future
+                                                                  .delayed(
+                                                                Duration(
+                                                                  milliseconds:
+                                                                      200,
+                                                                ),
+                                                              );
                                                               _model
                                                                   .timerController
                                                                   .onStartTimer();
@@ -610,21 +624,38 @@ class _TimerPageWidgetState extends State<TimerPageWidget> {
                                                                         .toList()
                                                                         .firstOrNull
                                                                         ?.sheetRoot,
+                                                                    action:
+                                                                        'attendance',
+                                                                    storekey: timerPageNotificationRecord
+                                                                        ?.spotdatas
+                                                                        .where((e) =>
+                                                                            e.spot ==
+                                                                            valueOrDefault(currentUserDocument?.spot,
+                                                                                ''))
+                                                                        .toList()
+                                                                        .firstOrNull
+                                                                        ?.spotid,
                                                                   );
                                                                 }(),
                                                               );
-                                                              await Future.delayed(
-                                                                  const Duration(
-                                                                      milliseconds:
-                                                                          200));
+                                                              await Future
+                                                                  .delayed(
+                                                                Duration(
+                                                                  milliseconds:
+                                                                      200,
+                                                                ),
+                                                              );
                                                               _model.widgetOn =
                                                                   true;
                                                               safeSetState(
                                                                   () {});
-                                                              await Future.delayed(
-                                                                  const Duration(
-                                                                      milliseconds:
-                                                                          5000));
+                                                              await Future
+                                                                  .delayed(
+                                                                Duration(
+                                                                  milliseconds:
+                                                                      5000,
+                                                                ),
+                                                              );
                                                               _model.widgetOn =
                                                                   false;
                                                               safeSetState(
@@ -818,17 +849,23 @@ class _TimerPageWidgetState extends State<TimerPageWidget> {
                                                                 false;
                                                             FFAppState()
                                                                 .update(() {});
-                                                            await Future.delayed(
-                                                                const Duration(
-                                                                    milliseconds:
-                                                                        200));
+                                                            await Future
+                                                                .delayed(
+                                                              Duration(
+                                                                milliseconds:
+                                                                    200,
+                                                              ),
+                                                            );
                                                             _model
                                                                 .timerController
                                                                 .onStopTimer();
-                                                            await Future.delayed(
-                                                                const Duration(
-                                                                    milliseconds:
-                                                                        200));
+                                                            await Future
+                                                                .delayed(
+                                                              Duration(
+                                                                milliseconds:
+                                                                    200,
+                                                              ),
+                                                            );
                                                             await ChangeCellColorCall
                                                                 .call(
                                                               studentname:
@@ -845,6 +882,41 @@ class _TimerPageWidgetState extends State<TimerPageWidget> {
                                                                   .toList()
                                                                   .firstOrNull
                                                                   ?.sheetRoot,
+                                                              action:
+                                                                  'attendance',
+                                                              storekey: timerPageNotificationRecord
+                                                                  ?.spotdatas
+                                                                  .where((e) =>
+                                                                      e.spot ==
+                                                                      valueOrDefault(
+                                                                          currentUserDocument
+                                                                              ?.spot,
+                                                                          ''))
+                                                                  .toList()
+                                                                  .firstOrNull
+                                                                  ?.spotid,
+                                                            );
+                                                          },
+                                                          onDoubleTap:
+                                                              () async {
+                                                            await showDialog(
+                                                              context: context,
+                                                              builder:
+                                                                  (alertDialogContext) {
+                                                                return AlertDialog(
+                                                                  content: Text(
+                                                                      '더블클릭방지'),
+                                                                  actions: [
+                                                                    TextButton(
+                                                                      onPressed:
+                                                                          () =>
+                                                                              Navigator.pop(alertDialogContext),
+                                                                      child: Text(
+                                                                          'Ok'),
+                                                                    ),
+                                                                  ],
+                                                                );
+                                                              },
                                                             );
                                                           },
                                                           child: Icon(
@@ -926,20 +998,22 @@ class _TimerPageWidgetState extends State<TimerPageWidget> {
                                                           FFAppState()
                                                               .update(() {});
                                                           await Future.delayed(
-                                                              const Duration(
-                                                                  milliseconds:
-                                                                      200));
+                                                            Duration(
+                                                              milliseconds: 200,
+                                                            ),
+                                                          );
                                                           _model.timerController
                                                               .onStopTimer();
                                                           _model.timerController
                                                               .onResetTimer();
 
                                                           await Future.delayed(
-                                                              const Duration(
-                                                                  milliseconds:
-                                                                      200));
+                                                            Duration(
+                                                              milliseconds: 200,
+                                                            ),
+                                                          );
 
-                                                          context.pushNamed(
+                                                          context.goNamed(
                                                               PageeeeWidget
                                                                   .routeName);
 
@@ -959,6 +1033,42 @@ class _TimerPageWidgetState extends State<TimerPageWidget> {
                                                                 .toList()
                                                                 .firstOrNull
                                                                 ?.sheetRoot,
+                                                            action:
+                                                                'attendance',
+                                                            storekey: timerPageNotificationRecord
+                                                                ?.spotdatas
+                                                                .where((e) =>
+                                                                    e.spot ==
+                                                                    valueOrDefault(
+                                                                        currentUserDocument
+                                                                            ?.spot,
+                                                                        ''))
+                                                                .toList()
+                                                                .firstOrNull
+                                                                ?.spotid,
+                                                          );
+                                                        },
+                                                        onDoubleTap: () async {
+                                                          await showDialog(
+                                                            context: context,
+                                                            builder:
+                                                                (alertDialogContext) {
+                                                              return AlertDialog(
+                                                                title: Text(
+                                                                    '더블클릭방지'),
+                                                                content: Text(
+                                                                    '한번만 클릭해주세요.'),
+                                                                actions: [
+                                                                  TextButton(
+                                                                    onPressed: () =>
+                                                                        Navigator.pop(
+                                                                            alertDialogContext),
+                                                                    child: Text(
+                                                                        'Ok'),
+                                                                  ),
+                                                                ],
+                                                              );
+                                                            },
                                                           );
                                                         },
                                                         child: Icon(
@@ -1639,85 +1749,35 @@ class _TimerPageWidgetState extends State<TimerPageWidget> {
                                                                       .length,
                                                               false,
                                                             ))
-                                                              Builder(
-                                                                builder:
-                                                                    (context) =>
-                                                                        InkWell(
-                                                                  splashColor:
-                                                                      Colors
-                                                                          .transparent,
-                                                                  focusColor: Colors
-                                                                      .transparent,
-                                                                  hoverColor: Colors
-                                                                      .transparent,
-                                                                  highlightColor:
-                                                                      Colors
-                                                                          .transparent,
-                                                                  onLongPress:
-                                                                      () async {
-                                                                    await showDialog(
-                                                                      context:
-                                                                          context,
-                                                                      builder:
-                                                                          (dialogContext) {
-                                                                        return Dialog(
-                                                                          elevation:
-                                                                              0,
-                                                                          insetPadding:
-                                                                              EdgeInsets.zero,
-                                                                          backgroundColor:
-                                                                              Colors.transparent,
-                                                                          alignment:
-                                                                              AlignmentDirectional(0.0, 0.0).resolve(Directionality.of(context)),
-                                                                          child:
-                                                                              GestureDetector(
-                                                                            onTap:
-                                                                                () {
-                                                                              FocusScope.of(dialogContext).unfocus();
-                                                                              FocusManager.instance.primaryFocus?.unfocus();
-                                                                            },
-                                                                            child:
-                                                                                RestInfoFixWidget(
-                                                                              mm: FFAppState().pageStateSchemaVariable.inputListState.elementAtOrNull(widget.indexIDParameter!),
-                                                                              listNo: dailyInfoListChildIndex,
-                                                                              objectPassToFix: dailyInfoListChildItem.restinfo,
-                                                                              inputListIndex: widget.indexIDParameter!,
-                                                                            ),
-                                                                          ),
-                                                                        );
-                                                                      },
-                                                                    );
-                                                                  },
-                                                                  child: Column(
-                                                                    mainAxisSize:
-                                                                        MainAxisSize
-                                                                            .max,
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .start,
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .center,
-                                                                    children: [
-                                                                      Padding(
-                                                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                                              Column(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .max,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .start,
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .center,
+                                                                children: [
+                                                                  Padding(
+                                                                    padding: EdgeInsetsDirectional
+                                                                        .fromSTEB(
                                                                             20.0,
                                                                             10.0,
                                                                             0.0,
                                                                             10.0),
-                                                                        child:
-                                                                            Icon(
-                                                                          Icons
-                                                                              .arrow_downward_sharp,
-                                                                          color:
-                                                                              FlutterFlowTheme.of(context).primaryText,
-                                                                          size:
-                                                                              24.0,
-                                                                        ),
-                                                                      ),
-                                                                    ],
+                                                                    child: Icon(
+                                                                      Icons
+                                                                          .arrow_downward_sharp,
+                                                                      color: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .primaryText,
+                                                                      size:
+                                                                          24.0,
+                                                                    ),
                                                                   ),
-                                                                ),
+                                                                ],
                                                               ),
                                                           ],
                                                         ),

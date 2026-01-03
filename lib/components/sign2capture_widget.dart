@@ -31,9 +31,6 @@ class _Sign2captureWidgetState extends State<Sign2captureWidget> {
     super.initState();
     _model = createModel(context, () => Sign2captureModel());
 
-    _model.textFieldageTextController ??= TextEditingController();
-    _model.textFieldageFocusNode ??= FocusNode();
-
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
@@ -330,107 +327,10 @@ class _Sign2captureWidgetState extends State<Sign2captureWidget> {
                                                     .bodyMediumIsCustom,
                                           ),
                                     ),
-                                    Container(
-                                      width: 50.0,
-                                      child: TextFormField(
-                                        controller:
-                                            _model.textFieldageTextController,
-                                        focusNode: _model.textFieldageFocusNode,
-                                        autofocus: false,
-                                        obscureText: false,
-                                        decoration: InputDecoration(
-                                          isDense: true,
-                                          labelStyle: FlutterFlowTheme.of(
-                                                  context)
-                                              .labelMedium
-                                              .override(
-                                                fontFamily:
-                                                    FlutterFlowTheme.of(context)
-                                                        .labelMediumFamily,
-                                                letterSpacing: 0.0,
-                                                useGoogleFonts:
-                                                    !FlutterFlowTheme.of(
-                                                            context)
-                                                        .labelMediumIsCustom,
-                                              ),
-                                          hintStyle: FlutterFlowTheme.of(
-                                                  context)
-                                              .labelMedium
-                                              .override(
-                                                fontFamily:
-                                                    FlutterFlowTheme.of(context)
-                                                        .labelMediumFamily,
-                                                letterSpacing: 0.0,
-                                                useGoogleFonts:
-                                                    !FlutterFlowTheme.of(
-                                                            context)
-                                                        .labelMediumIsCustom,
-                                              ),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Color(0x00000000),
-                                              width: 1.0,
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Color(0x00000000),
-                                              width: 1.0,
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                          ),
-                                          errorBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .error,
-                                              width: 1.0,
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                          ),
-                                          focusedErrorBorder:
-                                              OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .error,
-                                              width: 1.0,
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                          ),
-                                          filled: true,
-                                          fillColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .primaryBackground,
-                                        ),
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .override(
-                                              fontFamily:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMediumFamily,
-                                              letterSpacing: 0.0,
-                                              useGoogleFonts:
-                                                  !FlutterFlowTheme.of(context)
-                                                      .bodyMediumIsCustom,
-                                            ),
-                                        keyboardType: TextInputType.number,
-                                        cursorColor:
-                                            FlutterFlowTheme.of(context)
-                                                .primaryText,
-                                        validator: _model
-                                            .textFieldageTextControllerValidator
-                                            .asValidator(context),
-                                      ),
-                                    ),
                                     Text(
-                                      FFLocalizations.of(context).getText(
-                                        'w1cz72st' /* 학년 */,
+                                      valueOrDefault<String>(
+                                        widget.userParameter?.grade,
+                                        '미입력',
                                       ),
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
@@ -657,7 +557,7 @@ class _Sign2captureWidgetState extends State<Sign2captureWidget> {
                                 alignment: AlignmentDirectional(0.0, 0.0),
                                 child: Text(
                                   valueOrDefault<String>(
-                                    widget.userParameter?.parentsPhone1,
+                                    widget.userParameter?.parentsPhone2,
                                     '미입력',
                                   ),
                                   style: FlutterFlowTheme.of(context)
@@ -714,7 +614,7 @@ class _Sign2captureWidgetState extends State<Sign2captureWidget> {
                                 alignment: AlignmentDirectional(0.0, 0.0),
                                 child: Text(
                                   valueOrDefault<String>(
-                                    widget.userParameter?.parentsPhone2,
+                                    widget.userParameter?.parentsPhone1,
                                     '미입력',
                                   ),
                                   style: FlutterFlowTheme.of(context)
@@ -3046,7 +2946,7 @@ class _Sign2captureWidgetState extends State<Sign2captureWidget> {
                                                                 width: 100.0,
                                                                 height: 50.0,
                                                                 fit: BoxFit
-                                                                    .cover,
+                                                                    .fitHeight,
                                                                 errorBuilder: (context,
                                                                         error,
                                                                         stackTrace) =>
@@ -3055,7 +2955,7 @@ class _Sign2captureWidgetState extends State<Sign2captureWidget> {
                                                                   width: 100.0,
                                                                   height: 50.0,
                                                                   fit: BoxFit
-                                                                      .cover,
+                                                                      .fitHeight,
                                                                 ),
                                                               ),
                                                             ),

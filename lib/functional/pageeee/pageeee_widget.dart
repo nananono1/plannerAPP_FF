@@ -69,10 +69,32 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      if (currentUserReference == null) {
-        FFAppState().deleteInsideDBStudent();
-        FFAppState().insideDBStudent = [];
+      if (FFAppState().timeIsGoing) {
+        FFAppState().crashed = true;
+        FFAppState().update(() {});
 
+        context.goNamed(
+          TimerPageWidget.routeName,
+          queryParameters: {
+            'subNameParameter': serializeParam(
+              FFAppState().crashBackupData.subNameBackup,
+              ParamType.String,
+            ),
+            'studiedDetailsParameter': serializeParam(
+              FFAppState().crashBackupData.studiedDetailedBackup,
+              ParamType.String,
+            ),
+            'indexIDParameter': serializeParam(
+              FFAppState().crashBackupData.indexIDBackup,
+              ParamType.int,
+            ),
+          }.withoutNulls,
+        );
+
+        return;
+      }
+      if (currentUserReference == null) {
+        FFAppState().insideDBStudent = [];
         FFAppState().deletePageStateSchemaVariable();
         FFAppState().pageStateSchemaVariable =
             PageStateSchemaStruct.fromSerializableMap(jsonDecode(
@@ -81,7 +103,9 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
         FFAppState().deleteChangeChecker();
         FFAppState().changeChecker = PageStateSchemaStruct();
 
+        FFAppState().deleteCurrentIndexIDParameter();
         FFAppState().currentIndexIDParameter = 0;
+
         FFAppState().deleteDDayAppState();
         FFAppState().dDayAppState = [];
 
@@ -114,7 +138,6 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
             );
             safeSetState(() {});
           }
-          _model.location = await actions.getCurrentLocation();
           if (FFAppState().newCallOnPlanner == true) {
             FFAppState().updatePageStateSchemaVariableStruct(
               (e) => e
@@ -409,7 +432,7 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
             }
           }
 
-          context.pushNamed(HomePageWidget.routeName);
+          context.goNamed(HomePageCopyWidget.routeName);
         }
       }
     });
@@ -476,8 +499,8 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
         FocusScope.of(context).unfocus();
         FocusManager.instance.primaryFocus?.unfocus();
       },
-      child: WillPopScope(
-        onWillPop: () async => false,
+      child: PopScope(
+        canPop: false,
         child: Scaffold(
           key: scaffoldKey,
           backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -786,8 +809,21 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
                                       hoverColor: Colors.transparent,
                                       highlightColor: Colors.transparent,
                                       onTap: () async {
+                                        _model.aa1 =
+                                            await queryStudyDBbackupAggRecordOnce(
+                                          parent: currentUserReference,
+                                          singleRecord: true,
+                                        ).then((s) => s.firstOrNull);
+                                        FFAppState().insideDBStudent = _model
+                                            .aa1!.studyDBbackup
+                                            .toList()
+                                            .cast<PageStateSchemaStruct>();
+                                        safeSetState(() {});
+
                                         context.pushNamed(
                                             StudentAnalyticsWidget.routeName);
+
+                                        safeSetState(() {});
                                       },
                                       child: AnimatedContainer(
                                         duration: Duration(milliseconds: 200),
@@ -1981,7 +2017,7 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
                                           0.0, 0.0, 3.0, 1.0),
                                       child: Text(
                                         FFLocalizations.of(context).getText(
-                                          'lpr2o7f4' /* ※ 날짜 텍스트를 스와이프하거나 time table 좌... */,
+                                          'lpr2o7f4' /* ※ 날짜 텍스트를 스와이프하거나 캘린더 버튼을 클릭하여... */,
                                         ),
                                         style: FlutterFlowTheme.of(context)
                                             .bodyMedium
@@ -2057,101 +2093,6 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
                                                       ),
                                                   );
                                                   FFAppState().update(() {});
-                                                  if ((FFAppState()
-                                                              .insideDBStudent
-                                                              .where((e) =>
-                                                                  e.submittedDatePlanner ==
-                                                                  FFAppState()
-                                                                      .plannerDateSelected)
-                                                              .toList()
-                                                              .length >
-                                                          0) &&
-                                                      (valueOrDefault<bool>(
-                                                            FFAppState()
-                                                                    .pageStateSchemaVariable
-                                                                    .inputListState
-                                                                    .length >=
-                                                                1,
-                                                            false,
-                                                          ) ||
-                                                          valueOrDefault<bool>(
-                                                            FFAppState()
-                                                                        .pageStateSchemaVariable
-                                                                        .goodThingsPlanner !=
-                                                                    '',
-                                                            false,
-                                                          ) ||
-                                                          valueOrDefault<bool>(
-                                                            FFAppState()
-                                                                        .pageStateSchemaVariable
-                                                                        .imporovementState !=
-                                                                    '',
-                                                            false,
-                                                          ))) {
-                                                    FFAppState()
-                                                        .updateInsideDBStudentAtIndex(
-                                                      functions.getIndexFunction(
-                                                          FFAppState()
-                                                              .insideDBStudent
-                                                              .toList(),
-                                                          FFAppState()
-                                                              .plannerDateSelected!),
-                                                      (_) => FFAppState()
-                                                          .pageStateSchemaVariable,
-                                                    );
-                                                    FFAppState().update(() {});
-                                                  } else {
-                                                    if (valueOrDefault<bool>(
-                                                          FFAppState()
-                                                                  .pageStateSchemaVariable
-                                                                  .inputListState
-                                                                  .length >=
-                                                              1,
-                                                          false,
-                                                        ) ||
-                                                        valueOrDefault<bool>(
-                                                          FFAppState()
-                                                                      .pageStateSchemaVariable
-                                                                      .goodThingsPlanner !=
-                                                                  '',
-                                                          false,
-                                                        ) ||
-                                                        valueOrDefault<bool>(
-                                                          FFAppState()
-                                                                      .pageStateSchemaVariable
-                                                                      .imporovementState !=
-                                                                  '',
-                                                          false,
-                                                        ) ||
-                                                        (FFAppState()
-                                                                .pageStateSchemaVariable
-                                                                .dailyStartPara
-                                                                .sleepTime !=
-                                                            null) ||
-                                                        (FFAppState()
-                                                                .pageStateSchemaVariable
-                                                                .dailyStartPara
-                                                                .getupTime !=
-                                                            null) ||
-                                                        (FFAppState()
-                                                                    .pageStateSchemaVariable
-                                                                    .dailyStartPara
-                                                                    .goalTime !=
-                                                                '') ||
-                                                        (FFAppState()
-                                                                    .pageStateSchemaVariable
-                                                                    .dailyStartPara
-                                                                    .commentOfDay !=
-                                                                '')) {
-                                                      FFAppState()
-                                                          .addToInsideDBStudent(
-                                                              FFAppState()
-                                                                  .pageStateSchemaVariable);
-                                                      FFAppState()
-                                                          .update(() {});
-                                                    }
-                                                  }
-
                                                   if (valueOrDefault<bool>(
                                                         FFAppState()
                                                                 .pageStateSchemaVariable
@@ -2202,10 +2143,17 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
                                                           (plannerVariableListRecord) =>
                                                               plannerVariableListRecord
                                                                   .where(
-                                                        'submittedDate',
-                                                        isEqualTo: FFAppState()
-                                                            .plannerDateSelected,
-                                                      ),
+                                                                    'submittedDate',
+                                                                    isGreaterThan:
+                                                                        functions
+                                                                            .subtractminusTenSeconds(FFAppState().plannerDateSelected!),
+                                                                  )
+                                                                  .where(
+                                                                    'submittedDate',
+                                                                    isLessThanOrEqualTo:
+                                                                        functions
+                                                                            .addTenSecond(FFAppState().plannerDateSelected!),
+                                                                  ),
                                                       singleRecord: true,
                                                     ).then((s) =>
                                                             s.firstOrNull);
@@ -2339,10 +2287,19 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
                                                         (plannerVariableListRecord) =>
                                                             plannerVariableListRecord
                                                                 .where(
-                                                      'submittedDate',
-                                                      isEqualTo: FFAppState()
-                                                          .plannerDateSelected,
-                                                    ),
+                                                                  'submittedDate',
+                                                                  isGreaterThan:
+                                                                      functions.subtractminusTenSeconds(
+                                                                          FFAppState()
+                                                                              .plannerDateSelected!),
+                                                                )
+                                                                .where(
+                                                                  'submittedDate',
+                                                                  isLessThanOrEqualTo:
+                                                                      functions.addTenSecond(
+                                                                          FFAppState()
+                                                                              .plannerDateSelected!),
+                                                                ),
                                                     singleRecord: true,
                                                   ).then((s) => s.firstOrNull);
                                                   if (_model.loadedInfoCopy !=
@@ -2442,121 +2399,6 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
                                                       ),
                                                   );
                                                   FFAppState().update(() {});
-                                                  if ((FFAppState()
-                                                              .insideDBStudent
-                                                              .where((e) =>
-                                                                  e.submittedDatePlanner ==
-                                                                  FFAppState()
-                                                                      .plannerDateSelected)
-                                                              .toList()
-                                                              .length >
-                                                          0) &&
-                                                      (valueOrDefault<bool>(
-                                                            FFAppState()
-                                                                    .pageStateSchemaVariable
-                                                                    .inputListState
-                                                                    .length >=
-                                                                1,
-                                                            false,
-                                                          ) ||
-                                                          valueOrDefault<bool>(
-                                                            FFAppState()
-                                                                        .pageStateSchemaVariable
-                                                                        .goodThingsPlanner !=
-                                                                    '',
-                                                            false,
-                                                          ) ||
-                                                          valueOrDefault<bool>(
-                                                            FFAppState()
-                                                                        .pageStateSchemaVariable
-                                                                        .imporovementState !=
-                                                                    '',
-                                                            false,
-                                                          ) ||
-                                                          (FFAppState()
-                                                                  .pageStateSchemaVariable
-                                                                  .dailyStartPara
-                                                                  .sleepTime !=
-                                                              null) ||
-                                                          (FFAppState()
-                                                                  .pageStateSchemaVariable
-                                                                  .dailyStartPara
-                                                                  .getupTime !=
-                                                              null) ||
-                                                          (FFAppState()
-                                                                      .pageStateSchemaVariable
-                                                                      .dailyStartPara
-                                                                      .goalTime !=
-                                                                  '') ||
-                                                          (FFAppState()
-                                                                      .pageStateSchemaVariable
-                                                                      .dailyStartPara
-                                                                      .commentOfDay !=
-                                                                  ''))) {
-                                                    FFAppState()
-                                                        .updateInsideDBStudentAtIndex(
-                                                      functions.getIndexFunction(
-                                                          FFAppState()
-                                                              .insideDBStudent
-                                                              .toList(),
-                                                          FFAppState()
-                                                              .plannerDateSelected!),
-                                                      (_) => FFAppState()
-                                                          .pageStateSchemaVariable,
-                                                    );
-                                                    FFAppState().update(() {});
-                                                  } else {
-                                                    if (valueOrDefault<bool>(
-                                                          FFAppState()
-                                                                  .pageStateSchemaVariable
-                                                                  .inputListState
-                                                                  .length >=
-                                                              1,
-                                                          false,
-                                                        ) ||
-                                                        valueOrDefault<bool>(
-                                                          FFAppState()
-                                                                      .pageStateSchemaVariable
-                                                                      .goodThingsPlanner !=
-                                                                  '',
-                                                          false,
-                                                        ) ||
-                                                        valueOrDefault<bool>(
-                                                          FFAppState()
-                                                                      .pageStateSchemaVariable
-                                                                      .imporovementState !=
-                                                                  '',
-                                                          false,
-                                                        ) ||
-                                                        (FFAppState()
-                                                                .pageStateSchemaVariable
-                                                                .dailyStartPara
-                                                                .sleepTime !=
-                                                            null) ||
-                                                        (FFAppState()
-                                                                .pageStateSchemaVariable
-                                                                .dailyStartPara
-                                                                .getupTime !=
-                                                            null) ||
-                                                        (FFAppState()
-                                                                    .pageStateSchemaVariable
-                                                                    .dailyStartPara
-                                                                    .goalTime !=
-                                                                '') ||
-                                                        (FFAppState()
-                                                                    .pageStateSchemaVariable
-                                                                    .dailyStartPara
-                                                                    .commentOfDay !=
-                                                                '')) {
-                                                      FFAppState()
-                                                          .addToInsideDBStudent(
-                                                              FFAppState()
-                                                                  .pageStateSchemaVariable);
-                                                      FFAppState()
-                                                          .update(() {});
-                                                    }
-                                                  }
-
                                                   if (valueOrDefault<bool>(
                                                         FFAppState()
                                                                 .pageStateSchemaVariable
@@ -2607,10 +2449,17 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
                                                           (plannerVariableListRecord) =>
                                                               plannerVariableListRecord
                                                                   .where(
-                                                        'submittedDate',
-                                                        isEqualTo: FFAppState()
-                                                            .plannerDateSelected,
-                                                      ),
+                                                                    'submittedDate',
+                                                                    isGreaterThan:
+                                                                        functions
+                                                                            .subtractminusTenSeconds(FFAppState().plannerDateSelected!),
+                                                                  )
+                                                                  .where(
+                                                                    'submittedDate',
+                                                                    isLessThan:
+                                                                        functions
+                                                                            .addTenSecond(FFAppState().plannerDateSelected!),
+                                                                  ),
                                                       singleRecord: true,
                                                     ).then((s) =>
                                                             s.firstOrNull);
@@ -2744,10 +2593,19 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
                                                         (plannerVariableListRecord) =>
                                                             plannerVariableListRecord
                                                                 .where(
-                                                      'submittedDate',
-                                                      isEqualTo: FFAppState()
-                                                          .plannerDateSelected,
-                                                    ),
+                                                                  'submittedDate',
+                                                                  isGreaterThan:
+                                                                      functions.subtractminusTenSeconds(
+                                                                          FFAppState()
+                                                                              .plannerDateSelected!),
+                                                                )
+                                                                .where(
+                                                                  'submittedDate',
+                                                                  isLessThanOrEqualTo:
+                                                                      functions.addTenSecond(
+                                                                          FFAppState()
+                                                                              .plannerDateSelected!),
+                                                                ),
                                                     singleRecord: true,
                                                   ).then((s) => s.firstOrNull);
                                                   if (_model
@@ -2939,6 +2797,442 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
                                                           CrossAxisAlignment
                                                               .center,
                                                       children: [
+                                                        Expanded(
+                                                          flex: 1,
+                                                          child: Align(
+                                                            alignment:
+                                                                AlignmentDirectional(
+                                                                    0.0, 0.0),
+                                                            child: Padding(
+                                                              padding:
+                                                                  EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          0.0,
+                                                                          5.0,
+                                                                          0.0,
+                                                                          0.0),
+                                                              child: InkWell(
+                                                                splashColor: Colors
+                                                                    .transparent,
+                                                                focusColor: Colors
+                                                                    .transparent,
+                                                                hoverColor: Colors
+                                                                    .transparent,
+                                                                highlightColor:
+                                                                    Colors
+                                                                        .transparent,
+                                                                onTap:
+                                                                    () async {
+                                                                  var _shouldSetState =
+                                                                      false;
+                                                                  FFAppState()
+                                                                      .updatePageStateSchemaVariableStruct(
+                                                                    (e) => e
+                                                                      ..goodThingsPlanner = _model
+                                                                          .textController
+                                                                          .text
+                                                                      ..submittedDatePlanner =
+                                                                          FFAppState()
+                                                                              .plannerDateSelected,
+                                                                  );
+                                                                  FFAppState()
+                                                                      .update(
+                                                                          () {});
+                                                                  if (valueOrDefault<
+                                                                          bool>(
+                                                                        FFAppState().pageStateSchemaVariable.inputListState.length >=
+                                                                            1,
+                                                                        false,
+                                                                      ) ||
+                                                                      valueOrDefault<
+                                                                          bool>(
+                                                                        FFAppState().pageStateSchemaVariable.goodThingsPlanner !=
+                                                                                '',
+                                                                        false,
+                                                                      ) ||
+                                                                      valueOrDefault<
+                                                                          bool>(
+                                                                        FFAppState().pageStateSchemaVariable.imporovementState !=
+                                                                                '',
+                                                                        false,
+                                                                      ) ||
+                                                                      (FFAppState()
+                                                                              .pageStateSchemaVariable
+                                                                              .dailyStartPara
+                                                                              .sleepTime !=
+                                                                          null) ||
+                                                                      (FFAppState()
+                                                                              .pageStateSchemaVariable
+                                                                              .dailyStartPara
+                                                                              .getupTime !=
+                                                                          null) ||
+                                                                      (FFAppState().pageStateSchemaVariable.dailyStartPara.goalTime !=
+                                                                              '') ||
+                                                                      (FFAppState().pageStateSchemaVariable.dailyStartPara.commentOfDay !=
+                                                                              '')) {
+                                                                    _model.queryToday3 =
+                                                                        await queryPlannerVariableListRecordOnce(
+                                                                      parent:
+                                                                          currentUserReference,
+                                                                      queryBuilder: (plannerVariableListRecord) => plannerVariableListRecord
+                                                                          .where(
+                                                                            'submittedDate',
+                                                                            isGreaterThan:
+                                                                                functions.subtractminusTenSeconds(FFAppState().plannerDateSelected!),
+                                                                          )
+                                                                          .where(
+                                                                            'submittedDate',
+                                                                            isLessThan:
+                                                                                functions.addTenSecond(FFAppState().plannerDateSelected!),
+                                                                          ),
+                                                                      singleRecord:
+                                                                          true,
+                                                                    ).then((s) =>
+                                                                            s.firstOrNull);
+                                                                    _shouldSetState =
+                                                                        true;
+                                                                    if (_model
+                                                                            .queryToday3 !=
+                                                                        null) {
+                                                                      await _model
+                                                                          .queryToday3!
+                                                                          .reference
+                                                                          .update({
+                                                                        ...createPlannerVariableListRecordData(
+                                                                          goodThings: FFAppState()
+                                                                              .pageStateSchemaVariable
+                                                                              .goodThingsPlanner,
+                                                                          improvement: FFAppState()
+                                                                              .pageStateSchemaVariable
+                                                                              .imporovementState,
+                                                                          achivementPercentage: FFAppState()
+                                                                              .pageStateSchemaVariable
+                                                                              .archivePercentState,
+                                                                          dailyStarting:
+                                                                              updateDailyStartingStruct(
+                                                                            FFAppState().pageStateSchemaVariable.dailyStartPara,
+                                                                            clearUnsetFields:
+                                                                                false,
+                                                                          ),
+                                                                        ),
+                                                                        ...mapToFirestore(
+                                                                          {
+                                                                            'inputList':
+                                                                                getPlannerInputListFirestoreData(
+                                                                              FFAppState().pageStateSchemaVariable.inputListState,
+                                                                            ),
+                                                                          },
+                                                                        ),
+                                                                      });
+                                                                    } else {
+                                                                      await PlannerVariableListRecord.createDoc(
+                                                                              currentUserReference!)
+                                                                          .set({
+                                                                        ...createPlannerVariableListRecordData(
+                                                                          adminChecked:
+                                                                              false,
+                                                                          goodThings: FFAppState()
+                                                                              .pageStateSchemaVariable
+                                                                              .goodThingsPlanner,
+                                                                          improvement: FFAppState()
+                                                                              .pageStateSchemaVariable
+                                                                              .imporovementState,
+                                                                          achivementPercentage:
+                                                                              valueOrDefault<double>(
+                                                                            FFAppState().pageStateSchemaVariable.archivePercentState,
+                                                                            0.0,
+                                                                          ),
+                                                                          submittedDate:
+                                                                              FFAppState().plannerDateSelected,
+                                                                          plannerSubmitted:
+                                                                              false,
+                                                                          basicInfo:
+                                                                              updateBasicUserInfoStruct(
+                                                                            BasicUserInfoStruct(
+                                                                              uid: currentUserReference?.id,
+                                                                              userName: currentUserDisplayName,
+                                                                              userSeatNo: valueOrDefault(currentUserDocument?.seatNo, 0),
+                                                                              userSpot: valueOrDefault(currentUserDocument?.spot, ''),
+                                                                            ),
+                                                                            clearUnsetFields:
+                                                                                false,
+                                                                            create:
+                                                                                true,
+                                                                          ),
+                                                                          dailyStarting:
+                                                                              updateDailyStartingStruct(
+                                                                            FFAppState().pageStateSchemaVariable.dailyStartPara,
+                                                                            clearUnsetFields:
+                                                                                false,
+                                                                            create:
+                                                                                true,
+                                                                          ),
+                                                                        ),
+                                                                        ...mapToFirestore(
+                                                                          {
+                                                                            'inputList':
+                                                                                getPlannerInputListFirestoreData(
+                                                                              FFAppState().pageStateSchemaVariable.inputListState,
+                                                                            ),
+                                                                          },
+                                                                        ),
+                                                                      });
+                                                                    }
+                                                                  }
+                                                                  final _datePickedDate =
+                                                                      await showDatePicker(
+                                                                    context:
+                                                                        context,
+                                                                    barrierDismissible:
+                                                                        false,
+                                                                    initialDate:
+                                                                        functions
+                                                                            .getDateAtMidnight(getCurrentTimestamp),
+                                                                    firstDate:
+                                                                        DateTime(
+                                                                            1900),
+                                                                    lastDate:
+                                                                        DateTime(
+                                                                            2050),
+                                                                    builder:
+                                                                        (context,
+                                                                            child) {
+                                                                      return wrapInMaterialDatePickerTheme(
+                                                                        context,
+                                                                        child!,
+                                                                        headerBackgroundColor:
+                                                                            FlutterFlowTheme.of(context).primary,
+                                                                        headerForegroundColor:
+                                                                            FlutterFlowTheme.of(context).info,
+                                                                        headerTextStyle: FlutterFlowTheme.of(context)
+                                                                            .headlineLarge
+                                                                            .override(
+                                                                              fontFamily: FlutterFlowTheme.of(context).headlineLargeFamily,
+                                                                              fontSize: 32.0,
+                                                                              letterSpacing: 0.0,
+                                                                              fontWeight: FontWeight.w600,
+                                                                              useGoogleFonts: !FlutterFlowTheme.of(context).headlineLargeIsCustom,
+                                                                            ),
+                                                                        pickerBackgroundColor:
+                                                                            FlutterFlowTheme.of(context).secondaryBackground,
+                                                                        pickerForegroundColor:
+                                                                            FlutterFlowTheme.of(context).primaryText,
+                                                                        selectedDateTimeBackgroundColor:
+                                                                            FlutterFlowTheme.of(context).primary,
+                                                                        selectedDateTimeForegroundColor:
+                                                                            FlutterFlowTheme.of(context).info,
+                                                                        actionButtonForegroundColor:
+                                                                            FlutterFlowTheme.of(context).primaryText,
+                                                                        iconSize:
+                                                                            24.0,
+                                                                      );
+                                                                    },
+                                                                  );
+
+                                                                  if (_datePickedDate !=
+                                                                      null) {
+                                                                    safeSetState(
+                                                                        () {
+                                                                      _model.datePicked =
+                                                                          DateTime(
+                                                                        _datePickedDate
+                                                                            .year,
+                                                                        _datePickedDate
+                                                                            .month,
+                                                                        _datePickedDate
+                                                                            .day,
+                                                                      );
+                                                                    });
+                                                                  } else if (_model
+                                                                          .datePicked !=
+                                                                      null) {
+                                                                    safeSetState(
+                                                                        () {
+                                                                      _model.datePicked =
+                                                                          functions
+                                                                              .getDateAtMidnight(getCurrentTimestamp);
+                                                                    });
+                                                                  }
+                                                                  if (_model
+                                                                          .datePicked ==
+                                                                      null) {
+                                                                    if (_shouldSetState)
+                                                                      safeSetState(
+                                                                          () {});
+                                                                    return;
+                                                                  }
+
+                                                                  FFAppState()
+                                                                          .plannerDateSelected =
+                                                                      _model
+                                                                          .datePicked;
+                                                                  FFAppState()
+                                                                      .update(
+                                                                          () {});
+                                                                  FFAppState()
+                                                                          .dateselectSafety =
+                                                                      FFAppState()
+                                                                          .plannerDateSelected;
+                                                                  FFAppState()
+                                                                      .update(
+                                                                          () {});
+                                                                  if (animationsMap[
+                                                                          'rowOnActionTriggerAnimation'] !=
+                                                                      null) {
+                                                                    animationsMap[
+                                                                            'rowOnActionTriggerAnimation']!
+                                                                        .controller
+                                                                        .forward(
+                                                                            from:
+                                                                                0.0);
+                                                                  }
+                                                                  if (FFAppState()
+                                                                          .insideDBStudent
+                                                                          .where((e) =>
+                                                                              e.submittedDatePlanner ==
+                                                                              FFAppState().plannerDateSelected)
+                                                                          .toList()
+                                                                          .length >
+                                                                      999999) {
+                                                                    FFAppState().pageStateSchemaVariable = FFAppState().insideDBStudent.elementAtOrNull(functions.getIndexFunction(
+                                                                        FFAppState()
+                                                                            .insideDBStudent
+                                                                            .toList(),
+                                                                        FFAppState()
+                                                                            .plannerDateSelected!))!;
+                                                                    safeSetState(
+                                                                        () {});
+                                                                    await Future
+                                                                        .wait([
+                                                                      Future(
+                                                                          () async {
+                                                                        safeSetState(
+                                                                            () {
+                                                                          _model
+                                                                              .textController
+                                                                              ?.text = FFAppState().pageStateSchemaVariable.goodThingsPlanner;
+                                                                        });
+                                                                      }),
+                                                                    ]);
+                                                                  } else {
+                                                                    _model.loadedInfo =
+                                                                        await queryPlannerVariableListRecordOnce(
+                                                                      parent:
+                                                                          currentUserReference,
+                                                                      queryBuilder: (plannerVariableListRecord) => plannerVariableListRecord
+                                                                          .where(
+                                                                            'submittedDate',
+                                                                            isGreaterThan:
+                                                                                functions.subtractminusTenSeconds(FFAppState().plannerDateSelected!),
+                                                                          )
+                                                                          .where(
+                                                                            'submittedDate',
+                                                                            isLessThan:
+                                                                                functions.addTenSecond(FFAppState().plannerDateSelected!),
+                                                                          ),
+                                                                      singleRecord:
+                                                                          true,
+                                                                    ).then((s) =>
+                                                                            s.firstOrNull);
+                                                                    _shouldSetState =
+                                                                        true;
+                                                                    if (_model
+                                                                            .loadedInfo !=
+                                                                        null) {
+                                                                      FFAppState()
+                                                                              .pageStateSchemaVariable =
+                                                                          PageStateSchemaStruct(
+                                                                        inputListState: _model
+                                                                            .loadedInfo
+                                                                            ?.inputList,
+                                                                        submittedDatePlanner: _model
+                                                                            .loadedInfo
+                                                                            ?.submittedDate,
+                                                                        goodThingsPlanner: _model
+                                                                            .loadedInfo
+                                                                            ?.goodThings,
+                                                                        imporovementState: _model
+                                                                            .loadedInfo
+                                                                            ?.improvement,
+                                                                        archivePercentState: _model
+                                                                            .loadedInfo
+                                                                            ?.achivementPercentage,
+                                                                        teacherquoteState: _model
+                                                                            .loadedInfo
+                                                                            ?.teachersQuote,
+                                                                        isSubmittedPara: _model
+                                                                            .loadedInfo
+                                                                            ?.plannerSubmitted,
+                                                                        adminCheckedPara: _model
+                                                                            .loadedInfo
+                                                                            ?.adminChecked,
+                                                                        dailyStartPara: _model
+                                                                            .loadedInfo
+                                                                            ?.dailyStarting,
+                                                                      );
+                                                                      FFAppState()
+                                                                          .update(
+                                                                              () {});
+                                                                      safeSetState(
+                                                                          () {
+                                                                        _model
+                                                                            .textController
+                                                                            ?.clear();
+                                                                      });
+                                                                      await Future
+                                                                          .wait([
+                                                                        Future(
+                                                                            () async {
+                                                                          safeSetState(
+                                                                              () {
+                                                                            _model.textController?.text =
+                                                                                FFAppState().pageStateSchemaVariable.goodThingsPlanner;
+                                                                          });
+                                                                        }),
+                                                                      ]);
+                                                                    } else {
+                                                                      FFAppState()
+                                                                          .deletePageStateSchemaVariable();
+                                                                      FFAppState()
+                                                                              .pageStateSchemaVariable =
+                                                                          PageStateSchemaStruct.fromSerializableMap(
+                                                                              jsonDecode('{\"inputListState\":\"[]\",\"submittedDatePlanner\":\"1735657200000\",\"dailyStartPara\":\"{\\\"CommentOfDay\\\":\\\" \\\"}\",\"basicInfoState\":\"{\\\"uid\\\":\\\"\\\"}\"}'));
+
+                                                                      FFAppState()
+                                                                          .update(
+                                                                              () {});
+                                                                      safeSetState(
+                                                                          () {
+                                                                        _model
+                                                                            .textController
+                                                                            ?.clear();
+                                                                      });
+                                                                    }
+                                                                  }
+
+                                                                  FFAppState()
+                                                                          .changeChecker =
+                                                                      FFAppState()
+                                                                          .pageStateSchemaVariable;
+                                                                  FFAppState()
+                                                                      .update(
+                                                                          () {});
+                                                                  if (_shouldSetState)
+                                                                    safeSetState(
+                                                                        () {});
+                                                                },
+                                                                child: Icon(
+                                                                  Icons
+                                                                      .calendar_today,
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .primaryText,
+                                                                  size: 40.0,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
                                                         Align(
                                                           alignment:
                                                               AlignmentDirectional(
@@ -4089,6 +4383,24 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
                                                                                         hoverColor: Colors.transparent,
                                                                                         highlightColor: Colors.transparent,
                                                                                         onTap: () async {
+                                                                                          if (!((functions.getDateAtMidnight(functions.subtractminusThreeHours(getCurrentTimestamp)) > functions.subtractminusTenSeconds(FFAppState().plannerDateSelected!)) && (functions.getDateAtMidnight(functions.subtractminusThreeHours(getCurrentTimestamp)) < functions.addTenSecond(FFAppState().plannerDateSelected!)))) {
+                                                                                            await showDialog(
+                                                                                              context: context,
+                                                                                              builder: (alertDialogContext) {
+                                                                                                return AlertDialog(
+                                                                                                  title: Text('날짜오류'),
+                                                                                                  content: Text('오늘날짜의 플래너를 선택해주세요'),
+                                                                                                  actions: [
+                                                                                                    TextButton(
+                                                                                                      onPressed: () => Navigator.pop(alertDialogContext),
+                                                                                                      child: Text('Ok'),
+                                                                                                    ),
+                                                                                                  ],
+                                                                                                );
+                                                                                              },
+                                                                                            );
+                                                                                            return;
+                                                                                          }
                                                                                           FFAppState().updateCrashBackupDataStruct(
                                                                                             (e) => e
                                                                                               ..subNameBackup = plannerinputchildLoadItem.subjectNamePlanner
@@ -4180,144 +4492,149 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
                                                                             ),
                                                                           ),
                                                                         ),
-                                                                        Expanded(
-                                                                          flex:
-                                                                              3,
+                                                                        InkWell(
+                                                                          splashColor:
+                                                                              Colors.transparent,
+                                                                          focusColor:
+                                                                              Colors.transparent,
+                                                                          hoverColor:
+                                                                              Colors.transparent,
+                                                                          highlightColor:
+                                                                              Colors.transparent,
+                                                                          onTap:
+                                                                              () async {
+                                                                            if (FFAppState().pageStateSchemaVariable.isSubmittedPara) {
+                                                                              return;
+                                                                            }
+                                                                            if (plannerinputchildLoadItem.isdone ==
+                                                                                'done') {
+                                                                              FFAppState().updatePageStateSchemaVariableStruct(
+                                                                                (e) => e
+                                                                                  ..updateInputListState(
+                                                                                    (e) => e[plannerinputchildLoadIndex]..isdone = 'notyet',
+                                                                                  ),
+                                                                              );
+                                                                              safeSetState(() {});
+                                                                            } else if (plannerinputchildLoadItem.isdone ==
+                                                                                'notyet') {
+                                                                              FFAppState().updatePageStateSchemaVariableStruct(
+                                                                                (e) => e
+                                                                                  ..updateInputListState(
+                                                                                    (e) => e[plannerinputchildLoadIndex]..isdone = 'unfinish',
+                                                                                  ),
+                                                                              );
+                                                                              safeSetState(() {});
+                                                                            } else {
+                                                                              FFAppState().updatePageStateSchemaVariableStruct(
+                                                                                (e) => e
+                                                                                  ..updateInputListState(
+                                                                                    (e) => e[plannerinputchildLoadIndex]..isdone = 'done',
+                                                                                  ),
+                                                                              );
+                                                                              safeSetState(() {});
+                                                                            }
+                                                                          },
                                                                           child:
-                                                                              Stack(
-                                                                            children: [
-                                                                              InkWell(
-                                                                                splashColor: Colors.transparent,
-                                                                                focusColor: Colors.transparent,
-                                                                                hoverColor: Colors.transparent,
-                                                                                highlightColor: Colors.transparent,
-                                                                                onTap: () async {
-                                                                                  if (FFAppState().pageStateSchemaVariable.isSubmittedPara) {
-                                                                                    return;
-                                                                                  }
+                                                                              Container(
+                                                                            width:
+                                                                                40.0,
+                                                                            height:
+                                                                                40.0,
+                                                                            constraints:
+                                                                                BoxConstraints(
+                                                                              minWidth: 20.0,
+                                                                              minHeight: 20.0,
+                                                                            ),
+                                                                            decoration:
+                                                                                BoxDecoration(
+                                                                              color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                              border: Border.all(
+                                                                                color: FlutterFlowTheme.of(context).primaryBackground,
+                                                                              ),
+                                                                            ),
+                                                                            child:
+                                                                                Align(
+                                                                              alignment: AlignmentDirectional(0.0, 0.0),
+                                                                              child: Builder(
+                                                                                builder: (context) {
                                                                                   if (plannerinputchildLoadItem.isdone == 'done') {
-                                                                                    FFAppState().updatePageStateSchemaVariableStruct(
-                                                                                      (e) => e
-                                                                                        ..updateInputListState(
-                                                                                          (e) => e[plannerinputchildLoadIndex]..isdone = 'notyet',
-                                                                                        ),
+                                                                                    return Align(
+                                                                                      alignment: AlignmentDirectional(0.0, 0.0),
+                                                                                      child: Icon(
+                                                                                        Icons.circle_outlined,
+                                                                                        color: FlutterFlowTheme.of(context).primaryText,
+                                                                                        size: 24.0,
+                                                                                      ),
                                                                                     );
-                                                                                    safeSetState(() {});
                                                                                   } else if (plannerinputchildLoadItem.isdone == 'notyet') {
-                                                                                    FFAppState().updatePageStateSchemaVariableStruct(
-                                                                                      (e) => e
-                                                                                        ..updateInputListState(
-                                                                                          (e) => e[plannerinputchildLoadIndex]..isdone = 'unfinish',
-                                                                                        ),
+                                                                                    return Align(
+                                                                                      alignment: AlignmentDirectional(0.0, 0.0),
+                                                                                      child: Icon(
+                                                                                        Icons.change_history,
+                                                                                        color: FlutterFlowTheme.of(context).primaryText,
+                                                                                        size: 24.0,
+                                                                                      ),
                                                                                     );
-                                                                                    safeSetState(() {});
+                                                                                  } else if (plannerinputchildLoadItem.isdone == 'unfinish') {
+                                                                                    return Align(
+                                                                                      alignment: AlignmentDirectional(0.0, 0.0),
+                                                                                      child: FaIcon(
+                                                                                        FontAwesomeIcons.times,
+                                                                                        color: FlutterFlowTheme.of(context).primaryText,
+                                                                                        size: 24.0,
+                                                                                      ),
+                                                                                    );
                                                                                   } else {
-                                                                                    FFAppState().updatePageStateSchemaVariableStruct(
-                                                                                      (e) => e
-                                                                                        ..updateInputListState(
-                                                                                          (e) => e[plannerinputchildLoadIndex]..isdone = 'done',
+                                                                                    return Align(
+                                                                                      alignment: AlignmentDirectional(0.0, 0.0),
+                                                                                      child: InkWell(
+                                                                                        splashColor: Colors.transparent,
+                                                                                        focusColor: Colors.transparent,
+                                                                                        hoverColor: Colors.transparent,
+                                                                                        highlightColor: Colors.transparent,
+                                                                                        onTap: () async {
+                                                                                          FFAppState().updatePageStateSchemaVariableStruct(
+                                                                                            (e) => e
+                                                                                              ..updateInputListState(
+                                                                                                (e) => e[plannerinputchildLoadIndex]..isdone = 'done',
+                                                                                              ),
+                                                                                          );
+                                                                                          safeSetState(() {});
+                                                                                        },
+                                                                                        child: Container(
+                                                                                          width: 38.0,
+                                                                                          height: 38.0,
+                                                                                          decoration: BoxDecoration(
+                                                                                            color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                                          ),
+                                                                                          child: Column(
+                                                                                            mainAxisSize: MainAxisSize.max,
+                                                                                            children: [
+                                                                                              Icon(
+                                                                                                Icons.ads_click_outlined,
+                                                                                                color: FlutterFlowTheme.of(context).primaryText,
+                                                                                                size: 24.0,
+                                                                                              ),
+                                                                                              Text(
+                                                                                                FFLocalizations.of(context).getText(
+                                                                                                  '0hi9xmog' /* click! */,
+                                                                                                ),
+                                                                                                style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                                      fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
+                                                                                                      fontSize: 12.0,
+                                                                                                      letterSpacing: 0.0,
+                                                                                                      useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
+                                                                                                    ),
+                                                                                              ),
+                                                                                            ],
+                                                                                          ),
                                                                                         ),
+                                                                                      ).animateOnPageLoad(animationsMap['containerOnPageLoadAnimation']!),
                                                                                     );
-                                                                                    safeSetState(() {});
                                                                                   }
                                                                                 },
-                                                                                child: Container(
-                                                                                  height: 40.0,
-                                                                                  constraints: BoxConstraints(
-                                                                                    minWidth: 20.0,
-                                                                                    minHeight: 20.0,
-                                                                                  ),
-                                                                                  decoration: BoxDecoration(
-                                                                                    color: FlutterFlowTheme.of(context).secondaryBackground,
-                                                                                    border: Border.all(
-                                                                                      color: FlutterFlowTheme.of(context).primaryBackground,
-                                                                                    ),
-                                                                                  ),
-                                                                                  child: Align(
-                                                                                    alignment: AlignmentDirectional(0.0, 0.0),
-                                                                                    child: Builder(
-                                                                                      builder: (context) {
-                                                                                        if (plannerinputchildLoadItem.isdone == 'done') {
-                                                                                          return Align(
-                                                                                            alignment: AlignmentDirectional(0.0, 0.0),
-                                                                                            child: Icon(
-                                                                                              Icons.circle_outlined,
-                                                                                              color: FlutterFlowTheme.of(context).primaryText,
-                                                                                              size: 24.0,
-                                                                                            ),
-                                                                                          );
-                                                                                        } else if (plannerinputchildLoadItem.isdone == 'notyet') {
-                                                                                          return Align(
-                                                                                            alignment: AlignmentDirectional(0.0, 0.0),
-                                                                                            child: Icon(
-                                                                                              Icons.change_history,
-                                                                                              color: FlutterFlowTheme.of(context).primaryText,
-                                                                                              size: 24.0,
-                                                                                            ),
-                                                                                          );
-                                                                                        } else {
-                                                                                          return Align(
-                                                                                            alignment: AlignmentDirectional(0.0, 0.0),
-                                                                                            child: FaIcon(
-                                                                                              FontAwesomeIcons.times,
-                                                                                              color: FlutterFlowTheme.of(context).primaryText,
-                                                                                              size: 24.0,
-                                                                                            ),
-                                                                                          );
-                                                                                        }
-                                                                                      },
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
                                                                               ),
-                                                                              if (plannerinputchildLoadItem.togglefinger != true)
-                                                                                Align(
-                                                                                  alignment: AlignmentDirectional(0.0, 0.0),
-                                                                                  child: InkWell(
-                                                                                    splashColor: Colors.transparent,
-                                                                                    focusColor: Colors.transparent,
-                                                                                    hoverColor: Colors.transparent,
-                                                                                    highlightColor: Colors.transparent,
-                                                                                    onTap: () async {
-                                                                                      FFAppState().updatePageStateSchemaVariableStruct(
-                                                                                        (e) => e
-                                                                                          ..updateInputListState(
-                                                                                            (e) => e[plannerinputchildLoadIndex]..togglefinger = true,
-                                                                                          ),
-                                                                                      );
-                                                                                      safeSetState(() {});
-                                                                                    },
-                                                                                    child: Container(
-                                                                                      width: 38.0,
-                                                                                      height: 38.0,
-                                                                                      decoration: BoxDecoration(
-                                                                                        color: FlutterFlowTheme.of(context).secondaryBackground,
-                                                                                      ),
-                                                                                      child: Column(
-                                                                                        mainAxisSize: MainAxisSize.max,
-                                                                                        children: [
-                                                                                          Icon(
-                                                                                            Icons.ads_click_outlined,
-                                                                                            color: FlutterFlowTheme.of(context).primaryText,
-                                                                                            size: 24.0,
-                                                                                          ),
-                                                                                          Text(
-                                                                                            FFLocalizations.of(context).getText(
-                                                                                              '0hi9xmog' /* click! */,
-                                                                                            ),
-                                                                                            style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                                  fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                                                  fontSize: 12.0,
-                                                                                                  letterSpacing: 0.0,
-                                                                                                  useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
-                                                                                                ),
-                                                                                          ),
-                                                                                        ],
-                                                                                      ),
-                                                                                    ),
-                                                                                  ).animateOnPageLoad(animationsMap['containerOnPageLoadAnimation']!),
-                                                                                ),
-                                                                            ],
+                                                                            ),
                                                                           ),
                                                                         ),
                                                                       ],
@@ -4395,489 +4712,11 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
                                                         MainAxisAlignment
                                                             .center,
                                                     children: [
-                                                      Expanded(
-                                                        flex: 1,
-                                                        child: Align(
-                                                          alignment:
-                                                              AlignmentDirectional(
-                                                                  0.0, -0.5),
-                                                          child: Padding(
-                                                            padding:
-                                                                EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        0.0,
-                                                                        5.0,
-                                                                        0.0,
-                                                                        0.0),
-                                                            child: InkWell(
-                                                              splashColor: Colors
-                                                                  .transparent,
-                                                              focusColor: Colors
-                                                                  .transparent,
-                                                              hoverColor: Colors
-                                                                  .transparent,
-                                                              highlightColor:
-                                                                  Colors
-                                                                      .transparent,
-                                                              onTap: () async {
-                                                                var _shouldSetState =
-                                                                    false;
-                                                                FFAppState()
-                                                                    .updatePageStateSchemaVariableStruct(
-                                                                  (e) => e
-                                                                    ..goodThingsPlanner =
-                                                                        _model
-                                                                            .textController
-                                                                            .text
-                                                                    ..submittedDatePlanner =
-                                                                        FFAppState()
-                                                                            .plannerDateSelected,
-                                                                );
-                                                                FFAppState()
-                                                                    .update(
-                                                                        () {});
-                                                                if (FFAppState()
-                                                                        .insideDBStudent
-                                                                        .where((e) =>
-                                                                            e.submittedDatePlanner ==
-                                                                            FFAppState().plannerDateSelected)
-                                                                        .toList()
-                                                                        .length >
-                                                                    0) {
-                                                                  FFAppState()
-                                                                      .updateInsideDBStudentAtIndex(
-                                                                    functions.getIndexFunction(
-                                                                        FFAppState()
-                                                                            .insideDBStudent
-                                                                            .toList(),
-                                                                        FFAppState()
-                                                                            .plannerDateSelected!),
-                                                                    (_) => FFAppState()
-                                                                        .pageStateSchemaVariable,
-                                                                  );
-                                                                  FFAppState()
-                                                                      .update(
-                                                                          () {});
-                                                                } else {
-                                                                  FFAppState().addToInsideDBStudent(
-                                                                      FFAppState()
-                                                                          .pageStateSchemaVariable);
-                                                                  FFAppState()
-                                                                      .update(
-                                                                          () {});
-                                                                }
-
-                                                                if (valueOrDefault<
-                                                                        bool>(
-                                                                      FFAppState()
-                                                                              .pageStateSchemaVariable
-                                                                              .inputListState
-                                                                              .length >=
-                                                                          1,
-                                                                      false,
-                                                                    ) ||
-                                                                    valueOrDefault<
-                                                                        bool>(
-                                                                      FFAppState().pageStateSchemaVariable.goodThingsPlanner !=
-                                                                              '',
-                                                                      false,
-                                                                    ) ||
-                                                                    valueOrDefault<
-                                                                        bool>(
-                                                                      FFAppState().pageStateSchemaVariable.imporovementState !=
-                                                                              '',
-                                                                      false,
-                                                                    ) ||
-                                                                    (FFAppState()
-                                                                            .pageStateSchemaVariable
-                                                                            .dailyStartPara
-                                                                            .sleepTime !=
-                                                                        null) ||
-                                                                    (FFAppState()
-                                                                            .pageStateSchemaVariable
-                                                                            .dailyStartPara
-                                                                            .getupTime !=
-                                                                        null) ||
-                                                                    (FFAppState().pageStateSchemaVariable.dailyStartPara.goalTime !=
-                                                                            '') ||
-                                                                    (FFAppState().pageStateSchemaVariable.dailyStartPara.commentOfDay !=
-                                                                            '')) {
-                                                                  _model.queryToday3 =
-                                                                      await queryPlannerVariableListRecordOnce(
-                                                                    parent:
-                                                                        currentUserReference,
-                                                                    queryBuilder:
-                                                                        (plannerVariableListRecord) =>
-                                                                            plannerVariableListRecord.where(
-                                                                      'submittedDate',
-                                                                      isEqualTo:
-                                                                          FFAppState()
-                                                                              .plannerDateSelected,
-                                                                    ),
-                                                                    singleRecord:
-                                                                        true,
-                                                                  ).then((s) =>
-                                                                          s.firstOrNull);
-                                                                  _shouldSetState =
-                                                                      true;
-                                                                  if (_model
-                                                                          .queryToday3 !=
-                                                                      null) {
-                                                                    await _model
-                                                                        .queryToday3!
-                                                                        .reference
-                                                                        .update({
-                                                                      ...createPlannerVariableListRecordData(
-                                                                        goodThings: FFAppState()
-                                                                            .pageStateSchemaVariable
-                                                                            .goodThingsPlanner,
-                                                                        improvement: FFAppState()
-                                                                            .pageStateSchemaVariable
-                                                                            .imporovementState,
-                                                                        achivementPercentage: FFAppState()
-                                                                            .pageStateSchemaVariable
-                                                                            .archivePercentState,
-                                                                        dailyStarting:
-                                                                            updateDailyStartingStruct(
-                                                                          FFAppState()
-                                                                              .pageStateSchemaVariable
-                                                                              .dailyStartPara,
-                                                                          clearUnsetFields:
-                                                                              false,
-                                                                        ),
-                                                                      ),
-                                                                      ...mapToFirestore(
-                                                                        {
-                                                                          'inputList':
-                                                                              getPlannerInputListFirestoreData(
-                                                                            FFAppState().pageStateSchemaVariable.inputListState,
-                                                                          ),
-                                                                        },
-                                                                      ),
-                                                                    });
-                                                                  } else {
-                                                                    await PlannerVariableListRecord.createDoc(
-                                                                            currentUserReference!)
-                                                                        .set({
-                                                                      ...createPlannerVariableListRecordData(
-                                                                        adminChecked:
-                                                                            false,
-                                                                        goodThings: FFAppState()
-                                                                            .pageStateSchemaVariable
-                                                                            .goodThingsPlanner,
-                                                                        improvement: FFAppState()
-                                                                            .pageStateSchemaVariable
-                                                                            .imporovementState,
-                                                                        achivementPercentage:
-                                                                            valueOrDefault<double>(
-                                                                          FFAppState()
-                                                                              .pageStateSchemaVariable
-                                                                              .archivePercentState,
-                                                                          0.0,
-                                                                        ),
-                                                                        submittedDate:
-                                                                            FFAppState().plannerDateSelected,
-                                                                        plannerSubmitted:
-                                                                            false,
-                                                                        basicInfo:
-                                                                            updateBasicUserInfoStruct(
-                                                                          BasicUserInfoStruct(
-                                                                            uid:
-                                                                                currentUserReference?.id,
-                                                                            userName:
-                                                                                currentUserDisplayName,
-                                                                            userSeatNo:
-                                                                                valueOrDefault(currentUserDocument?.seatNo, 0),
-                                                                            userSpot:
-                                                                                valueOrDefault(currentUserDocument?.spot, ''),
-                                                                          ),
-                                                                          clearUnsetFields:
-                                                                              false,
-                                                                          create:
-                                                                              true,
-                                                                        ),
-                                                                        dailyStarting:
-                                                                            updateDailyStartingStruct(
-                                                                          FFAppState()
-                                                                              .pageStateSchemaVariable
-                                                                              .dailyStartPara,
-                                                                          clearUnsetFields:
-                                                                              false,
-                                                                          create:
-                                                                              true,
-                                                                        ),
-                                                                      ),
-                                                                      ...mapToFirestore(
-                                                                        {
-                                                                          'inputList':
-                                                                              getPlannerInputListFirestoreData(
-                                                                            FFAppState().pageStateSchemaVariable.inputListState,
-                                                                          ),
-                                                                        },
-                                                                      ),
-                                                                    });
-                                                                  }
-                                                                }
-                                                                final _datePickedDate =
-                                                                    await showDatePicker(
-                                                                  context:
-                                                                      context,
-                                                                  initialDate:
-                                                                      getCurrentTimestamp,
-                                                                  firstDate:
-                                                                      DateTime(
-                                                                          1900),
-                                                                  lastDate:
-                                                                      DateTime(
-                                                                          2050),
-                                                                  builder:
-                                                                      (context,
-                                                                          child) {
-                                                                    return wrapInMaterialDatePickerTheme(
-                                                                      context,
-                                                                      child!,
-                                                                      headerBackgroundColor:
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .primary,
-                                                                      headerForegroundColor:
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .info,
-                                                                      headerTextStyle: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .headlineLarge
-                                                                          .override(
-                                                                            fontFamily:
-                                                                                FlutterFlowTheme.of(context).headlineLargeFamily,
-                                                                            fontSize:
-                                                                                32.0,
-                                                                            letterSpacing:
-                                                                                0.0,
-                                                                            fontWeight:
-                                                                                FontWeight.w600,
-                                                                            useGoogleFonts:
-                                                                                !FlutterFlowTheme.of(context).headlineLargeIsCustom,
-                                                                          ),
-                                                                      pickerBackgroundColor:
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .secondaryBackground,
-                                                                      pickerForegroundColor:
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .primaryText,
-                                                                      selectedDateTimeBackgroundColor:
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .primary,
-                                                                      selectedDateTimeForegroundColor:
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .info,
-                                                                      actionButtonForegroundColor:
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .primaryText,
-                                                                      iconSize:
-                                                                          24.0,
-                                                                    );
-                                                                  },
-                                                                );
-
-                                                                if (_datePickedDate !=
-                                                                    null) {
-                                                                  safeSetState(
-                                                                      () {
-                                                                    _model.datePicked =
-                                                                        DateTime(
-                                                                      _datePickedDate
-                                                                          .year,
-                                                                      _datePickedDate
-                                                                          .month,
-                                                                      _datePickedDate
-                                                                          .day,
-                                                                    );
-                                                                  });
-                                                                } else if (_model
-                                                                        .datePicked !=
-                                                                    null) {
-                                                                  safeSetState(
-                                                                      () {
-                                                                    _model.datePicked =
-                                                                        getCurrentTimestamp;
-                                                                  });
-                                                                }
-                                                                if (_model
-                                                                        .datePicked ==
-                                                                    null) {
-                                                                  if (_shouldSetState)
-                                                                    safeSetState(
-                                                                        () {});
-                                                                  return;
-                                                                }
-
-                                                                FFAppState()
-                                                                        .plannerDateSelected =
-                                                                    _model
-                                                                        .datePicked;
-                                                                FFAppState()
-                                                                    .update(
-                                                                        () {});
-                                                                FFAppState()
-                                                                        .dateselectSafety =
-                                                                    FFAppState()
-                                                                        .plannerDateSelected;
-                                                                FFAppState()
-                                                                    .update(
-                                                                        () {});
-                                                                if (animationsMap[
-                                                                        'rowOnActionTriggerAnimation'] !=
-                                                                    null) {
-                                                                  animationsMap[
-                                                                          'rowOnActionTriggerAnimation']!
-                                                                      .controller
-                                                                      .forward(
-                                                                          from:
-                                                                              0.0);
-                                                                }
-                                                                if (FFAppState()
-                                                                        .insideDBStudent
-                                                                        .where((e) =>
-                                                                            e.submittedDatePlanner ==
-                                                                            FFAppState().plannerDateSelected)
-                                                                        .toList()
-                                                                        .length >
-                                                                    999999) {
-                                                                  FFAppState().pageStateSchemaVariable = FFAppState().insideDBStudent.elementAtOrNull(functions.getIndexFunction(
-                                                                      FFAppState()
-                                                                          .insideDBStudent
-                                                                          .toList(),
-                                                                      FFAppState()
-                                                                          .plannerDateSelected!))!;
-                                                                  safeSetState(
-                                                                      () {});
-                                                                  await Future
-                                                                      .wait([
-                                                                    Future(
-                                                                        () async {
-                                                                      safeSetState(
-                                                                          () {
-                                                                        _model.textController?.text = FFAppState()
-                                                                            .pageStateSchemaVariable
-                                                                            .goodThingsPlanner;
-                                                                      });
-                                                                    }),
-                                                                  ]);
-                                                                } else {
-                                                                  _model.loadedInfo =
-                                                                      await queryPlannerVariableListRecordOnce(
-                                                                    parent:
-                                                                        currentUserReference,
-                                                                    queryBuilder:
-                                                                        (plannerVariableListRecord) =>
-                                                                            plannerVariableListRecord.where(
-                                                                      'submittedDate',
-                                                                      isEqualTo:
-                                                                          FFAppState()
-                                                                              .plannerDateSelected,
-                                                                    ),
-                                                                    singleRecord:
-                                                                        true,
-                                                                  ).then((s) =>
-                                                                          s.firstOrNull);
-                                                                  _shouldSetState =
-                                                                      true;
-                                                                  if (_model
-                                                                          .loadedInfo !=
-                                                                      null) {
-                                                                    FFAppState()
-                                                                            .pageStateSchemaVariable =
-                                                                        PageStateSchemaStruct(
-                                                                      inputListState: _model
-                                                                          .loadedInfo
-                                                                          ?.inputList,
-                                                                      submittedDatePlanner: _model
-                                                                          .loadedInfo
-                                                                          ?.submittedDate,
-                                                                      goodThingsPlanner: _model
-                                                                          .loadedInfo
-                                                                          ?.goodThings,
-                                                                      imporovementState: _model
-                                                                          .loadedInfo
-                                                                          ?.improvement,
-                                                                      archivePercentState: _model
-                                                                          .loadedInfo
-                                                                          ?.achivementPercentage,
-                                                                      teacherquoteState: _model
-                                                                          .loadedInfo
-                                                                          ?.teachersQuote,
-                                                                      isSubmittedPara: _model
-                                                                          .loadedInfo
-                                                                          ?.plannerSubmitted,
-                                                                      adminCheckedPara: _model
-                                                                          .loadedInfo
-                                                                          ?.adminChecked,
-                                                                      dailyStartPara: _model
-                                                                          .loadedInfo
-                                                                          ?.dailyStarting,
-                                                                    );
-                                                                    FFAppState()
-                                                                        .update(
-                                                                            () {});
-                                                                    safeSetState(
-                                                                        () {
-                                                                      _model
-                                                                          .textController
-                                                                          ?.clear();
-                                                                    });
-                                                                    await Future
-                                                                        .wait([
-                                                                      Future(
-                                                                          () async {
-                                                                        safeSetState(
-                                                                            () {
-                                                                          _model
-                                                                              .textController
-                                                                              ?.text = FFAppState().pageStateSchemaVariable.goodThingsPlanner;
-                                                                        });
-                                                                      }),
-                                                                    ]);
-                                                                  } else {
-                                                                    FFAppState()
-                                                                        .deletePageStateSchemaVariable();
-                                                                    FFAppState()
-                                                                            .pageStateSchemaVariable =
-                                                                        PageStateSchemaStruct.fromSerializableMap(
-                                                                            jsonDecode('{\"inputListState\":\"[]\",\"submittedDatePlanner\":\"1735657200000\",\"dailyStartPara\":\"{\\\"CommentOfDay\\\":\\\" \\\"}\",\"basicInfoState\":\"{\\\"uid\\\":\\\"\\\"}\"}'));
-
-                                                                    FFAppState()
-                                                                        .update(
-                                                                            () {});
-                                                                    safeSetState(
-                                                                        () {
-                                                                      _model
-                                                                          .textController
-                                                                          ?.clear();
-                                                                    });
-                                                                  }
-                                                                }
-
-                                                                FFAppState()
-                                                                        .changeChecker =
-                                                                    FFAppState()
-                                                                        .pageStateSchemaVariable;
-                                                                FFAppState()
-                                                                    .update(
-                                                                        () {});
-                                                                if (_shouldSetState)
-                                                                  safeSetState(
-                                                                      () {});
-                                                              },
-                                                              child: Icon(
-                                                                Icons
-                                                                    .calendar_today,
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .secondaryBackground,
-                                                                size: 22.0,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
+                                                      Container(
+                                                        width: 30.0,
+                                                        height: 10.0,
+                                                        decoration:
+                                                            BoxDecoration(),
                                                       ),
                                                       Expanded(
                                                         flex: 3,
@@ -10110,7 +9949,7 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
                                                                 valueOrDefault<
                                                                     Color>(
                                                               functions.getCellColorFromInputListState(
-                                                                  'cell001',
+                                                                  'cell241',
                                                                   FFAppState()
                                                                       .pageStateSchemaVariable
                                                                       .inputListState
@@ -10144,7 +9983,7 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
                                                                 valueOrDefault<
                                                                     Color>(
                                                               functions.getCellColorFromInputListState(
-                                                                  'cell002',
+                                                                  'cell242',
                                                                   FFAppState()
                                                                       .pageStateSchemaVariable
                                                                       .inputListState
@@ -10178,7 +10017,7 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
                                                                 valueOrDefault<
                                                                     Color>(
                                                               functions.getCellColorFromInputListState(
-                                                                  'cell003',
+                                                                  'cell243',
                                                                   FFAppState()
                                                                       .pageStateSchemaVariable
                                                                       .inputListState
@@ -10212,7 +10051,7 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
                                                                 valueOrDefault<
                                                                     Color>(
                                                               functions.getCellColorFromInputListState(
-                                                                  'cell004',
+                                                                  'cell244',
                                                                   FFAppState()
                                                                       .pageStateSchemaVariable
                                                                       .inputListState
@@ -10246,7 +10085,7 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
                                                                 valueOrDefault<
                                                                     Color>(
                                                               functions.getCellColorFromInputListState(
-                                                                  'cell005',
+                                                                  'cell245',
                                                                   FFAppState()
                                                                       .pageStateSchemaVariable
                                                                       .inputListState
@@ -10280,7 +10119,7 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
                                                                 valueOrDefault<
                                                                     Color>(
                                                               functions.getCellColorFromInputListState(
-                                                                  'cell006',
+                                                                  'cell246',
                                                                   FFAppState()
                                                                       .pageStateSchemaVariable
                                                                       .inputListState
@@ -10422,7 +10261,7 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
                                                                 valueOrDefault<
                                                                     Color>(
                                                               functions.getCellColorFromInputListState(
-                                                                  'cell011',
+                                                                  'cell251',
                                                                   FFAppState()
                                                                       .pageStateSchemaVariable
                                                                       .inputListState
@@ -10456,7 +10295,7 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
                                                                 valueOrDefault<
                                                                     Color>(
                                                               functions.getCellColorFromInputListState(
-                                                                  'cell012',
+                                                                  'cell252',
                                                                   FFAppState()
                                                                       .pageStateSchemaVariable
                                                                       .inputListState
@@ -10490,7 +10329,7 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
                                                                 valueOrDefault<
                                                                     Color>(
                                                               functions.getCellColorFromInputListState(
-                                                                  'cell013',
+                                                                  'cell253',
                                                                   FFAppState()
                                                                       .pageStateSchemaVariable
                                                                       .inputListState
@@ -10524,7 +10363,7 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
                                                                 valueOrDefault<
                                                                     Color>(
                                                               functions.getCellColorFromInputListState(
-                                                                  'cell014',
+                                                                  'cell254',
                                                                   FFAppState()
                                                                       .pageStateSchemaVariable
                                                                       .inputListState
@@ -10558,7 +10397,7 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
                                                                 valueOrDefault<
                                                                     Color>(
                                                               functions.getCellColorFromInputListState(
-                                                                  'cell015',
+                                                                  'cell255',
                                                                   FFAppState()
                                                                       .pageStateSchemaVariable
                                                                       .inputListState
@@ -10592,7 +10431,7 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
                                                                 valueOrDefault<
                                                                     Color>(
                                                               functions.getCellColorFromInputListState(
-                                                                  'cell016',
+                                                                  'cell256',
                                                                   FFAppState()
                                                                       .pageStateSchemaVariable
                                                                       .inputListState
@@ -11589,7 +11428,12 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
                                           mainAxisSize: MainAxisSize.max,
                                           children: [
                                             Expanded(
-                                              flex: 5,
+                                              flex: FFAppState()
+                                                          .pageStateSchemaVariable
+                                                          .isSubmittedPara ==
+                                                      true
+                                                  ? 5
+                                                  : 10,
                                               child: Padding(
                                                 padding: EdgeInsetsDirectional
                                                     .fromSTEB(
@@ -11650,8 +11494,7 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
                                                                   AlignmentDirectional(
                                                                       0.0, 0.0),
                                                               child: Container(
-                                                                width: double
-                                                                    .infinity,
+                                                                width: 400.0,
                                                                 height: double
                                                                     .infinity,
                                                                 decoration:
@@ -11789,7 +11632,7 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
                                               ),
                                             ),
                                             Expanded(
-                                              flex: 2,
+                                              flex: 5,
                                               child: Padding(
                                                 padding: EdgeInsetsDirectional
                                                     .fromSTEB(
@@ -11983,6 +11826,14 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
                                                                 clearUnsetFields:
                                                                     false,
                                                               ),
+                                                              pointGiven:
+                                                                  valueOrDefault<
+                                                                      int>(
+                                                                functions.calculatePointDay(
+                                                                    FFAppState()
+                                                                        .pageStateSchemaVariable),
+                                                                0,
+                                                              ),
                                                             ),
                                                             ...mapToFirestore(
                                                               {
@@ -12068,6 +11919,14 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
                                                                     false,
                                                                 create: true,
                                                               ),
+                                                              pointGiven:
+                                                                  valueOrDefault<
+                                                                      int>(
+                                                                functions.calculatePointDay(
+                                                                    FFAppState()
+                                                                        .pageStateSchemaVariable),
+                                                                0,
+                                                              ),
                                                             ),
                                                             ...mapToFirestore(
                                                               {
@@ -12082,53 +11941,32 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
                                                           });
                                                         }
 
-                                                        if (FFAppState()
-                                                                .insideDBStudent
-                                                                .where((e) =>
-                                                                    e.submittedDatePlanner ==
-                                                                    FFAppState()
-                                                                        .plannerDateSelected)
-                                                                .toList()
-                                                                .length >
-                                                            0) {
-                                                          FFAppState()
-                                                              .updateInsideDBStudentAtIndex(
-                                                            functions.getIndexFunction(
-                                                                FFAppState()
-                                                                    .insideDBStudent
-                                                                    .toList(),
-                                                                FFAppState()
-                                                                    .plannerDateSelected!),
-                                                            (_) => FFAppState()
-                                                                .pageStateSchemaVariable,
-                                                          );
-                                                          FFAppState()
-                                                              .update(() {});
-                                                        } else {
-                                                          FFAppState()
-                                                              .addToInsideDBStudent(
-                                                                  FFAppState()
-                                                                      .pageStateSchemaVariable);
-                                                          FFAppState()
-                                                              .update(() {});
-                                                        }
-
-                                                        await currentUserReference!
+                                                        await currentUserDocument!
+                                                            .plannerLocation!
                                                             .update({
                                                           ...mapToFirestore(
                                                             {
                                                               'studyDBbackup':
-                                                                  getPageStateSchemaListFirestoreData(
-                                                                FFAppState()
-                                                                    .insideDBStudent,
-                                                              ),
+                                                                  FieldValue
+                                                                      .arrayUnion([
+                                                                getPageStateSchemaFirestoreData(
+                                                                  updatePageStateSchemaStruct(
+                                                                    FFAppState()
+                                                                        .pageStateSchemaVariable,
+                                                                    clearUnsetFields:
+                                                                        false,
+                                                                  ),
+                                                                  true,
+                                                                )
+                                                              ]),
                                                             },
                                                           ),
                                                         });
                                                         await Future.delayed(
-                                                            const Duration(
-                                                                milliseconds:
-                                                                    1000));
+                                                          Duration(
+                                                            milliseconds: 1000,
+                                                          ),
+                                                        );
                                                         unawaited(
                                                           () async {
                                                             await showDialog(
@@ -12155,9 +11993,10 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
                                                           }(),
                                                         );
                                                         await Future.delayed(
-                                                            const Duration(
-                                                                milliseconds:
-                                                                    5000));
+                                                          Duration(
+                                                            milliseconds: 5000,
+                                                          ),
+                                                        );
                                                         await actions
                                                             .exitAppAsync();
                                                       } else {
@@ -12378,83 +12217,49 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
                                                 ),
                                               ),
                                             ),
-                                            Expanded(
-                                              flex: 2,
-                                              child: Builder(
-                                                builder: (context) => Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(
-                                                          10.0, 0.0, 0.0, 0.0),
-                                                  child: InkWell(
-                                                    splashColor:
-                                                        Colors.transparent,
-                                                    focusColor:
-                                                        Colors.transparent,
-                                                    hoverColor:
-                                                        Colors.transparent,
-                                                    highlightColor:
-                                                        Colors.transparent,
-                                                    onTap: () async {
-                                                      if (!((FFAppState()
-                                                                  .pageStateSchemaVariable
-                                                                  .isSubmittedPara !=
-                                                              true) &&
-                                                          (FFAppState()
-                                                                  .plannerDateSelected!
-                                                                  .millisecondsSinceEpoch >
-                                                              (getCurrentTimestamp
-                                                                      .millisecondsSinceEpoch -
-                                                                  100800000)))) {
-                                                        await showDialog(
-                                                          context: context,
-                                                          builder:
-                                                              (alertDialogContext) {
-                                                            return AlertDialog(
-                                                              title:
-                                                                  Text('입력불가'),
-                                                              content: Text(
-                                                                  '과거의 날짜나 이미 제출된 플래너는 To do List를 추가할 수 없습니다.'),
-                                                              actions: [
-                                                                TextButton(
-                                                                  onPressed: () =>
-                                                                      Navigator.pop(
-                                                                          alertDialogContext),
-                                                                  child: Text(
-                                                                      'Ok'),
-                                                                ),
-                                                              ],
-                                                            );
-                                                          },
-                                                        );
-                                                        return;
-                                                      }
-                                                      if ((FFAppState()
-                                                                  .pageStateSchemaVariable
-                                                                  .dailyStartPara
-                                                                  .sleepTime ==
-                                                              null) &&
-                                                          ((FFAppState()
-                                                                      .pageStateSchemaVariable
-                                                                      .dailyStartPara
-                                                                      .getupTime ==
-                                                                  null) &&
-                                                              (FFAppState()
-                                                                          .pageStateSchemaVariable
-                                                                          .dailyStartPara
-                                                                          .goalTime ==
-                                                                      ''))) {
-                                                        if (FFAppState()
-                                                                .plannerDateSelected !=
-                                                            functions
-                                                                .getDateAtMidnight(
-                                                                    getCurrentTimestamp)) {
+                                            if (FFAppState()
+                                                    .pageStateSchemaVariable
+                                                    .isSubmittedPara !=
+                                                true)
+                                              Expanded(
+                                                flex: 5,
+                                                child: Builder(
+                                                  builder: (context) => Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(10.0, 0.0,
+                                                                0.0, 0.0),
+                                                    child: InkWell(
+                                                      splashColor:
+                                                          Colors.transparent,
+                                                      focusColor:
+                                                          Colors.transparent,
+                                                      hoverColor:
+                                                          Colors.transparent,
+                                                      highlightColor:
+                                                          Colors.transparent,
+                                                      onTap: () async {
+                                                        var _shouldSetState =
+                                                            false;
+                                                        if (!((FFAppState()
+                                                                    .pageStateSchemaVariable
+                                                                    .isSubmittedPara !=
+                                                                true) &&
+                                                            (FFAppState()
+                                                                    .plannerDateSelected!
+                                                                    .millisecondsSinceEpoch >
+                                                                (getCurrentTimestamp
+                                                                        .millisecondsSinceEpoch -
+                                                                    100800000)))) {
                                                           await showDialog(
                                                             context: context,
                                                             builder:
                                                                 (alertDialogContext) {
                                                               return AlertDialog(
+                                                                title: Text(
+                                                                    '입력불가'),
                                                                 content: Text(
-                                                                    '오늘날짜와 다른 날짜의 플래너를 작성중입니다. 날짜를 확인하고 다시 시도하세요.'),
+                                                                    '과거의 날짜나 이미 제출된 플래너는 To do List를 추가할 수 없습니다.'),
                                                                 actions: [
                                                                   TextButton(
                                                                     onPressed: () =>
@@ -12467,158 +12272,317 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
                                                               );
                                                             },
                                                           );
+                                                          if (_shouldSetState)
+                                                            safeSetState(() {});
+                                                          return;
                                                         }
-                                                        await showDialog(
-                                                          context: context,
-                                                          builder:
-                                                              (dialogContext) {
-                                                            return Dialog(
-                                                              elevation: 0,
-                                                              insetPadding:
-                                                                  EdgeInsets
-                                                                      .zero,
-                                                              backgroundColor:
-                                                                  Colors
-                                                                      .transparent,
-                                                              alignment: AlignmentDirectional(
-                                                                      0.0, 0.0)
-                                                                  .resolve(
-                                                                      Directionality.of(
-                                                                          context)),
-                                                              child:
-                                                                  GestureDetector(
-                                                                onTap: () {
-                                                                  FocusScope.of(
-                                                                          dialogContext)
-                                                                      .unfocus();
-                                                                  FocusManager
-                                                                      .instance
-                                                                      .primaryFocus
-                                                                      ?.unfocus();
-                                                                },
-                                                                child:
-                                                                    Container(
-                                                                  height: 500.0,
-                                                                  width: 500.0,
-                                                                  child:
-                                                                      DailySetWidget(),
-                                                                ),
-                                                              ),
+                                                        if ((FFAppState()
+                                                                    .pageStateSchemaVariable
+                                                                    .dailyStartPara
+                                                                    .sleepTime ==
+                                                                null) &&
+                                                            ((FFAppState()
+                                                                        .pageStateSchemaVariable
+                                                                        .dailyStartPara
+                                                                        .getupTime ==
+                                                                    null) &&
+                                                                (FFAppState()
+                                                                            .pageStateSchemaVariable
+                                                                            .dailyStartPara
+                                                                            .goalTime ==
+                                                                        ''))) {
+                                                          if (FFAppState()
+                                                                  .plannerDateSelected !=
+                                                              functions
+                                                                  .getDateAtMidnight(
+                                                                      getCurrentTimestamp)) {
+                                                            await showDialog(
+                                                              context: context,
+                                                              builder:
+                                                                  (alertDialogContext) {
+                                                                return AlertDialog(
+                                                                  content: Text(
+                                                                      '오늘날짜와 다른 날짜의 플래너를 작성중입니다. 날짜를 확인하고 다시 시도하세요.'),
+                                                                  actions: [
+                                                                    TextButton(
+                                                                      onPressed:
+                                                                          () =>
+                                                                              Navigator.pop(alertDialogContext),
+                                                                      child: Text(
+                                                                          'Ok'),
+                                                                    ),
+                                                                  ],
+                                                                );
+                                                              },
                                                             );
-                                                          },
-                                                        );
-                                                      } else {
-                                                        await showDialog(
-                                                          context: context,
-                                                          builder:
-                                                              (dialogContext) {
-                                                            return Dialog(
-                                                              elevation: 0,
-                                                              insetPadding:
-                                                                  EdgeInsets
-                                                                      .zero,
-                                                              backgroundColor:
-                                                                  Colors
-                                                                      .transparent,
-                                                              alignment: AlignmentDirectional(
-                                                                      0.0, 0.0)
-                                                                  .resolve(
-                                                                      Directionality.of(
-                                                                          context)),
-                                                              child:
-                                                                  GestureDetector(
-                                                                onTap: () {
-                                                                  FocusScope.of(
-                                                                          dialogContext)
-                                                                      .unfocus();
-                                                                  FocusManager
-                                                                      .instance
-                                                                      .primaryFocus
-                                                                      ?.unfocus();
-                                                                },
-                                                                child:
-                                                                    Container(
-                                                                  height: 500.0,
-                                                                  width: 800.0,
+                                                            await showDialog(
+                                                              context: context,
+                                                              builder:
+                                                                  (dialogContext) {
+                                                                return Dialog(
+                                                                  elevation: 0,
+                                                                  insetPadding:
+                                                                      EdgeInsets
+                                                                          .zero,
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .transparent,
+                                                                  alignment: AlignmentDirectional(
+                                                                          0.0,
+                                                                          0.0)
+                                                                      .resolve(
+                                                                          Directionality.of(
+                                                                              context)),
                                                                   child:
-                                                                      PlannerInutSetCopyWidget(),
-                                                                ),
-                                                              ),
+                                                                      GestureDetector(
+                                                                    onTap: () {
+                                                                      FocusScope.of(
+                                                                              dialogContext)
+                                                                          .unfocus();
+                                                                      FocusManager
+                                                                          .instance
+                                                                          .primaryFocus
+                                                                          ?.unfocus();
+                                                                    },
+                                                                    child:
+                                                                        Container(
+                                                                      height:
+                                                                          500.0,
+                                                                      width:
+                                                                          800.0,
+                                                                      child:
+                                                                          PlannerInutSetCopyWidget(),
+                                                                    ),
+                                                                  ),
+                                                                );
+                                                              },
                                                             );
-                                                          },
-                                                        );
-                                                      }
-                                                    },
-                                                    child: Container(
-                                                      width: double.infinity,
-                                                      height: double.infinity,
-                                                      decoration: BoxDecoration(
-                                                        color: FlutterFlowTheme
-                                                                .of(context)
-                                                            .secondaryBackground,
-                                                        boxShadow: [
-                                                          BoxShadow(
-                                                            blurRadius: 4.0,
-                                                            color: Color(
-                                                                0x33000000),
-                                                            offset: Offset(
-                                                              0.0,
-                                                              2.0,
+
+                                                            if (_shouldSetState)
+                                                              safeSetState(
+                                                                  () {});
+                                                            return;
+                                                          }
+                                                          await showDialog(
+                                                            context: context,
+                                                            builder:
+                                                                (dialogContext) {
+                                                              return Dialog(
+                                                                elevation: 0,
+                                                                insetPadding:
+                                                                    EdgeInsets
+                                                                        .zero,
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .transparent,
+                                                                alignment: AlignmentDirectional(
+                                                                        0.0,
+                                                                        0.0)
+                                                                    .resolve(
+                                                                        Directionality.of(
+                                                                            context)),
+                                                                child:
+                                                                    GestureDetector(
+                                                                  onTap: () {
+                                                                    FocusScope.of(
+                                                                            dialogContext)
+                                                                        .unfocus();
+                                                                    FocusManager
+                                                                        .instance
+                                                                        .primaryFocus
+                                                                        ?.unfocus();
+                                                                  },
+                                                                  child:
+                                                                      Container(
+                                                                    height:
+                                                                        500.0,
+                                                                    width:
+                                                                        500.0,
+                                                                    child:
+                                                                        DailySetWidget(),
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            },
+                                                          ).then((value) =>
+                                                              safeSetState(() =>
+                                                                  _model.asss =
+                                                                      value));
+
+                                                          _shouldSetState =
+                                                              true;
+                                                          if (!_model.asss!) {
+                                                            if (_shouldSetState)
+                                                              safeSetState(
+                                                                  () {});
+                                                            return;
+                                                          }
+                                                          await Future.delayed(
+                                                            Duration(
+                                                              milliseconds: 300,
                                                             ),
-                                                          )
-                                                        ],
-                                                        borderRadius:
-                                                            BorderRadius.only(
-                                                          bottomLeft:
-                                                              Radius.circular(
-                                                                  20.0),
-                                                          bottomRight:
-                                                              Radius.circular(
-                                                                  20.0),
-                                                          topLeft:
-                                                              Radius.circular(
-                                                                  20.0),
-                                                          topRight:
-                                                              Radius.circular(
-                                                                  20.0),
-                                                        ),
-                                                        border: Border.all(
+                                                          );
+                                                          await showDialog(
+                                                            context: context,
+                                                            builder:
+                                                                (dialogContext) {
+                                                              return Dialog(
+                                                                elevation: 0,
+                                                                insetPadding:
+                                                                    EdgeInsets
+                                                                        .zero,
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .transparent,
+                                                                alignment: AlignmentDirectional(
+                                                                        0.0,
+                                                                        0.0)
+                                                                    .resolve(
+                                                                        Directionality.of(
+                                                                            context)),
+                                                                child:
+                                                                    GestureDetector(
+                                                                  onTap: () {
+                                                                    FocusScope.of(
+                                                                            dialogContext)
+                                                                        .unfocus();
+                                                                    FocusManager
+                                                                        .instance
+                                                                        .primaryFocus
+                                                                        ?.unfocus();
+                                                                  },
+                                                                  child:
+                                                                      Container(
+                                                                    height:
+                                                                        500.0,
+                                                                    width:
+                                                                        800.0,
+                                                                    child:
+                                                                        PlannerInutSetCopyWidget(),
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            },
+                                                          );
+                                                        } else {
+                                                          await showDialog(
+                                                            context: context,
+                                                            builder:
+                                                                (dialogContext) {
+                                                              return Dialog(
+                                                                elevation: 0,
+                                                                insetPadding:
+                                                                    EdgeInsets
+                                                                        .zero,
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .transparent,
+                                                                alignment: AlignmentDirectional(
+                                                                        0.0,
+                                                                        0.0)
+                                                                    .resolve(
+                                                                        Directionality.of(
+                                                                            context)),
+                                                                child:
+                                                                    GestureDetector(
+                                                                  onTap: () {
+                                                                    FocusScope.of(
+                                                                            dialogContext)
+                                                                        .unfocus();
+                                                                    FocusManager
+                                                                        .instance
+                                                                        .primaryFocus
+                                                                        ?.unfocus();
+                                                                  },
+                                                                  child:
+                                                                      Container(
+                                                                    height:
+                                                                        500.0,
+                                                                    width:
+                                                                        800.0,
+                                                                    child:
+                                                                        PlannerInutSetCopyWidget(),
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            },
+                                                          );
+                                                        }
+
+                                                        if (_shouldSetState)
+                                                          safeSetState(() {});
+                                                      },
+                                                      child: Container(
+                                                        width: double.infinity,
+                                                        height: double.infinity,
+                                                        decoration:
+                                                            BoxDecoration(
                                                           color: FlutterFlowTheme
                                                                   .of(context)
-                                                              .primaryBackground,
-                                                        ),
-                                                      ),
-                                                      child: Align(
-                                                        alignment:
-                                                            AlignmentDirectional(
-                                                                0.0, 0.0),
-                                                        child: Text(
-                                                          FFLocalizations.of(
-                                                                  context)
-                                                              .getText(
-                                                            'j5vg4i41' /* To do List 추가하기 */,
-                                                          ),
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                fontFamily: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMediumFamily,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                useGoogleFonts:
-                                                                    !FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMediumIsCustom,
+                                                              .secondaryBackground,
+                                                          boxShadow: [
+                                                            BoxShadow(
+                                                              blurRadius: 4.0,
+                                                              color: Color(
+                                                                  0x33000000),
+                                                              offset: Offset(
+                                                                0.0,
+                                                                2.0,
                                                               ),
+                                                            )
+                                                          ],
+                                                          borderRadius:
+                                                              BorderRadius.only(
+                                                            bottomLeft:
+                                                                Radius.circular(
+                                                                    20.0),
+                                                            bottomRight:
+                                                                Radius.circular(
+                                                                    20.0),
+                                                            topLeft:
+                                                                Radius.circular(
+                                                                    20.0),
+                                                            topRight:
+                                                                Radius.circular(
+                                                                    20.0),
+                                                          ),
+                                                          border: Border.all(
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .primaryBackground,
+                                                          ),
+                                                        ),
+                                                        child: Align(
+                                                          alignment:
+                                                              AlignmentDirectional(
+                                                                  0.0, 0.0),
+                                                          child: Text(
+                                                            FFLocalizations.of(
+                                                                    context)
+                                                                .getText(
+                                                              'j5vg4i41' /* To do List 추가하기 */,
+                                                            ),
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMediumFamily,
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                  useGoogleFonts:
+                                                                      !FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMediumIsCustom,
+                                                                ),
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
                                                   ),
                                                 ),
                                               ),
-                                            ),
                                           ],
                                         ),
                                       ),

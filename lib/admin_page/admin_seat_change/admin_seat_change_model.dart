@@ -5,6 +5,10 @@ import 'admin_seat_change_widget.dart' show AdminSeatChangeWidget;
 import 'package:flutter/material.dart';
 
 class AdminSeatChangeModel extends FlutterFlowModel<AdminSeatChangeWidget> {
+  ///  Local state fields for this page.
+
+  bool loading = false;
+
   ///  State fields for stateful widgets in this page.
 
   // Stores action output result for [Custom Action - checkUserClaims] action in adminSeatChange widget.
