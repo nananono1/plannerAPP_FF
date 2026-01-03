@@ -58,8 +58,19 @@ class _HomePageCopyWidgetState extends State<HomePageCopyWidget>
 
         return;
       }
-      if (FFAppConstants.CurrentAppVersion <
+      if (FFAppConstants.CurrentAppVersion >=
           getRemoteConfigInt('CurrentVersion')) {
+        await actions.sendStudentInfoToManage(
+          currentUserDisplayName,
+          valueOrDefault(currentUserDocument?.seatNo, 0).toString(),
+          valueOrDefault(currentUserDocument?.spot, ''),
+          valueOrDefault<String>(
+            valueOrDefault(currentUserDocument?.school, ''),
+            '-',
+          ),
+          currentUserDocument!.scheduleNow,
+        );
+      } else {
         await currentUserReference!.update({
           ...mapToFirestore(
             {
@@ -74,6 +85,7 @@ class _HomePageCopyWidgetState extends State<HomePageCopyWidget>
 
         return;
       }
+
       if (FFAppState().timeIsGoing) {
         FFAppState().crashed = true;
         FFAppState().update(() {});
