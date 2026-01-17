@@ -92,7 +92,12 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
         );
 
         return;
+      } else {
+        await actions.didChangeAppLifecycleState(
+          true,
+        );
       }
+
       if (currentUserReference == null) {
         FFAppState().insideDBStudent = [];
         FFAppState().deletePageStateSchemaVariable();
@@ -485,6 +490,13 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
 
   @override
   void dispose() {
+    // On page dispose action.
+    () async {
+      await actions.didChangeAppLifecycleState(
+        false,
+      );
+    }();
+
     _model.dispose();
 
     super.dispose();
@@ -904,7 +916,7 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
                                       hoverColor: Colors.transparent,
                                       highlightColor: Colors.transparent,
                                       onTap: () async {
-                                        context.pushNamed(
+                                        context.goNamed(
                                             TimetablePageWidget.routeName);
                                       },
                                       child: AnimatedContainer(
@@ -4602,8 +4614,8 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
                                                                                           safeSetState(() {});
                                                                                         },
                                                                                         child: Container(
-                                                                                          width: 38.0,
-                                                                                          height: 38.0,
+                                                                                          width: 40.0,
+                                                                                          height: 40.0,
                                                                                           decoration: BoxDecoration(
                                                                                             color: FlutterFlowTheme.of(context).secondaryBackground,
                                                                                           ),
@@ -11941,27 +11953,6 @@ class _PageeeeWidgetState extends State<PageeeeWidget>
                                                           });
                                                         }
 
-                                                        await currentUserDocument!
-                                                            .plannerLocation!
-                                                            .update({
-                                                          ...mapToFirestore(
-                                                            {
-                                                              'studyDBbackup':
-                                                                  FieldValue
-                                                                      .arrayUnion([
-                                                                getPageStateSchemaFirestoreData(
-                                                                  updatePageStateSchemaStruct(
-                                                                    FFAppState()
-                                                                        .pageStateSchemaVariable,
-                                                                    clearUnsetFields:
-                                                                        false,
-                                                                  ),
-                                                                  true,
-                                                                )
-                                                              ]),
-                                                            },
-                                                          ),
-                                                        });
                                                         await Future.delayed(
                                                           Duration(
                                                             milliseconds: 1000,

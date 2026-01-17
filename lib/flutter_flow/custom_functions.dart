@@ -1065,3 +1065,10 @@ double avgStudyMinuteFromEnrichedRows(dynamic rows) {
   if (cnt == 0) return 0.0; // 유효 row가 없으면 0
   return sum / cnt; // 평균(분) 반환
 }
+
+bool spaceChecker(String? input) {
+  if (input == null) return false; // input이 null이면 공백이 있다고 볼 수 없으니 false 반환
+  final hasWhitespace =
+      RegExp(r'\s').hasMatch(input); // 문자열 안에 공백류(스페이스/탭/엔터 등)가 하나라도 있는지 검사
+  return hasWhitespace; // 공백이 있으면 true, 없으면 false 반환
+}

@@ -1,9 +1,11 @@
+import '/auth/firebase_auth/auth_util.dart';
 import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'admin_seat_configure_bottom_sheet_model.dart';
@@ -317,8 +319,51 @@ class _AdminSeatConfigureBottomSheetWidgetState
                         children: [
                           FFButtonWidget(
                             onPressed: () async {
+                              var _shouldSetState = false;
                               _model.loading = true;
                               safeSetState(() {});
+                              _model.duplicateCheck2 =
+                                  await queryUsersRecordOnce(
+                                queryBuilder: (usersRecord) => usersRecord
+                                    .where(
+                                      'spot',
+                                      isEqualTo: valueOrDefault<String>(
+                                        valueOrDefault(
+                                            currentUserDocument?.spot, ''),
+                                        '.',
+                                      ),
+                                    )
+                                    .where(
+                                      'seatNo',
+                                      isEqualTo: int.tryParse(
+                                          _model.textController.text),
+                                    ),
+                                singleRecord: true,
+                              ).then((s) => s.firstOrNull);
+                              _shouldSetState = true;
+                              if (_model.duplicateCheck2 != null) {
+                                _model.loading = false;
+                                safeSetState(() {});
+                                await showDialog(
+                                  context: context,
+                                  builder: (alertDialogContext) {
+                                    return AlertDialog(
+                                      title: Text('중복배정'),
+                                      content: Text('해당 좌석에 이미 배정된 학생이 있습니다. '),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(alertDialogContext),
+                                          child: Text('Ok'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                                Navigator.pop(context);
+                                if (_shouldSetState) safeSetState(() {});
+                                return;
+                              }
 
                               await widget.uidPassed!
                                   .update(createUsersRecordData(
@@ -328,6 +373,7 @@ class _AdminSeatConfigureBottomSheetWidgetState
                               ));
                               _model.aaa = await UsersRecord.getDocumentOnce(
                                   widget.uidPassed!);
+                              _shouldSetState = true;
                               _model.apiResulnew =
                                   await SheetSeatAndtimetableCall.call(
                                 weeklytimetableJson:
@@ -346,11 +392,11 @@ class _AdminSeatConfigureBottomSheetWidgetState
                                 grade: _model.aaa?.grade,
                               );
 
+                              _shouldSetState = true;
                               _model.loading = false;
                               safeSetState(() {});
                               Navigator.pop(context);
-
-                              safeSetState(() {});
+                              if (_shouldSetState) safeSetState(() {});
                             },
                             text: FFLocalizations.of(context).getText(
                               '35o0qft7' /* 확인 */,

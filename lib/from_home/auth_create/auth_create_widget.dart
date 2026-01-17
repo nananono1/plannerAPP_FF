@@ -664,6 +664,7 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget> {
                                 controller: _model.displayNameTextController1,
                                 focusNode: _model.displayNameFocusNode1,
                                 autofocus: false,
+                                enabled: false,
                                 textCapitalization: TextCapitalization.words,
                                 obscureText: false,
                                 decoration: InputDecoration(
@@ -1260,12 +1261,16 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget> {
                               (_model.displayNameTextController2.text ==
                                       '') ||
                               (_model.displayNameTextController3.text ==
-                                      '')) {
+                                      '') ||
+                              (functions.spaceChecker(
+                                      _model.displayNameTextController1.text) ==
+                                  true)) {
                             await showDialog(
                               context: context,
                               builder: (alertDialogContext) {
                                 return AlertDialog(
-                                  content: Text('누락된 정보없이 입력해주세요'),
+                                  content:
+                                      Text('이름에 띄어쓰기가 포함되거나 누락된 정보가 있습니다.'),
                                   actions: [
                                     TextButton(
                                       onPressed: () =>
@@ -1374,8 +1379,13 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget> {
                             await UsersRecord.collection.doc(user.uid).update({
                               ...createUsersRecordData(
                                 email: _model.emailAddressTextController1.text,
-                                displayName:
-                                    _model.displayNameTextController1.text,
+                                displayName: (String var1) {
+                                  return (var1 ?? '')
+                                      .replaceAll(RegExp(r'\s+'), '');
+                                }(valueOrDefault<String>(
+                                  _model.displayNameTextController1.text,
+                                  '공백',
+                                )),
                                 school: valueOrDefault<String>(
                                   _model.emailAddressTextController2.text,
                                   '성인',

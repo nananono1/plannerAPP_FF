@@ -14,3 +14,4 @@ export 'show_cupertino_time_picker.dart' show showCupertinoTimePicker;
 export 'cupertino_time_picker2.dart' show cupertinoTimePicker2;
 export 'admin_reset_password_action.dart' show adminResetPasswordAction;
 export 'send_student_info_to_manage.dart' show sendStudentInfoToManage;
+export 'did_change_app_lifecycle_state.dart' show didChangeAppLifecycleState;

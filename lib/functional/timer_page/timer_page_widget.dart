@@ -52,6 +52,9 @@ class _TimerPageWidgetState extends State<TimerPageWidget> {
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
+      await actions.didChangeAppLifecycleState(
+        true,
+      );
       if (FFAppState().crashed) {
         await Future.delayed(
           Duration(
@@ -106,6 +109,13 @@ class _TimerPageWidgetState extends State<TimerPageWidget> {
 
   @override
   void dispose() {
+    // On page dispose action.
+    () async {
+      await actions.didChangeAppLifecycleState(
+        false,
+      );
+    }();
+
     _model.dispose();
 
     super.dispose();

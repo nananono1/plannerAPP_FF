@@ -17,6 +17,8 @@ class AdminSeatConfigureBottomSheetModel
   FocusNode? textFieldFocusNode;
   TextEditingController? textController;
   String? Function(BuildContext, String?)? textControllerValidator;
+  // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
+  UsersRecord? duplicateCheck2;
   // Stores action output result for [Backend Call - Read Document] action in Button widget.
   UsersRecord? aaa;
   // Stores action output result for [Backend Call - API (Sheet seatAndtimetable)] action in Button widget.
